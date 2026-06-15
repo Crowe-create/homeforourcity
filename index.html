@@ -124,57 +124,58 @@
 
   /* ─── MOBILE DRAWER ─── */
   .mobile-menu {
-    display: flex;
-    flex-direction: column;
     position: fixed; top: 0; left: 0; bottom: 0;
     width: min(80vw, 300px);
-    background: var(--ink);
+    background: rgba(240,236,227,0.98);
     z-index: 99;
     transform: translateX(-100%);
     transition: transform 0.35s var(--ease);
-    overflow-y: auto;
+    /* Use grid so footer is always pinned to bottom */
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    overflow: hidden;
   }
   .mobile-menu.open { transform: translateX(0); }
 
   .drawer-header {
     display: flex; align-items: center; justify-content: space-between;
     padding: 1.1rem 1.25rem;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    border-bottom: 1px solid var(--stone);
     min-height: var(--nav-h);
   }
-  .drawer-header .nav-brand { font-size: 1rem; }
+  .drawer-header .nav-brand { font-size: 1rem; color: var(--ink); }
   .drawer-header .nav-brand span { color: var(--gold); }
   .drawer-close {
-    color: rgba(255,255,255,0.6);
+    color: var(--mid);
     padding: 6px; border-radius: 4px;
     transition: color 0.2s, background 0.2s;
     display: flex; align-items: center; justify-content: center;
   }
-  .drawer-close:hover { color: var(--white); background: rgba(255,255,255,0.1); }
+  .drawer-close:hover { color: var(--ink); background: var(--stone); }
 
   .drawer-nav {
     display: flex; flex-direction: column;
-    padding: 0.75rem 0;
-    flex: 1;
+    padding: 0.5rem 0;
+    overflow-y: auto;
   }
   .drawer-nav button {
     width: 100%; text-align: left;
     font-size: 1rem; font-weight: 500;
-    color: rgba(255,255,255,0.75);
+    color: var(--mid);
     padding: 0.85rem 1.5rem;
     border-radius: 0;
     transition: color 0.2s, background 0.2s;
     border-left: 2px solid transparent;
   }
   .drawer-nav button:hover {
-    color: var(--white);
-    background: rgba(255,255,255,0.07);
+    color: var(--ink);
+    background: var(--stone);
     border-left-color: var(--gold);
   }
 
   .drawer-footer {
     padding: 1rem 1.25rem 1.5rem;
-    border-top: 1px solid rgba(255,255,255,0.1);
+    border-top: 1px solid var(--stone);
   }
   .mobile-donate {
     display: block; width: 100%;
