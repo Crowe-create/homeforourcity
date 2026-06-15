@@ -1,0 +1,2148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0f2d3d">
+<title>Home For Our City — Christ Church Liverpool</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ─── TOKENS (from CCL leaflet palette) ─── */
+  :root {
+    --ink:       #0f2d3d;
+    --teal:      #1a3d50;
+    --warm:      #f0ece3;
+    --stone:     #ddd8cc;
+    --gold:      #b8960c;
+    --gold-light:#d4ae1a;
+    --rust:      #b05a3a;
+    --rust-dark: #8f4328;
+    --mid:       #4a5f6a;
+    --white:     #ffffff;
+    --nav-h:     68px;
+    --ease:      cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* ─── RESET ─── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; font-size: 16px; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--warm);
+    color: var(--ink);
+    line-height: 1.65;
+    overflow-x: hidden;
+  }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  button { border: none; background: none; cursor: pointer; font: inherit; }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    height: var(--nav-h);
+    background: rgba(240,236,227,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--stone);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 clamp(1rem, 4vw, 3rem);
+    transition: box-shadow 0.3s var(--ease);
+  }
+  nav.scrolled { box-shadow: 0 2px 24px rgba(0,0,0,0.08); }
+  .nav-brand {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .nav-brand span { color: var(--gold); }
+  .nav-links {
+    display: flex; align-items: center; gap: 0.25rem;
+    list-style: none;
+  }
+  .nav-links button {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--mid);
+    padding: 0.4rem 0.65rem;
+    border-radius: 4px;
+    transition: color 0.2s, background 0.2s;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+  .nav-links button:hover, .nav-links button.active {
+    color: var(--ink);
+    background: var(--stone);
+  }
+  .nav-donate {
+    background: var(--gold) !important;
+    color: var(--white) !important;
+    padding: 0.45rem 1rem !important;
+    border-radius: 4px !important;
+    font-weight: 600 !important;
+  }
+  .nav-donate:hover { background: var(--gold-light) !important; }
+  .hamburger {
+    display: none;
+    flex-direction: column; gap: 5px; padding: 6px;
+    border-radius: 4px;
+    transition: background 0.2s;
+  }
+  .hamburger:hover { background: var(--stone); }
+  .hamburger span {
+    display: block; width: 22px; height: 2px;
+    background: var(--ink); border-radius: 2px;
+    transition: all 0.3s var(--ease);
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .mobile-menu {
+    display: none;
+    position: fixed; top: var(--nav-h); left: 0; right: 0;
+    background: var(--warm);
+    border-bottom: 1px solid var(--stone);
+    padding: 1rem;
+    z-index: 99;
+    flex-direction: column; gap: 0.25rem;
+    transform: translateY(-20px); opacity: 0;
+    transition: transform 0.3s var(--ease), opacity 0.3s var(--ease);
+  }
+  .mobile-menu.open { transform: translateY(0); opacity: 1; }
+  .mobile-menu button {
+    width: 100%; text-align: left;
+    font-size: 0.95rem; font-weight: 500;
+    color: var(--mid); padding: 0.75rem 1rem;
+    border-radius: 6px;
+    transition: color 0.2s, background 0.2s;
+  }
+  .mobile-menu button:hover { color: var(--ink); background: var(--stone); }
+  .mobile-donate {
+    background: var(--gold) !important;
+    color: var(--white) !important;
+    font-weight: 600 !important;
+    margin-top: 0.5rem;
+  }
+
+  /* ─── PAGE SYSTEM ─── */
+  .page {
+    display: none;
+    min-height: 100vh;
+    padding-top: var(--nav-h);
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.4s var(--ease), transform 0.4s var(--ease);
+  }
+  .page.active { display: block; }
+  .page.visible { opacity: 1; transform: translateY(0); }
+
+  /* ─── SECTION UTILITIES ─── */
+  .section { padding: clamp(3rem, 6vw, 6rem) clamp(1.25rem, 5vw, 3rem); max-width: 1100px; margin: 0 auto; }
+  .section--wide { max-width: 1260px; }
+  .section--flush { padding-left: 0; padding-right: 0; max-width: none; }
+  .eyebrow {
+    display: inline-block;
+    font-size: 0.72rem; font-weight: 600;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 0.75rem;
+  }
+  .heading-xl {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(2.2rem, 5.5vw, 4rem);
+    font-weight: 600; line-height: 1.08;
+    color: var(--ink);
+  }
+  .heading-xl em { font-style: normal; color: var(--gold); }
+  .heading-lg {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(1.6rem, 3.5vw, 2.6rem);
+    font-weight: 600; line-height: 1.15;
+    color: var(--ink);
+  }
+  .heading-md {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(1.2rem, 2.2vw, 1.7rem);
+    font-weight: 600; line-height: 1.25;
+    color: var(--ink);
+  }
+  .body-lg { font-size: 1.075rem; color: var(--mid); line-height: 1.75; }
+  .body-md { font-size: 0.95rem; color: var(--mid); line-height: 1.7; }
+  .divider { border: none; border-top: 1px solid var(--stone); margin: 3rem 0; }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: calc(100vh - var(--nav-h));
+    position: relative; overflow: hidden;
+    display: flex; align-items: flex-end;
+  }
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+  }
+  .hero-bg img {
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: center 30%;
+    transition: transform 10s ease;
+    display: block;
+  }
+  .hero:hover .hero-bg img { transform: scale(1.04); }
+  /* dark gradient: strong at bottom-left where text sits, fades top-right */
+  .hero-bg::after {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(to top, rgba(10,25,35,0.92) 0%, rgba(10,25,35,0.55) 45%, rgba(10,25,35,0.15) 100%),
+      linear-gradient(to right, rgba(10,25,35,0.6) 0%, transparent 60%);
+  }
+  .hero-content {
+    position: relative; z-index: 2;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: clamp(3rem, 6vw, 5rem) clamp(1.25rem, 5vw, 4rem);
+    width: 100%; max-width: 860px;
+  }
+  .hero-tagline {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(2.6rem, 5.5vw, 5rem);
+    font-weight: 700; line-height: 1.12;
+    color: var(--white); margin-bottom: 1.25rem;
+  }
+  .hero-tagline em { font-style: normal; font-weight: 700; color: var(--gold); }
+  .hero-sub {
+    font-size: 1.05rem; color: rgba(255,255,255,0.8);
+    max-width: 50ch; line-height: 1.7;
+    margin-bottom: 2.25rem;
+  }
+  .hero-ctas { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: var(--gold); color: var(--white);
+    font-size: 0.9rem; font-weight: 600;
+    padding: 0.8rem 1.75rem; border-radius: 4px;
+    transition: background 0.2s, transform 0.15s;
+    letter-spacing: 0.02em;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
+  .btn-outline {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    border: 1.5px solid rgba(255,255,255,0.7); color: var(--white);
+    font-size: 0.9rem; font-weight: 500;
+    padding: 0.8rem 1.75rem; border-radius: 4px;
+    transition: background 0.2s, border-color 0.2s, transform 0.15s;
+  }
+  .btn-outline:hover { background: rgba(255,255,255,0.15); border-color: var(--white); transform: translateY(-1px); }
+  /* For use on light/warm backgrounds */
+  .btn-outline-dark {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    border: 1.5px solid var(--ink); color: var(--ink);
+    font-size: 0.9rem; font-weight: 500;
+    padding: 0.8rem 1.75rem; border-radius: 4px;
+    transition: background 0.2s, transform 0.15s;
+    cursor: pointer; background: none; font-family: inherit;
+  }
+  .btn-outline-dark:hover { background: var(--ink); color: var(--white); transform: translateY(-1px); }
+  /* caption bottom-right */
+  .hero-caption {
+    position: absolute; z-index: 3;
+    bottom: 1rem; right: 1.25rem;
+    font-size: 0.68rem; color: rgba(255,255,255,0.4);
+    letter-spacing: 0.04em;
+  }
+  /* ─── TOTALISER BAR ─── */
+  .totaliser {
+    background: var(--ink);
+    border-top: 3px solid var(--gold);
+    padding: 2rem clamp(1.25rem, 5vw, 3.5rem) 2.25rem;
+  }
+  .totaliser-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    flex-wrap: wrap; gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .totaliser-title {
+    font-size: 0.7rem; font-weight: 600; letter-spacing: 0.12em;
+    text-transform: uppercase; color: rgba(255,255,255,0.5);
+  }
+  .totaliser-raised {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(1.5rem, 3vw, 2.1rem);
+    font-weight: 700; color: var(--gold);
+    line-height: 1;
+  }
+  .totaliser-raised span {
+    font-size: 0.8rem; font-weight: 400;
+    color: rgba(255,255,255,0.45);
+    letter-spacing: 0.06em; text-transform: uppercase;
+    margin-left: 0.5rem;
+  }
+  .totaliser-track {
+    position: relative;
+    height: 12px; border-radius: 6px;
+    background: rgba(255,255,255,0.1);
+    overflow: visible;
+  }
+  .totaliser-fill {
+    position: absolute; left: 0; top: 0; bottom: 0;
+    border-radius: 6px;
+    background: linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 100%);
+    width: 0; /* animated in by JS */
+    transition: width 1.6s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 12px rgba(184,150,12,0.4);
+  }
+  /* Pulsing dot at the tip */
+  .totaliser-fill::after {
+    content: '';
+    position: absolute; right: -5px; top: 50%;
+    transform: translateY(-50%);
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--white);
+    box-shadow: 0 0 0 3px var(--gold-light);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 3px var(--gold-light); }
+    50% { box-shadow: 0 0 0 6px rgba(212,174,26,0.3); }
+  }
+  .totaliser-markers {
+    display: flex; justify-content: space-between;
+    margin-top: 0.6rem;
+    position: relative;
+  }
+  .totaliser-marker {
+    font-size: 0.72rem; color: rgba(255,255,255,0.4);
+    letter-spacing: 0.04em;
+  }
+  .totaliser-marker.active {
+    color: var(--gold);
+    font-weight: 600;
+  }
+  .totaliser-goal {
+    color: rgba(255,255,255,0.4);
+    font-size: 0.72rem;
+  }
+  /* Target milestone markers on track */
+  .totaliser-milestones {
+    position: absolute; inset: 0; pointer-events: none;
+  }
+  .totaliser-tick {
+    position: absolute; top: -3px; bottom: -3px;
+    width: 2px; background: rgba(255,255,255,0.15);
+    border-radius: 1px;
+  }
+
+  /* ─── WHO WE ARE ─── */
+  .who-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+
+  /* ─── CAROUSEL ─── */
+  .carousel-wrap {
+    position: relative;
+    aspect-ratio: 4/3;
+    border-radius: 2px;
+    overflow: hidden;
+    background: var(--stone);
+  }
+  .carousel-track {
+    display: flex;
+    width: 100%; height: 100%;
+    transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .carousel-slide {
+    flex: 0 0 100%;
+    width: 100%; height: 100%;
+  }
+  .carousel-slide img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+  .carousel-dots {
+    position: absolute;
+    bottom: 0.75rem; left: 50%;
+    transform: translateX(-50%);
+    display: flex; gap: 5px;
+    z-index: 4;
+  }
+  .carousel-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: rgba(255,255,255,0.4);
+    transition: background 0.3s, transform 0.3s;
+    cursor: pointer; border: none; padding: 0;
+  }
+  .carousel-dot.active {
+    background: var(--white);
+    transform: scale(1.3);
+  }
+  /* Prev/next arrows */
+  .carousel-wrap::before,
+  .carousel-wrap::after {
+    display: none; /* hidden by default, shown on hover */
+  }
+
+  /* ─── PROBLEM CARDS ─── */
+  .problem-section { background: var(--ink); color: var(--white); }
+  .problem-inner { padding: clamp(3rem, 6vw, 6rem) clamp(1.25rem, 5vw, 3rem); max-width: 1100px; margin: 0 auto; }
+  .problem-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5px; background: rgba(255,255,255,0.1); }
+  .problem-card {
+    background: var(--ink);
+    padding: 2.5rem 2rem;
+    position: relative; overflow: hidden;
+    transition: background 0.3s;
+  }
+  .problem-card:hover { background: #1a3d50; }
+  .problem-icon {
+    width: 44px; height: 44px; border-radius: 50%;
+    border: 1.5px solid var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1.25rem;
+    font-size: 1.1rem;
+  }
+  .problem-card h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.5rem; font-weight: 600;
+    color: var(--white); margin-bottom: 0.75rem;
+  }
+  .problem-card p { font-size: 0.9rem; color: rgba(255,255,255,0.6); line-height: 1.7; }
+
+  /* ─── HOME FOR... GRID ─── */
+  .homes-intro { text-align: center; max-width: 60ch; margin: 0 auto 3rem; }
+  .homes-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--stone); margin-top: 2.5rem; border-radius: 2px; overflow: hidden; }
+  .home-card {
+    background: var(--warm);
+    padding: 2.25rem 1.75rem;
+    transition: background 0.25s, transform 0.25s;
+    cursor: default;
+  }
+  .home-card:hover { background: var(--white); transform: translateY(-3px); }
+  .home-card-icon {
+    width: 36px; height: 36px;
+    margin-bottom: 1rem;
+    color: var(--gold);
+  }
+  .home-card-icon svg {
+    width: 100%; height: 100%;
+    display: block;
+  }
+  .home-card h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.35rem; font-weight: 600;
+    margin-bottom: 0.6rem; color: var(--ink);
+  }
+  .home-card p { font-size: 0.88rem; color: var(--mid); line-height: 1.65; }
+
+  /* ─── OUR STORY PAGE ─── */
+  .story-hero {
+    background: var(--ink);
+    padding: clamp(4rem, 8vw, 7rem) clamp(1.25rem, 5vw, 3rem);
+    text-align: center;
+  }
+  .story-hero .heading-xl { color: var(--white); }
+  .story-hero .heading-xl em { color: var(--gold-light); }
+  /* Readable prose column, centred within .section's max-width */
+  .story-content {
+    max-width: 780px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+  .story-content h2 { margin: 0.5rem 0 1.25rem; }
+  .story-content p + p { margin-top: 1.1rem; }
+  .story-content p { text-align: left; }
+  .story-content .btn-outline-dark { margin-left: auto; margin-right: auto; display: inline-flex; }
+  /* Stone background band that spans full width */
+  .story-band {
+    background: var(--stone);
+  }
+  .churches-list {
+    display: grid; grid-template-columns: repeat(3, minmax(0, 320px));
+    justify-content: center;
+    gap: 1px; background: var(--stone);
+    margin-top: 2rem;
+  }
+  .church-item {
+    background: var(--warm); padding: 1.25rem 1.5rem;
+    font-size: 0.9rem; font-weight: 500;
+    display: flex; align-items: center; gap: 0.5rem;
+    transition: background 0.2s;
+  }
+  .church-item::before { content: '→'; color: var(--gold); flex-shrink: 0; }
+  .church-item:hover { background: var(--white); }
+
+  /* ─── THE CHALLENGE ─── */
+  .challenge-hero {
+    background: var(--rust);
+    padding: clamp(4rem, 8vw, 7rem) clamp(1.25rem, 5vw, 3rem);
+    text-align: center;
+  }
+  .challenge-hero .heading-xl { color: var(--white); }
+  .challenge-cards { display: grid; grid-template-columns: 1fr; gap: 0; }
+  .challenge-card {
+    display: grid; grid-template-columns: 80px 1fr;
+    gap: 2rem; align-items: start;
+    padding: 2.5rem;
+    border-bottom: 1px solid var(--stone);
+    transition: background 0.2s;
+  }
+  .challenge-card:hover { background: var(--white); }
+  .challenge-num {
+    font-family: 'Poppins', sans-serif;
+    font-size: 3.5rem; font-weight: 700;
+    color: var(--stone); line-height: 1;
+    text-align: center;
+  }
+  .challenge-card h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.6rem; font-weight: 600;
+    margin-bottom: 0.6rem;
+  }
+
+  /* ─── WHAT THIS ACHIEVES ─── */
+  .achieves-item {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 0; border-bottom: 1px solid var(--stone);
+  }
+  .achieves-item:nth-child(even) { direction: rtl; }
+  .achieves-item:nth-child(even) > * { direction: ltr; }
+  .achieves-img { aspect-ratio: 4/3; overflow: hidden; background: var(--stone); }
+  .achieves-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s var(--ease); }
+  .achieves-item:hover .achieves-img img { transform: scale(1.04); }
+  .achieves-text {
+    padding: clamp(2rem, 5vw, 4rem);
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .achieves-text p { font-size: 0.95rem; color: var(--mid); line-height: 1.75; }
+
+  /* ─── PARTNER WITH US ─── */
+  .partner-hero {
+    background: var(--teal);
+    padding: clamp(4rem, 8vw, 7rem) clamp(1.25rem, 5vw, 3rem);
+    text-align: center;
+  }
+  .partner-hero .heading-xl { color: var(--white); }
+  .partner-hero p { color: rgba(255,255,255,0.8); font-size: 1.1rem; max-width: 54ch; margin: 1.25rem auto 0; }
+  .giving-tabs { display: flex; gap: 1px; background: var(--stone); margin-bottom: 0; }
+  .giving-tab {
+    flex: 1; padding: 1rem;
+    background: var(--warm);
+    font-size: 0.82rem; font-weight: 600;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--mid); text-align: center;
+    transition: background 0.2s, color 0.2s;
+    cursor: pointer; border: none; font-family: inherit;
+  }
+  .giving-tab.active { background: var(--ink); color: var(--white); }
+  .giving-panels { border: 1px solid var(--stone); border-top: none; }
+  .giving-panel { display: none; padding: 2.5rem; }
+  .giving-panel.active { display: block; }
+  .giving-panel h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.7rem; font-weight: 600; margin-bottom: 0.75rem;
+  }
+  .giving-panel ul { list-style: none; margin-top: 1rem; }
+  .giving-panel ul li {
+    padding: 0.4rem 0;
+    font-size: 0.9rem; color: var(--mid);
+    display: flex; align-items: flex-start; gap: 0.6rem;
+  }
+  .giving-panel ul li::before { content: '→'; color: var(--gold); margin-top: 0.05em; flex-shrink: 0; }
+  .three-ways { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--stone); margin-top: 3rem; }
+  .way-card { background: var(--warm); padding: 2rem; text-align: center; }
+  .way-card .icon { font-size: 2rem; margin-bottom: 0.75rem; }
+  .way-card h4 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem;
+  }
+  .way-card p { font-size: 0.86rem; color: var(--mid); }
+  .prayer-points { background: var(--stone); border-radius: 2px; padding: 2rem 2.5rem; margin-top: 2rem; }
+  .prayer-points h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.4rem; margin-bottom: 1rem;
+  }
+  .prayer-points ul { list-style: none; }
+  .prayer-points ul li {
+    padding: 0.5rem 0; font-size: 0.9rem; color: var(--mid);
+    border-bottom: 1px solid rgba(0,0,0,0.07);
+    display: flex; align-items: flex-start; gap: 0.6rem;
+  }
+  .prayer-points ul li:last-child { border-bottom: none; }
+  .prayer-points ul li::before { content: '✦'; color: var(--gold); font-size: 0.65rem; margin-top: 0.35em; flex-shrink: 0; }
+
+  /* ─── WHY EDGE LANE ─── */
+  .edge-hero {
+    background: var(--teal);
+    padding: clamp(4rem, 8vw, 7rem) clamp(1.25rem, 5vw, 3rem);
+    text-align: center;
+  }
+  .edge-hero .heading-xl { color: var(--white); }
+  .edge-reasons { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--stone); }
+  .edge-reason {
+    background: var(--warm); padding: 2rem 2.25rem;
+    transition: background 0.2s;
+  }
+  .edge-reason:hover { background: var(--white); }
+  .edge-reason h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.3rem; font-weight: 600; margin-bottom: 0.5rem;
+  }
+  .edge-reason p { font-size: 0.88rem; color: var(--mid); line-height: 1.65; }
+  .map-embed {
+    width: 100%; height: 380px; border: none;
+    filter: grayscale(20%) contrast(95%);
+    display: block;
+  }
+
+  /* ─── COSTS ─── */
+  .costs-hero {
+    background: var(--ink);
+    padding: clamp(3rem, 6vw, 5rem) clamp(1.25rem, 5vw, 3rem);
+  }
+  .cost-phases { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5px; background: rgba(255,255,255,0.1); margin-top: 2.5rem; }
+  .phase-card {
+    background: var(--teal);
+    padding: 2rem 1.75rem; position: relative;
+    transition: background 0.2s;
+  }
+  .phase-card:hover { background: #22506a; }
+  .phase-label {
+    font-size: 0.7rem; font-weight: 600; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--gold);
+    margin-bottom: 0.5rem;
+  }
+  .phase-card h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.4rem; color: var(--white);
+    margin-bottom: 0.5rem;
+  }
+  .phase-cost {
+    font-family: 'Poppins', sans-serif;
+    font-size: 2rem; font-weight: 700;
+    color: var(--gold-light); margin-bottom: 0.75rem;
+  }
+  .phase-card p { font-size: 0.82rem; color: rgba(255,255,255,0.55); line-height: 1.65; }
+  .total-banner {
+    background: var(--gold); color: var(--white);
+    text-align: center; padding: 2rem;
+    margin-top: 1.5px;
+  }
+  .total-banner p { font-size: 0.85rem; opacity: 0.85; margin-top: 0.5rem; }
+  .costs-note { background: var(--warm); padding: clamp(2rem, 4vw, 3rem) clamp(1.25rem, 5vw, 3rem); max-width: 1100px; margin: 0 auto; }
+
+  /* ─── FAQ ─── */
+  .faq-hero { background: var(--warm); padding: clamp(3rem, 6vw, 5rem) clamp(1.25rem, 5vw, 3rem); border-bottom: 1px solid var(--stone); }
+  .faq-list { max-width: 780px; margin: 0 auto; padding: clamp(2rem, 4vw, 4rem) clamp(1.25rem, 5vw, 3rem); }
+  .faq-item { border-bottom: 1px solid var(--stone); }
+  .faq-q {
+    width: 100%; text-align: left;
+    padding: 1.4rem 0; display: flex; justify-content: space-between; align-items: flex-start;
+    gap: 1rem; background: none; border: none; cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.15rem; font-weight: 600; color: var(--ink);
+    transition: color 0.2s;
+  }
+  .faq-q:hover { color: var(--gold); }
+  .faq-q-icon {
+    flex-shrink: 0; width: 24px; height: 24px;
+    border: 1.5px solid var(--stone); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem; color: var(--mid);
+    transition: transform 0.3s, border-color 0.2s;
+    margin-top: 0.1em;
+  }
+  .faq-item.open .faq-q-icon { transform: rotate(45deg); border-color: var(--gold); color: var(--gold); }
+  .faq-a {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.45s var(--ease), padding 0.3s;
+    font-size: 0.93rem; color: var(--mid); line-height: 1.75;
+  }
+  .faq-a-inner { padding-bottom: 1.5rem; }
+  .faq-a ol, .faq-a ul { padding-left: 1.25rem; margin-top: 0.5rem; }
+  .faq-a ol li, .faq-a ul li { margin-bottom: 0.3rem; }
+  .faq-form-cta {
+    background: var(--stone); border-radius: 2px;
+    padding: 2rem; margin-top: 2rem; text-align: center;
+  }
+  .faq-form-cta p { font-size: 0.9rem; color: var(--mid); margin-bottom: 1rem; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--ink); color: rgba(255,255,255,0.7);
+    padding: clamp(2.5rem, 5vw, 4rem) clamp(1.25rem, 5vw, 3rem);
+  }
+  .footer-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 2.5rem; }
+  .footer-brand {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1rem; font-weight: 600; color: var(--white);
+    margin-bottom: 0.75rem;
+  }
+  .footer-brand span { color: var(--gold); }
+  footer p { font-size: 0.82rem; line-height: 1.7; }
+  .footer-col h5 {
+    font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--white);
+    margin-bottom: 0.75rem;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { margin-bottom: 0.35rem; }
+  .footer-col ul li button {
+    font-size: 0.84rem; color: rgba(255,255,255,0.55);
+    transition: color 0.2s; background: none; border: none;
+    cursor: pointer; font-family: inherit; padding: 0;
+  }
+  .footer-col ul li button:hover { color: var(--gold); }
+  .footer-col a { font-size: 0.84rem; color: rgba(255,255,255,0.55); transition: color 0.2s; }
+  .footer-col a:hover { color: var(--gold); }
+  .footer-bottom {
+    max-width: 1100px; margin: 2.5rem auto 0;
+    padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1);
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 0.5rem;
+    font-size: 0.78rem; color: rgba(255,255,255,0.35);
+  }
+  .footer-social { display: flex; gap: 0.75rem; }
+  .footer-social a {
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.15);
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(255,255,255,0.5);
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .footer-social a svg { display: block; }
+  .footer-social a:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* ─── SCROLL ANIMATIONS ─── */
+  .reveal {
+    opacity: 0; transform: translateY(20px);
+    transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+  }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    .hero { min-height: 85vw; }
+    .who-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .homes-grid { grid-template-columns: 1fr 1fr; }
+    .problem-grid { grid-template-columns: 1fr; }
+    .achieves-item { grid-template-columns: 1fr; }
+    .achieves-item:nth-child(even) { direction: ltr; }
+    .three-ways { grid-template-columns: 1fr; }
+    .cost-phases { grid-template-columns: 1fr; }
+    .edge-reasons { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr 1fr; }
+    .giving-tabs { flex-wrap: wrap; }
+  }
+  @media (max-width: 640px) {
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .mobile-menu { display: flex; }
+    .totaliser-header { flex-direction: column; align-items: flex-start; gap: 0.25rem; }
+    .homes-grid { grid-template-columns: 1fr; }
+    .challenge-card { grid-template-columns: 1fr; }
+    .challenge-num { font-size: 2rem; text-align: left; }
+    .footer-inner { grid-template-columns: 1fr; }
+    .footer-bottom { flex-direction: column; text-align: center; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+  }
+
+  /* ─── EDGE LANE PHOTO GALLERY ─── */
+  .el-gallery {
+    padding: clamp(3rem, 6vw, 5rem) 0 0;
+    background: var(--warm);
+  }
+  .el-gallery-header {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 clamp(1.25rem, 5vw, 3rem);
+    margin-bottom: 2rem;
+  }
+  .el-gallery-header .eyebrow { display: block; margin-bottom: 0.4rem; }
+  .el-gallery-header h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(1.4rem, 2.5vw, 2rem);
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .el-carousel {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background: var(--ink);
+  }
+  .el-carousel-track {
+    display: flex;
+    transition: transform 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+  }
+  .el-carousel-slide {
+    flex: 0 0 100%;
+    width: 100%;
+    position: relative;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+  }
+  @media (max-width: 600px) {
+    .el-carousel-slide { aspect-ratio: 4/3; }
+  }
+  .el-carousel-slide img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .el-carousel-slide.is-active img { transform: scale(1.02); }
+  /* Side arrows */
+  .el-carousel-btn {
+    position: absolute; top: 50%; z-index: 5;
+    transform: translateY(-50%);
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.18);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.25);
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+    font-size: 1.1rem;
+    line-height: 1;
+  }
+  .el-carousel-btn:hover {
+    background: rgba(255,255,255,0.32);
+    transform: translateY(-50%) scale(1.08);
+  }
+  .el-carousel-btn--prev { left: 1.25rem; }
+  .el-carousel-btn--next { right: 1.25rem; }
+  /* Counter + dots bar */
+  .el-carousel-bar {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 0.6rem 1.25rem;
+    display: flex; align-items: center; justify-content: space-between;
+    background: linear-gradient(to top, rgba(10,25,35,0.7) 0%, transparent 100%);
+    pointer-events: none;
+  }
+  .el-carousel-counter {
+    font-size: 0.72rem; font-weight: 600;
+    letter-spacing: 0.08em; color: rgba(255,255,255,0.65);
+    font-family: 'Inter', sans-serif;
+  }
+  .el-carousel-dots {
+    display: flex; gap: 6px; pointer-events: all;
+  }
+  .el-carousel-dot {
+    width: 28px; height: 3px; border-radius: 2px;
+    background: rgba(255,255,255,0.35);
+    border: none; cursor: pointer; padding: 0;
+    transition: background 0.3s, width 0.3s;
+  }
+  .el-carousel-dot.active {
+    background: var(--gold);
+    width: 42px;
+  }
+  /* Thumbnail strip */
+  .el-thumbstrip {
+    display: flex;
+    gap: 3px;
+    background: var(--ink);
+  }
+  .el-thumb {
+    flex: 1;
+    aspect-ratio: 4/3;
+    overflow: hidden;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 0.25s;
+    border: none; padding: 0;
+    background: var(--ink);
+  }
+  .el-thumb:hover, .el-thumb.active { opacity: 1; }
+  .el-thumb img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    pointer-events: none;
+  }
+
+
+  /* ─── CLICK-TO-LOAD MAP ─── */
+  .map-container {
+    position: relative;
+    height: 380px;
+    overflow: hidden;
+    background: #e8e4db;
+    cursor: pointer;
+    border-top: 1px solid var(--stone);
+    border-bottom: 1px solid var(--stone);
+  }
+  .map-container iframe {
+    width: 100%; height: 100%;
+    border: none;
+    filter: grayscale(20%) contrast(95%);
+    display: block;
+    pointer-events: auto;
+  }
+  .map-placeholder {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 0.75rem;
+    background:
+      linear-gradient(rgba(240,236,227,0.92), rgba(240,236,227,0.92)),
+      url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23b8b0a0' fill-opacity='0.25'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    transition: background 0.2s;
+    pointer-events: none;
+  }
+  .map-container:hover .map-placeholder {
+    background: linear-gradient(rgba(232,228,219,0.95), rgba(232,228,219,0.95)),
+      url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23b8b0a0' fill-opacity='0.25'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .map-pin-icon { margin-bottom: 0.25rem; }
+  .map-placeholder-label {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem; font-weight: 600;
+    color: var(--ink); letter-spacing: 0.01em;
+  }
+  .map-load-btn {
+    display: inline-flex; align-items: center;
+    background: var(--gold); color: var(--white);
+    font-size: 0.8rem; font-weight: 600;
+    padding: 0.5rem 1.1rem; border-radius: 4px;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    transition: background 0.2s;
+    pointer-events: none;
+  }
+  .map-container:hover .map-load-btn { background: var(--gold-light); }
+  .map-container.loaded .map-placeholder { display: none; }
+  .map-container.loaded { cursor: default; }
+
+  /* ─── MOBILE RESPONSIVE ADDITIONS ─── */
+  /* Inline grids that lack responsive classes */
+  .grid-2col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+  .grid-2col-tight {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--stone);
+  }
+
+  @media (max-width: 900px) {
+    /* Partner page: two-ways give grid */
+    .grid-2col-tight { grid-template-columns: 1fr; }
+    /* Edge Lane + Costs teaser */
+    .grid-2col { grid-template-columns: 1fr; }
+    /* Outward impact 3-col */
+    .outward-grid { grid-template-columns: 1fr !important; }
+    /* Map height on tablet */
+    .map-container { height: 320px; }
+    /* Thumb strip - fewer thumbs visible */
+    .el-thumbstrip { gap: 2px; }
+  }
+
+  @media (max-width: 640px) {
+    /* Hero text */
+    .hero-tagline { font-size: clamp(2rem, 8vw, 2.8rem); }
+    /* Sections */
+    .section { padding-top: 2.5rem; padding-bottom: 2.5rem; }
+    /* Home cards: full width on small screens */
+    .homes-grid { grid-template-columns: 1fr !important; }
+    /* Churches list: 1 col */
+    .churches-list { grid-template-columns: 1fr !important; }
+    /* Giving tabs: stack them */
+    .giving-tab { flex: 1 1 calc(50% - 1px); font-size: 0.72rem; padding: 0.75rem 0.5rem; }
+    /* Partner hero text */
+    .partner-hero p { font-size: 0.95rem; }
+    /* Totaliser raised amount */
+    .totaliser-raised { font-size: 1.4rem; }
+    /* Thumbnail strip: hide on very small screens, dots only */
+    .el-thumbstrip { display: none; }
+    /* Map height */
+    .map-container { height: 260px; }
+    /* Challenge card layout */
+    .challenge-card { padding: 1.5rem; gap: 1rem; }
+    /* Phase cards padding */
+    .phase-card { padding: 1.5rem 1.25rem; }
+    /* CTA band */
+    .hero-ctas { flex-direction: column; gap: 0.6rem; }
+    .hero-ctas .btn-primary,
+    .hero-ctas .btn-outline { width: 100%; justify-content: center; }
+    /* FAQ items */
+    .faq-q { font-size: 0.9rem; padding: 1.1rem 1.25rem; }
+    /* Edge Lane gallery header */
+    .el-gallery-header { margin-bottom: 1.25rem; }
+    /* Arrow buttons smaller on mobile */
+    .el-carousel-btn { width: 36px; height: 36px; }
+    .el-carousel-btn--prev { left: 0.6rem; }
+    .el-carousel-btn--next { right: 0.6rem; }
+  }
+
+  /* Touch: remove hover effects that feel wrong on mobile */
+  @media (hover: none) {
+    .home-card:hover { transform: none; background: var(--warm); }
+    .edge-reason:hover { background: var(--warm); }
+    .challenge-card:hover { background: transparent; }
+    .problem-card:hover { background: var(--ink); }
+  }
+
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav id="mainNav">
+  <div class="nav-brand">Home For <span>Our City</span></div>
+  <ul class="nav-links">
+    <li><button onclick="showPage('home')" class="active" data-page="home">Home</button></li>
+    <li><button onclick="showPage('story')" data-page="story">Our Story</button></li>
+    <li><button onclick="showPage('challenge')" data-page="challenge">The Challenge</button></li>
+    <li><button onclick="showPage('achieves')" data-page="achieves">What This Achieves</button></li>
+    <li><button onclick="showPage('partner')" data-page="partner">Partner With Us</button></li>
+    <li><button onclick="showPage('edgelane')" data-page="edgelane">Why Edge Lane?</button></li>
+    <li><button onclick="showPage('costs')" data-page="costs">Costs &amp; Phasing</button></li>
+    <li><button onclick="showPage('faq')" data-page="faq">FAQ</button></li>
+    <li><button class="nav-donate" onclick="window.open('https://ccl.churchsuite.com/donate/fund/pti9a1vc','_blank')">Donate</button></li>
+  </ul>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <button onclick="showPage('home');toggleMenu()">Home</button>
+  <button onclick="showPage('story');toggleMenu()">Our Story</button>
+  <button onclick="showPage('challenge');toggleMenu()">The Challenge</button>
+  <button onclick="showPage('achieves');toggleMenu()">What This Achieves</button>
+  <button onclick="showPage('partner');toggleMenu()">Partner With Us</button>
+  <button onclick="showPage('edgelane');toggleMenu()">Why Edge Lane?</button>
+  <button onclick="showPage('costs');toggleMenu()">Costs &amp; Phasing</button>
+  <button onclick="showPage('faq');toggleMenu()">FAQ</button>
+  <button class="mobile-donate" onclick="window.open('https://ccl.churchsuite.com/donate/fund/pti9a1vc','_blank');toggleMenu()">Donate Now</button>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PAGE: HOME
+═══════════════════════════════════════ -->
+<div id="page-home" class="page active">
+
+  <!-- Hero -->
+  <section class="hero">
+    <!-- Full-bleed background image -->
+    <div class="hero-bg">
+      <img src="photos/dsc00008.jpg" alt="Artist's impression of 145 Edge Lane, Liverpool">
+    </div>
+    <!-- Overlaid text content -->
+    <div class="hero-content">
+      <span class="eyebrow" style="color:var(--gold)">The Christ Church Liverpool Centre</span>
+      <h1 class="hero-tagline">A home for our<br>city, <em>and beyond</em></h1>
+      <p class="hero-sub">A home for all we do, in mission, service and building up of the body. A place to find community and serve the community.</p>
+      <div class="hero-ctas">
+        <button class="btn-primary" onclick="showPage('partner')">Partner With Us</button>
+        <button class="btn-outline" onclick="showPage('story')">Our Story</button>
+      </div>
+    </div>
+    <span class="hero-caption">Artist's impression — subject to change</span>
+  </section>
+
+  <!-- Stats bar -->
+  <div class="totaliser" id="totaliser">
+    <div class="totaliser-header">
+      <div class="totaliser-title">Capital Campaign Progress</div>
+      <div class="totaliser-raised">£1.1m <span>raised of £4.5m goal</span></div>
+    </div>
+    <div class="totaliser-track">
+      <!-- Phase ticks: £1.4m (31.1%) and £2.5m (55.6%) -->
+      <div class="totaliser-milestones">
+        <div class="totaliser-tick" style="left:31.1%"></div>
+        <div class="totaliser-tick" style="left:55.6%"></div>
+      </div>
+      <div class="totaliser-fill" id="totaliserFill"></div>
+    </div>
+    <div class="totaliser-markers">
+      <span class="totaliser-marker">£0</span>
+      <span class="totaliser-marker" style="position:absolute;left:31.1%;transform:translateX(-50%)">£1.4m<br><span style="font-size:0.65rem;opacity:0.6">Phase 1</span></span>
+      <span class="totaliser-marker" style="position:absolute;left:55.6%;transform:translateX(-50%)">£2.5m<br><span style="font-size:0.65rem;opacity:0.6">Phase 2</span></span>
+      <span class="totaliser-marker totaliser-goal">£4.5m goal</span>
+    </div>
+  </div>
+
+  <!-- Who We Are -->
+  <div class="section">
+    <div class="who-grid">
+      <div>
+        <span class="eyebrow reveal">Who We Are</span>
+        <h2 class="heading-lg reveal reveal-delay-1" style="margin-bottom:1rem">Since 2003, a vibrant city centre church family</h2>
+        <p class="body-lg reveal reveal-delay-2">Since 2003, Christ Church Liverpool has grown into a vibrant city centre church family, training and sending people across Liverpool and beyond. Church planting and training is at the very core of who we are. By God's grace, we've planted or helped revitalise six churches, and we partner with other organisations who seek to equip the church.</p>
+        <div style="margin-top:1.75rem" class="reveal reveal-delay-3">
+          <button class="btn-outline-dark" onclick="showPage('story')">Read our full story →</button>
+        </div>
+      </div>
+      <!-- Auto-scrolling photo carousel -->
+      <div class="carousel-wrap reveal reveal-delay-2" style="touch-action:pan-y">
+        <div class="carousel-track" id="carouselTrack"></div>
+        <div class="carousel-dots" id="carouselDots"></div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" style="max-width:1100px;margin:0 auto">
+
+  <!-- The Problem -->
+  <div class="problem-section">
+    <div class="problem-inner">
+      <span class="eyebrow" style="color:var(--gold-light)">The Problem</span>
+      <h2 class="heading-lg" style="color:var(--white);margin-bottom:2rem">Not having our own building<br>is stunting our impact</h2>
+      <div class="problem-grid">
+        <div class="problem-card reveal">
+          <div class="problem-icon">📈</div>
+          <h3>At Capacity</h3>
+          <p>We've reached capacity → no room for new people causes diminished impact.</p>
+        </div>
+        <div class="problem-card reveal reveal-delay-1">
+          <div class="problem-icon">🏠</div>
+          <h3>Fragmented</h3>
+          <p>Separate/multiple venues → fragmented community, limited weekday ministry, wasted time and resources.</p>
+        </div>
+        <div class="problem-card reveal reveal-delay-2">
+          <div class="problem-icon">🔑</div>
+          <h3>Renters, Not Owners</h3>
+          <p>No security and stops long‑term investment. We could lose our venue on very short notice.</p>
+        </div>
+      </div>
+      <div style="margin-top:2rem;text-align:center">
+        <button class="btn-outline" style="border-color:rgba(255,255,255,0.3);color:var(--white)" onclick="showPage('challenge')">See the full challenge →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- A Home For... -->
+  <div class="section">
+    <div class="homes-intro">
+      <span class="eyebrow reveal">A Home For...</span>
+      <h2 class="heading-lg reveal reveal-delay-1">Everything God has called us to do</h2>
+    </div>
+    <div class="homes-grid reveal">
+    <div class="home-card">
+      <div class="home-card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="24" cy="24" r="7"/>
+  <line x1="24" y1="4" x2="24" y2="10"/>
+  <line x1="24" y1="38" x2="24" y2="44"/>
+  <line x1="4" y1="24" x2="10" y2="24"/>
+  <line x1="38" y1="24" x2="44" y2="24"/>
+  <line x1="9.5" y1="9.5" x2="13.8" y2="13.8"/>
+  <line x1="34.2" y1="34.2" x2="38.5" y2="38.5"/>
+  <line x1="38.5" y1="9.5" x2="34.2" y2="13.8"/>
+  <line x1="13.8" y1="34.2" x2="9.5" y2="38.5"/>
+</svg></div>
+      <h3>Encounter</h3>
+      <p>A daily, welcoming place where people can meet Jesus, worship, pray and explore faith. Not just on Sundays.</p>
+    </div>
+    <div class="home-card">
+      <div class="home-card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M6 8 C6 8 6 36 6 38 C6 40 8 42 10 42 L42 42 L42 10 C42 8 40 6 38 6 L10 6 C8 6 6 8 6 10"/>
+  <path d="M6 38 C6 36 8 34 10 34 L42 34"/>
+  <line x1="16" y1="16" x2="32" y2="16"/>
+  <line x1="16" y1="22" x2="32" y2="22"/>
+  <line x1="16" y1="28" x2="26" y2="28"/>
+</svg></div>
+      <h3>Discipleship</h3>
+      <p>Rooms designed for learning, mentoring, youth work, training, and pastoral care — helping people grow in faith for life.</p>
+    </div>
+    <div class="home-card">
+      <div class="home-card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="24" cy="12" r="5"/>
+  <circle cx="10" cy="18" r="4"/>
+  <circle cx="38" cy="18" r="4"/>
+  <path d="M14 38 C14 30 34 30 34 38"/>
+  <path d="M4 38 C4 32 16 30 16 30"/>
+  <path d="M44 38 C44 32 32 30 32 30"/>
+</svg></div>
+      <h3>Community</h3>
+      <p>A family table for meals, midweek groups, celebrations, coffee, connection, and genuine belonging.</p>
+    </div>
+    <div class="home-card">
+      <div class="home-card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="24" cy="24" r="18"/>
+  <path d="M6 24 Q16 20 24 24 Q32 28 42 24"/>
+  <path d="M6 24 Q16 28 24 24 Q32 20 42 24"/>
+  <line x1="24" y1="6" x2="24" y2="42"/>
+  <path d="M14 9 Q18 18 18 24 Q18 30 14 39"/>
+  <path d="M34 9 Q30 18 30 24 Q30 30 34 39"/>
+</svg></div>
+      <h3>Mission</h3>
+      <p>A visible, accessible base from which we can serve Liverpool with consistency, compassion, and hospitality.</p>
+    </div>
+    <div class="home-card">
+      <div class="home-card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M8 24 L28 24"/>
+  <polyline points="20,16 28,24 20,32"/>
+  <path d="M20 10 L38 10"/>
+  <polyline points="32,4 38,10 32,16"/>
+  <path d="M20 38 L38 38"/>
+  <polyline points="32,32 38,38 32,44"/>
+</svg></div>
+      <h3>Multiplication</h3>
+      <p>Space to gather, train, and send new leaders and church‑planting teams across Liverpool and beyond.</p>
+    </div>
+    <div class="home-card">
+      <div class="home-card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <line x1="24" y1="42" x2="24" y2="20"/>
+  <path d="M24 20 C24 20 14 14 14 8 C14 4 18 2 24 6 C30 2 34 4 34 8 C34 14 24 20 24 20Z"/>
+  <path d="M24 28 C24 28 16 24 12 18"/>
+  <path d="M24 34 C24 34 32 30 36 24"/>
+</svg></div>
+      <h3>The Future</h3>
+      <p>A foundation for the fig tree to blossom. A space not only for now, but for future generations until Jesus returns.</p>
+    </div>
+    </div>
+  </div>
+
+  <!-- CTA band -->
+  <div style="background:var(--gold);padding:3rem clamp(1.25rem,5vw,3rem);text-align:center;margin-top:0">
+    <span class="eyebrow" style="color:rgba(255,255,255,0.7)">Come and find out more</span>
+    <h2 style="font-family:'Poppins',sans-serif;font-size:clamp(1.5rem,3vw,2.2rem);color:var(--white);margin:0.5rem 0 1.5rem;font-weight:600">Invest in God's kingdom work in Liverpool, and beyond</h2>
+    <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+      <button class="btn-primary" style="background:var(--white);color:var(--gold)" onclick="window.open('https://ccl.churchsuite.com/donate/fund/pti9a1vc','_blank')">Give Securely</button>
+      <button class="btn-outline" style="border-color:rgba(255,255,255,0.5);color:var(--white)" onclick="showPage('partner')">More Ways to Partner</button>
+    </div>
+  </div>
+
+  <!-- Why Edge Lane + Costs teaser -->
+  <div class="section">
+    <div class="grid-2col">
+      <div class="reveal" style="background:var(--stone);padding:2.5rem;border-radius:2px">
+        <span class="eyebrow">Location</span>
+        <h3 class="heading-md" style="margin:0.5rem 0 0.75rem">Why Edge Lane?</h3>
+        <p class="body-md">The site is located on Edge Lane, a major artery into the heart of the city. Alongside the University of Liverpool, Royal Liverpool Hospital, and Cancer Research centre. Accessible, visible, and spacious — with room for a 450-seat auditorium.</p>
+        <button class="btn-outline-dark" style="margin-top:1.25rem;font-size:0.85rem;padding:0.6rem 1.25rem" onclick="showPage('edgelane')">Find out more →</button>
+      </div>
+      <div class="reveal reveal-delay-1" style="background:var(--ink);padding:2.5rem;border-radius:2px;color:var(--white)">
+        <span class="eyebrow">The Numbers</span>
+        <h3 class="heading-md" style="margin:0.5rem 0 0.75rem;color:var(--white)">Costs &amp; Phasing</h3>
+        <p style="font-size:0.9rem;color:rgba(255,255,255,0.6);line-height:1.65">This project is for £4.5 million. This includes a £1 million purchase, full refurbishment totalling £1.5 million, and building a 400-seat auditorium for £2 million.</p>
+        <button class="btn-outline" style="margin-top:1.25rem;font-size:0.85rem;padding:0.6rem 1.25rem;border-color:rgba(255,255,255,0.3);color:var(--white)" onclick="showPage('costs')">See the breakdown →</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /page-home -->
+
+
+<!-- ═══════════════════════════════════════
+     PAGE: OUR STORY
+═══════════════════════════════════════ -->
+<div id="page-story" class="page">
+
+  <!-- Hero banner -->
+  <div class="story-hero">
+    <span class="eyebrow" style="color:var(--gold-light)">Our Story</span>
+    <h1 class="heading-xl" style="color:var(--white);margin-top:0.5rem">Christ Church <em>Liverpool</em></h1>
+  </div>
+
+  <!-- Founded 2003 -->
+  <div class="section">
+    <div class="story-content">
+      <span class="eyebrow reveal">Founded 2003</span>
+      <h2 class="heading-md reveal reveal-delay-1">A gospel-centred church for a city in regeneration</h2>
+      <p class="body-md reveal reveal-delay-2">Christ Church Liverpool (CCL) was founded in 2003. As Liverpool City Centre entered a sustained period of regeneration, a group of bible believing Christians saw the need for a gospel centred bible church for believers moving into the centre. There is now a regular gathering on Sundays of 200 adults and 50 children attending, and 140 members.</p>
+      <p class="body-md reveal reveal-delay-3">CCL affiliates with Fellowship of Independent Evangelical Churches (FIEC) and the North West Gospel Partnership. In addition, we partner with North West Church Resources to maintain facilities for theological training, providing a training site for Union School of Theology. The church also provides an office and base for the Alliance for Transatlantic Theological Training (AT3), a young charity seeking to link US and UK churches.</p>
+    </div>
+  </div>
+
+  <!-- Our Impact (stone band) -->
+  <div class="story-band">
+    <div class="section" style="padding-top:clamp(2.5rem,5vw,4rem);padding-bottom:clamp(2.5rem,5vw,4rem)">
+      <span class="eyebrow reveal" style="display:block;text-align:center">Our Impact</span>
+      <h2 class="heading-md reveal reveal-delay-1" style="text-align:center;margin:0.5rem 0 1.25rem">Planted, revitalised, and sent</h2>
+      <p class="body-md reveal reveal-delay-2" style="max-width:680px;margin:0 auto 2rem;text-align:center">Since then we've planted or helped revitalize six churches, and we continue to train and send leaders for new works (including our next revitalisation in Kirkby). People have gone abroad to bring the gospel to people who have not heard it — we are the sending church for 2 people currently serving in North Africa, and we support workers in Australia, France, Argentina, and Sheffield.</p>
+      <div class="churches-list reveal">
+        <div class="church-item"><a href="https://aigburth.church/" target="_blank">Aigburth Community Church</a></div>
+        <div class="church-item"><a href="https://www.citychurchmanchester.org/" target="_blank">City Church Manchester</a></div>
+        <div class="church-item"><a href="https://beechwoodchapel.org/" target="_blank">Beechwood Chapel</a></div>
+        <div class="church-item"><a href="https://www.trinitychurcheverton.org/" target="_blank">Trinity Church Everton</a></div>
+        <div class="church-item" style="grid-column-start:2"><a href="https://villagechurchformby.org/" target="_blank">Village Church Formby</a></div>
+        <div class="church-item"><a href="http://www.ebenezerchapel.org.uk" target="_blank">Ebenezer Chapel</a></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- What is Distinctive -->
+  <div class="section">
+    <div class="story-content">
+      <span class="eyebrow reveal">What is Distinctive?</span>
+      <h2 class="heading-md reveal reveal-delay-1">Investing in the city. Training to send</h2>
+      <p class="body-md reveal reveal-delay-2">Mindful of the Great Commission, Christ Church is determined to invest in the city centre to engage with the culture of Liverpool in all walks of life. It's also committed to training to prepare people to serve and promote church planting and revitalisation.</p>
+      <p class="body-md reveal reveal-delay-3" style="margin-top:1rem">Edge Lane is the next step: a permanent home that secures training, sending and city-wide hospitality for the long term.</p>
+      <button class="btn-outline-dark" style="margin-top:2rem" onclick="showPage('challenge')">So... what's the challenge? →</button>
+    </div>
+  </div>
+
+</div><!-- /page-story -->
+
+
+<!-- ═══════════════════════════════════════
+     PAGE: THE CHALLENGE
+═══════════════════════════════════════ -->
+<div id="page-challenge" class="page">
+  <div class="challenge-hero">
+    <span class="eyebrow" style="color:rgba(255,255,255,0.7)">The Challenge</span>
+    <h1 class="heading-xl" style="margin-top:0.5rem">Here's our challenge...</h1>
+  </div>
+
+  <div class="section" style="padding-bottom:0;text-align:center">
+    <p class="body-lg" style="max-width:640px;margin:0 auto">We want to reach more people with the Gospel. And that means we need more churches, more people trained and sent, more outreach and ministries. But not having our own building is stunting this impact.</p>
+  </div>
+
+  <div class="section" style="padding-top:2rem">
+    <div class="challenge-cards">
+      <div class="challenge-card reveal">
+        <div class="challenge-num">01</div>
+        <div>
+          <h3 class="heading-md">Capacity</h3>
+          <p class="body-md" style="margin-top:0.5rem">We literally can't fit more people in on a Sunday! This means we are unable to grow to a size of church which can sustain further staff, expanding ministries or new ministries. Without a growing membership, we cannot train and resource more teams to plant or revitalise.</p>
+        </div>
+      </div>
+      <div class="challenge-card reveal">
+        <div class="challenge-num">02</div>
+        <div>
+          <h3 class="heading-md">Ownership</h3>
+          <p class="body-md" style="margin-top:0.5rem">We need a home to help us have a bigger impact for the city. Our lack of ownership limits our investment in our spaces, equipment, furniture, signage, and it weakens our sense of identity. The temporary and split site setup means our spaces aren't as visible, inviting or functional as we'd like. It creates a fragmented church experience and weakens our identity.</p>
+        </div>
+      </div>
+      <div class="challenge-card reveal">
+        <div class="challenge-num">03</div>
+        <div>
+          <h3 class="heading-md">Tenancy Means Insecurity</h3>
+          <p class="body-md" style="margin-top:0.5rem">As renters, not residents, we're at risk of needing to find a new venue. We could not have somewhere to meet on very short notice with no other viable alternatives in the city. Being renters not home owners is frustratingly limiting and inefficient.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="background:var(--gold);padding:3rem clamp(1.25rem,5vw,3rem);text-align:center">
+    <h2 style="font-family:'Poppins',sans-serif;font-size:clamp(1.4rem,3vw,2rem);color:var(--white);font-weight:600;margin-bottom:1.25rem">With your help, we have the solution</h2>
+    <button class="btn-primary" style="background:var(--white);color:var(--gold)" onclick="showPage('achieves')">See what this achieves →</button>
+  </div>
+</div><!-- /page-challenge -->
+
+
+<!-- ═══════════════════════════════════════
+     PAGE: WHAT THIS ACHIEVES
+═══════════════════════════════════════ -->
+<div id="page-achieves" class="page">
+  <div class="section" style="padding-bottom:2rem">
+    <span class="eyebrow reveal">What This Achieves</span>
+    <h1 class="heading-xl reveal reveal-delay-1" style="max-width:18ch;margin-top:0.5rem">What this building <em>means</em></h1>
+    <p class="body-lg reveal reveal-delay-2" style="max-width:60ch;margin-top:1rem">A permanent home at Edge Lane will turn weekly logistics into daily ministry. It will give us space to encounter Jesus, grow disciples, deepen community, serve Liverpool, multiply churches, and build for future generations until Jesus returns. Not just on Sundays, but all week long.</p>
+  </div>
+
+  <!-- Alternating sections -->
+  <div style="border-top:1px solid var(--stone)">
+    <div class="achieves-item">
+      <div class="achieves-img">
+        <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUDLN-S7_BtX2SFmNyMdFYuCNUvOHEcJGSRTMbJICMsf7H-d9QpRePlZp5wNTDUDrXQqkr22YBKTrMnKnOxSeRA6-N5oc3FZrFJCrvJ--6iYtGwhGuHp0CgxzZCLId8mx_tTcLAK3PgsT1quyvJPgrND1JhPDL6_URUUL8ZbtJY_OE4ZuZ6vFQNXtQ0xlhRwbMrbI_M4lfdF3PlhtiiaOeP97IjRBb7URhZNMj6hATw=w1280" alt="Encounter" onerror="this.parentElement.style.background='#ddd8cc'">
+      </div>
+      <div class="achieves-text">
+        <span class="eyebrow">A Home for</span>
+        <h2 class="heading-lg">Encounter</h2>
+        <p style="margin-top:1rem">Liverpool is a city full of people longing for meaning, connection, and hope. A substantive home gives us a set-apart space where people can meet Jesus, grow in faith, and experience the presence of God without limits. No more borrowed rooms or constrained schedules — a place where worship, prayer, and community can take root every day of the week.</p>
+        <p style="margin-top:0.75rem">A building becomes more than walls; it becomes a place of encounter that leads to transformed lives.</p>
+      </div>
+    </div>
+
+    <div class="achieves-item">
+      <div class="achieves-img">
+        <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUBedgAvlj3gSoDSnNEuAGETxM8tlnxItZWpMn96CZJ6q5KvIyI5T8f4iuvrsJv2otXUzAR8Vog7-tNJxJI-plBbichgjbJFG24bmTgZA2LGClE2lJw6zYHHNePJWfugkTma0_5D2STUcaDFyIi0WlA6ioS6GifTGtw0ZpTYB4dWIMT1e06kkCawWJW7ltEc59ZoUG470_SdsQ2fEOp1MlUrSqaxPfQiG6mh7pnatNg=w1280" alt="Discipleship" onerror="this.parentElement.style.background='#1a3d50'">
+      </div>
+      <div class="achieves-text">
+        <span class="eyebrow">A Home for</span>
+        <h2 class="heading-lg">Discipleship</h2>
+        <p style="margin-top:1rem">We believe growth happens best in consistency. A substantive base allows us to build rhythms of learning, training, and mentoring that shape disciples for a lifetime. With rooms for courses, youth gatherings, pastoral care, prayer ministry and leadership development, we can invest deeply in people — not just programs.</p>
+        <p style="margin-top:0.75rem">A building gives us the space to deeply serve Liverpool. Believers, leaders, and culture‑shapers for our city.</p>
+      </div>
+    </div>
+
+    <div class="achieves-item">
+      <div class="achieves-img">
+        <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUADTk9_fHOCkzr2nxJ_7F4cdqnfkeg54KaGRAF9il6VRfFKnb0SerI2cc4DV8Ny4HHidHDzJdOevgdwBggpacTnBglpLltVP5tYxl--6v1FO81fpEZWDMbIZldhhirZrht3gzd-74lqQIYLfECOxoedfB4qF_xsfnV-ViqNoGBqQrCsxC39LVQnDfUMErW7pTdsIfU5dLEALUHUcGJcPCcP3tBb7qw4xoGGvPzP=w1280" alt="Community" onerror="this.parentElement.style.background='#ddd8cc'">
+      </div>
+      <div class="achieves-text">
+        <span class="eyebrow">A Home for</span>
+        <h2 class="heading-lg">Community</h2>
+        <p style="margin-top:1rem">Christ Church Liverpool has always been a family — but a family needs a kitchen table. A building gives us a space to gather, eat, celebrate, support one another, and open our doors to anyone who needs belonging. From midweek groups to family events to student dinners, it becomes the heartbeat of our shared life in a way we've never had before.</p>
+        <p style="margin-top:0.75rem">A substantive home strengthens community and makes room for every person who walks through our doors.</p>
+      </div>
+    </div>
+
+    <div class="achieves-item">
+      <div class="achieves-img">
+        <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUDBn8CQjrrzCxzycSeDfKYTFb1PYUT3gxutW_MXshf_CMqkde-g1wMPgwzmckXDUryNE6KoIco7u_zitS9_WMBDhbYvjhApPXjXgwFse1ejBz6li026sTSnqEFWZVaFbTHfRZfkxViJzWEfNJpXS3m4Y9qwt9mL1rHl4I4DIZF5YV20-6oFrWvER5YFu2kk1F8lb4hcmlG7dBY0ktETaGu_CJrxG7Bd7C-JarXkkmI=w1280" alt="Mission" onerror="this.parentElement.style.background='#1a3d50'">
+      </div>
+      <div class="achieves-text">
+        <span class="eyebrow">A Home for</span>
+        <h2 class="heading-lg">Mission</h2>
+        <p style="margin-top:1rem">We exist not just for ourselves, but for Liverpool and the whole world. A substantive home allows us to serve our city with consistency and compassion. From welcoming asylum seekers to walking with people through Explore, training believers in the Word, and partnering with churches across our region, this building gives us room to deepen the ministries that shape and send people out.</p>
+        <p style="margin-top:0.75rem">It becomes a visible, stable presence of hope in the city, a light on a street that people know they can turn to. A building anchors our mission and multiplies our impact.</p>
+      </div>
+    </div>
+
+    <div class="achieves-item">
+      <div class="achieves-img">
+        <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUBgP5czeT9wEbCAiv7rrmPdj07WtziXxuy6c71ySiisUfXrcKPaAnHR8PCxeV8n5kQSllhlM_6A7L1N2Mjk5o3ogge7_5IYflokuhf1C0KYB8-OlK7pgOnl1q-V-u-yYzdTNqO66oKpNwkLJplLxqI_p1rrjWTYyXshbDXzS8Ssc4mfINpsCvaxhbwG_wxpWEpe0rEH3-22ypGviaqBUAt4_55O28iCb2wdwtVdSoA=w1280" alt="Multiplication" onerror="this.parentElement.style.background='#ddd8cc'">
+      </div>
+      <div class="achieves-text">
+        <span class="eyebrow">A Home for</span>
+        <h2 class="heading-lg">Multiplication</h2>
+        <p style="margin-top:1rem">For 23 years, Christ Church Liverpool has planted new churches, revitalised struggling ones, and equipped leaders to take the gospel into new places — from launches here in the city to helping spark new work in Manchester, and now investing deeply in our next revitalisation in Kirkby. Multiplication isn't a side project for us; it's part of who we are.</p>
+        <p style="margin-top:0.75rem">A permanent building becomes the base that strengthens this calling. A building fuels our long‑term vision: not just to build one church, but to keep multiplying healthy churches across our region.</p>
+      </div>
+    </div>
+
+    <div class="achieves-item">
+      <div class="achieves-img">
+        <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUDrNhechdy2OyB3joUdA7CMAQCTzxcBnQgs67D17koAgMG5kedHocg0Vli35wP_oYHSw3AYVwcrvvSNVI_sZ4iTVtJ-iku3f9pfyG-y1ZdPO8ctjNhVhge3DqzQbYR-JDThspTw6UqviVrZPqzyVzXm2z20z6F8LIqhZiwL_ZRQjyVtFxDiXsaIkn9bHaIY9yVnQswbHFIzcuyyzXh1kJE_5K04uZEfOvD72uCQI=w1280" alt="The Future" onerror="this.parentElement.style.background='#ddd8cc'">
+      </div>
+      <div class="achieves-text">
+        <span class="eyebrow">A Home for</span>
+        <h2 class="heading-lg">The Future</h2>
+        <p style="margin-top:1rem">This building marks a new season of growth, stability, and long‑term vision for our church. It provides the space and capacity we've never had before, allowing us to grow, to adapt, and to dream beyond the limitations we've previously faced. And if God grows us beyond this building one day, this is the foundation that will make the next step possible.</p>
+        <p style="margin-top:0.75rem">A building secures our future and amplifies everything God has called us to do next.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Outward Impact -->
+  <div class="section">
+    <span class="eyebrow reveal">Outward Impact</span>
+    <h2 class="heading-lg reveal reveal-delay-1" style="margin:0.5rem 0 2rem">Giving back to Liverpool</h2>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--stone)" class="reveal reveal-delay-2">
+      <div style="background:var(--warm);padding:2rem">
+        <span class="eyebrow">Grow &amp; Send</span>
+        <p class="body-md" style="margin-top:0.5rem">Making room to grow means we can train leaders, build ministries and send new churches for decades to come, multiplying gospel impact across our region.</p>
+      </div>
+      <div style="background:var(--warm);padding:2rem">
+        <span class="eyebrow">Serve The City</span>
+        <p class="body-md" style="margin-top:0.5rem">A stable, designed-for-purpose hub strengthens our identity and hospitality, opening more opportunities for consistent community outreach (e.g. courses, youth, meals, Hope Cafe).</p>
+      </div>
+      <div style="background:var(--warm);padding:2rem">
+        <span class="eyebrow">Security for Generations</span>
+        <p class="body-md" style="margin-top:0.5rem">Moving from renting to ownership frees us from instability and inefficiency, giving the church a secure launchpad for long-term mission.</p>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /page-achieves -->
+
+
+<!-- ═══════════════════════════════════════
+     PAGE: PARTNER WITH US
+═══════════════════════════════════════ -->
+<div id="page-partner" class="page">
+  <div class="partner-hero">
+    <span class="eyebrow" style="color:rgba(255,255,255,0.7)">Shared Calling</span>
+    <h1 class="heading-xl" style="color:var(--white);margin-top:0.5rem">Partner <em>with us</em></h1>
+    <p>This is a shared calling and a long-term investment in God's mission. As a church family, we believe that a substantive home on Edge Lane will help us welcome more people, grow disciples, send leaders, strengthen community and serve Liverpool throughout the week.</p>
+  </div>
+
+  <div class="section">
+    <div style="max-width:680px;margin:0 auto;text-align:center">
+      <p class="body-md reveal">We're trusting God to provide all we need, and to do it through us. It's not about equal gifts, but equal sacrifice as we each play our part.</p>
+      <p class="body-md reveal reveal-delay-1" style="margin-top:1rem">By God's grace we have already raised <strong>£1m</strong> for the purchase of the building. Now we need to raise a further <strong>£3.5m</strong> to bring it to life.</p>
+      <h3 class="heading-md reveal reveal-delay-2" style="margin-top:1.5rem;margin-bottom:1rem">Help us take these next steps by:</h3>
+    </div>
+    <div class="three-ways reveal reveal-delay-2">
+      <div class="way-card">
+        <div class="icon">🙏</div>
+        <h4>Faithfully Praying</h4>
+        <p>Intercede with us for this project in your regular prayer life.</p>
+      </div>
+      <div class="way-card">
+        <div class="icon">📢</div>
+        <h4>Sharing Widely</h4>
+        <p>Tell others about what God is doing in Liverpool through CCL.</p>
+      </div>
+      <div class="way-card">
+        <div class="icon">💛</div>
+        <h4>Generously Giving</h4>
+        <p>One-off or pledged over five years — every gift matters.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" style="padding-top:0">
+    <h2 class="heading-md reveal" style="margin-bottom:1rem;text-align:center">Two ways to give</h2>
+    <p class="body-md reveal reveal-delay-1" style="margin-bottom:2rem;text-align:center;max-width:680px;margin-left:auto;margin-right:auto">We're deeply grateful for both. If you are discerning between the two, here's how to think about the impact:</p>
+    <div class="grid-2col-tight reveal reveal-delay-2" style="margin-bottom:1.5rem">
+      <div style="background:var(--warm);padding:2rem">
+        <h4 style="font-family:'Poppins',sans-serif;font-size:1.25rem;font-weight:600;margin-bottom:0.5rem">One-off Gift (today)</h4>
+        <p class="body-md">One off gifts help significantly with up front costs (purchase and initial works), and go further in real terms because they aren't eroded by future inflation; they also reduce the risk of cost increases over time.</p>
+      </div>
+      <div style="background:var(--warm);padding:2rem">
+        <h4 style="font-family:'Poppins',sans-serif;font-size:1.25rem;font-weight:600;margin-bottom:0.5rem">Pledge Over 5 Years</h4>
+        <p class="body-md">5-year pledges enable broad participation and sustainable planning, spreading the journey across many seasons.</p>
+      </div>
+    </div>
+    <div style="text-align:center">
+      <button class="btn-primary" style="font-size:1rem;padding:1rem 2.5rem" onclick="window.open('https://ccl.churchsuite.com/donate/fund/pti9a1vc','_blank')">Give Securely</button>
+    </div>
+  </div>
+
+  <!-- Giving by life stage -->
+  <div class="section" style="padding-top:0;padding-bottom:0">
+    <h2 class="heading-md reveal" style="margin-bottom:1.5rem">Equal sacrifice, not equal gifts</h2>
+    <div class="giving-tabs">
+      <button class="giving-tab active" onclick="setTab('students')">Students &amp; Early Career</button>
+      <button class="giving-tab" onclick="setTab('young')">Young Professionals</button>
+      <button class="giving-tab" onclick="setTab('families')">Families</button>
+      <button class="giving-tab" onclick="setTab('established')">Established Givers</button>
+    </div>
+    <div class="giving-panels">
+      <div class="giving-panel active" id="tab-students">
+        <h3>Students / Early-Career Adults</h3>
+        <p class="body-md" style="margin-top:0.5rem">For students and those early in their careers, your capacity will look different, but your participation deeply matters. A small, regular pledge over five years is a powerful way to say: "I'm part of this story." Even £20-£40 a month is genuine sacrifice in this season and sets lifelong patterns of generosity.</p>
+        <p style="font-size:0.85rem;font-weight:600;color:var(--gold);margin-top:1.25rem;margin-bottom:0.5rem">Consider:</p>
+        <ul>
+          <li>A simple monthly pledge</li>
+          <li>A one off gift at a meaningful moment</li>
+          <li>Offering "first fruits" when employment begins</li>
+        </ul>
+        <p class="body-md" style="margin-top:1.25rem;font-style:italic">Half of our church were not here ten years ago. This is your moment to shape our future.</p>
+      </div>
+      <div class="giving-panel" id="tab-young">
+        <h3>Young Professionals / Singles</h3>
+        <p class="body-md" style="margin-top:0.5rem">For those in stable work but without large family costs, this may be a season where you can lean in. A consistent monthly gift, perhaps stretching to the point you feel it, could help lay foundations for ministry and mission far beyond this building.</p>
+        <p style="font-size:0.85rem;font-weight:600;color:var(--gold);margin-top:1.25rem;margin-bottom:0.5rem">Consider:</p>
+        <ul>
+          <li>£30-£100/month</li>
+          <li>A one off "first big generosity step"</li>
+          <li>Committing a work bonus or annual pay rise uplift</li>
+        </ul>
+        <p class="body-md" style="margin-top:1.25rem;font-style:italic">What you give may not be huge in scale, but it can be huge in faith.</p>
+      </div>
+      <div class="giving-panel" id="tab-families">
+        <h3>Families</h3>
+        <p class="body-md" style="margin-top:0.5rem">For families, life is stretched. Childcare, mortgages, rising costs. This building will serve your children and the next generation until Jesus comes again. A thoughtful monthly pledge, perhaps by adjusting lifestyle costs together as a family, is a meaningful act of shared sacrifice.</p>
+        <p style="font-size:0.85rem;font-weight:600;color:var(--gold);margin-top:1.25rem;margin-bottom:0.5rem">Consider:</p>
+        <ul>
+          <li>£50-£200/month depending on means</li>
+          <li>Involving children: a family "giving jar" or shared decision about sacrificing a holiday upgrade or subscription</li>
+          <li>A five-year pledge aligned with existing family budgets</li>
+        </ul>
+        <p class="body-md" style="margin-top:1.25rem;font-style:italic">Your sacrifice is measured in love, not in comparison with others.</p>
+      </div>
+      <div class="giving-panel" id="tab-established">
+        <h3>Established Givers / Empty-Nesters</h3>
+        <p class="body-md" style="margin-top:0.5rem">For those with reduced financial pressures or increased capacity, this could be a once-in-a-generation moment to accelerate our mission growth. We invite you to consider a leadership level gift, not out of pressure, but as worship and vision.</p>
+        <p style="font-size:0.85rem;font-weight:600;color:var(--gold);margin-top:1.25rem;margin-bottom:0.5rem">Consider:</p>
+        <ul>
+          <li>£200-£1,000+/month depending on capacity</li>
+          <li>Larger one-off gifts that anchor planning</li>
+          <li>Multi-year structured commitments</li>
+        </ul>
+        <p class="body-md" style="margin-top:1.25rem;font-style:italic">Some of you have been entrusted with more in this season. If the Lord leads, your generosity could unlock ministry beyond our city, until the Lord returns.</p>
+      </div>
+    </div>
+    <div style="background:var(--stone);padding:2rem;margin-top:1.5rem;border-radius:2px" class="reveal">
+      <p class="body-md">We know our seasons and circumstances differ. Faithfulness isn't measured by the size of the gift, but by the depth of the sacrifice. Please give prayerfully, in line with your means, with joy and realism over the coming years.</p>
+      <p class="body-md" style="margin-top:0.75rem">Before you give, please take time to pray, to talk at home, and to ask: <em>What would sacrificial participation look like in my season?</em></p>
+    </div>
+  </div>
+
+  <!-- Prayer -->
+  <div class="section" style="padding-top:clamp(3rem,6vw,6rem)">
+    <div class="prayer-points reveal">
+      <h3>Faithfully Praying</h3>
+      <p class="body-md" style="margin-bottom:1.25rem">We would love for you to participate in this project by praying faithfully with us over the coming months and years. We also have a weekly online prayer meeting for this project — please email <a href="mailto:office@christchurchliverpool.org" style="color:var(--gold)">office@christchurchliverpool.org</a> for details.</p>
+      <ul>
+        <li>Pray that the final stages of the purchase will go smoothly.</li>
+        <li>Pray for wisdom and discernment about next stages of development (i.e. initial refurbishment etc).</li>
+        <li>Pray for God to work powerfully in people's hearts to give generously.</li>
+        <li>Pray for us as a church that God will continue to cultivate an attitude of being content in the uncomfortable, for the sake of the Gospel.</li>
+      </ul>
+    </div>
+  </div>
+</div><!-- /page-partner -->
+
+
+<!-- ═══════════════════════════════════════
+     PAGE: WHY EDGE LANE
+═══════════════════════════════════════ -->
+<div id="page-edgelane" class="page">
+  <div class="edge-hero">
+    <span class="eyebrow" style="color:rgba(255,255,255,0.6)">The Location</span>
+    <h1 class="heading-xl" style="color:var(--white);margin-top:0.5rem">Why <em>Edge Lane?</em></h1>
+  </div>
+
+  <div class="section">
+    <p class="body-lg reveal" style="max-width:680px;margin:0 auto;text-align:center">145 Edge Lane is right along one of the main arteries of the city at the edge of the city centre. It offers a unique opportunity to secure a long-term, practical home for Christ Church Liverpool in a location that works for people from all over the city. A perfect place to gather people across Liverpool to then be sent out for God's glory.</p>
+  </div>
+
+  <!-- Map: click-to-load -->
+  <div class="map-container" id="mapContainer" onclick="loadMap()">
+    <div class="map-placeholder">
+      <div class="map-pin-icon">
+        <svg width="32" height="40" viewBox="0 0 32 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 0C7.163 0 0 7.163 0 16c0 10 16 24 16 24S32 26 32 16C32 7.163 24.837 0 16 0z" fill="var(--gold)"/>
+          <circle cx="16" cy="16" r="6" fill="white"/>
+        </svg>
+      </div>
+      <p class="map-placeholder-label">145 Edge Lane, Liverpool</p>
+      <span class="map-load-btn">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="margin-right:6px"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M7 4v3l2 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Tap to load map
+      </span>
+    </div>
+  </div>
+
+  <div class="section" style="padding-top:2rem">
+    <div class="edge-reasons">
+      <div class="edge-reason reveal">
+        <h3>Prominent and Highly Visible</h3>
+        <p>Situated on one of Liverpool's major routes into the city centre, the building sits where tens of thousands of people pass by every week. Christ Church Liverpool would become instantly visible to commuters, students, residents and visitors entering the city.</p>
+      </div>
+      <div class="edge-reason reveal reveal-delay-1">
+        <h3>Easy to Reach from Across the City Region</h3>
+        <p>Highly accessible for those who live across Liverpool. Edge Lane provides excellent transport links and is easy to travel to by car.</p>
+      </div>
+      <div class="edge-reason reveal">
+        <h3>Room to Grow</h3>
+        <p>The detached building offers two main floors of usable space, plus a top-floor former flat that can be adapted. As the site stands in its own grounds, we can expand without restrictions. This allows us to create a dedicated church centre, as well as meeting rooms, midweek space, offices and more.</p>
+      </div>
+      <div class="edge-reason reveal reveal-delay-1">
+        <h3>Space for a New Worship Hall</h3>
+        <p>The land beside the building provides enough room to build a large, purpose-built hall seating around 450 people. A one-site home for Sundays and the wider ministries of the church.</p>
+      </div>
+      <div class="edge-reason reveal">
+        <h3>A Long-Term Asset</h3>
+        <p>Although the building requires full refurbishment to meet 2026 standards, once renovated it will have the same lifespan and reliability as a new build does.</p>
+      </div>
+      <div class="edge-reason reveal reveal-delay-1" style="background:var(--ink);color:var(--white)">
+        <h3 style="color:var(--white)">In Summary</h3>
+        <p style="color:rgba(255,255,255,0.7)">Edge Lane gives us visibility, accessibility, space to grow, and the opportunity for a full one-site solution in a strategically significant part of the city.</p>
+        <button class="btn-outline" style="margin-top:1.25rem;border-color:rgba(255,255,255,0.3);color:var(--white);font-size:0.85rem;padding:0.6rem 1.25rem" onclick="showPage('costs')">See costs &amp; phasing →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edge Lane Photo Gallery -->
+  <div class="el-gallery">
+    <div class="el-gallery-header reveal">
+      <span class="eyebrow">The Building</span>
+      <h2>See the site for yourself</h2>
+    </div>
+
+    <div class="el-carousel" id="elCarousel">
+      <div class="el-carousel-track" id="elTrack">
+        <div class="el-carousel-slide is-active">
+  <img src="photos/dsc00010.jpg" alt="Front elevation — car park and entrance" loading="eager">
+</div>
+<div class="el-carousel-slide">
+  <img src="photos/dsc00021.jpg" alt="Corner view from Edge Lane" loading="lazy">
+</div>
+<div class="el-carousel-slide">
+  <img src="photos/dsc00027.jpg" alt="Street view — side elevation" loading="lazy">
+</div>
+<div class="el-carousel-slide">
+  <img src="photos/aerial.jpg" alt="Ground-level view with landscaping potential" loading="lazy">
+</div>
+
+
+        <div class="el-carousel-slide">
+  <img src="photos/dsc00008.jpg" alt="Aerial view of 145 Edge Lane site with boundary marked" loading="lazy">
+</div>
+      </div>
+
+      <!-- Arrows -->
+      <button class="el-carousel-btn el-carousel-btn--prev" onclick="elPrev()" aria-label="Previous photo">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12.5 15L7.5 10L12.5 5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <button class="el-carousel-btn el-carousel-btn--next" onclick="elNext()" aria-label="Next photo">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M7.5 5L12.5 10L7.5 15" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+
+      <!-- Counter + dots -->
+      <div class="el-carousel-bar">
+        <span class="el-carousel-counter" id="elCounter">1 / 5</span>
+        <div class="el-carousel-dots" id="elDots">
+          <button class="el-carousel-dot active" onclick="elGoto(0)" aria-label="Photo 1"></button><button class="el-carousel-dot" onclick="elGoto(1)" aria-label="Photo 2"></button><button class="el-carousel-dot" onclick="elGoto(2)" aria-label="Photo 3"></button><button class="el-carousel-dot" onclick="elGoto(3)" aria-label="Photo 4"></button><button class="el-carousel-dot" onclick="elGoto(4)" aria-label="Photo 5"></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Thumbnail strip -->
+    <div class="el-thumbstrip" id="elThumbs">
+      <button class="el-thumb active" onclick="elGoto(0)" aria-label="Front elevation — car park and entrance">
+  <img src="photos/dsc00010.jpg" alt="Front elevation — car park and entrance" loading="lazy">
+</button>
+<button class="el-thumb" onclick="elGoto(1)" aria-label="Corner view from Edge Lane">
+  <img src="photos/dsc00021.jpg" alt="Corner view from Edge Lane" loading="lazy">
+</button>
+<button class="el-thumb" onclick="elGoto(2)" aria-label="Street view — side elevation">
+  <img src="photos/dsc00027.jpg" alt="Street view — side elevation" loading="lazy">
+</button>
+<button class="el-thumb" onclick="elGoto(3)" aria-label="Ground-level view with landscaping potential">
+  <img src="photos/aerial.jpg" alt="Ground-level view with landscaping potential" loading="lazy">
+</button>
+
+
+<button class="el-thumb" onclick="elGoto(4)" aria-label="Aerial view — site boundary highlighted">
+  <img src="photos/aerial.jpg" alt="Aerial view of 145 Edge Lane site with boundary marked" loading="lazy">
+</button>
+    </div>
+  </div>
+
+</div><!-- /page-edgelane -->
+
+
+<!-- ═══════════════════════════════════════
+     PAGE: COSTS & PHASING
+═══════════════════════════════════════ -->
+<div id="page-costs" class="page">
+  <div class="costs-hero">
+    <div style="max-width:1100px;margin:0 auto">
+      <span class="eyebrow" style="color:var(--gold-light)">Expenses and Costs</span>
+      <h1 class="heading-xl" style="color:var(--white);margin-top:0.5rem;max-width:18ch">To bring 145 Edge Lane into full long-term use</h1>
+      <p style="color:rgba(255,255,255,0.65);font-size:1rem;margin-top:1rem;max-width:55ch;line-height:1.65">The project is divided into clear phases. The actual timing of these works will depend upon fundraising. Our dream would be to do all the works at the same time, so as to maximise efficiencies and cost savings.</p>
+    </div>
+    <div class="cost-phases">
+      <div class="phase-card reveal">
+        <div class="phase-label">Phase 1</div>
+        <h3>Purchase &amp; Essential Works</h3>
+        <div class="phase-cost">£1.4m</div>
+        <p>£1.0m purchase + £0.4m initial works. This phase brings the building into immediate operational use, including key repairs, essential ground-floor refurbishment, and initial compliance work.</p>
+      </div>
+      <div class="phase-card reveal reveal-delay-1">
+        <div class="phase-label">Phase 2</div>
+        <h3>Full Refurbishment</h3>
+        <div class="phase-cost">£1.1m</div>
+        <p>Additional cost (total building refurbishment: £1.5m). This includes roof replacement, lift installation, improved energy efficiency, electrical upgrades, air-conditioning replacement, staircase safety works and full internal finishes.</p>
+      </div>
+      <div class="phase-card reveal reveal-delay-2">
+        <div class="phase-label">Phase 3</div>
+        <h3>New Worship Hall Build</h3>
+        <div class="phase-cost">£2.0m</div>
+        <p>A purpose built hall seating around 450, enabling the whole church to meet on one site with room to grow.</p>
+      </div>
+    </div>
+    <div class="total-banner reveal">
+      <div style="font-family:'Poppins',sans-serif;font-size:clamp(1.5rem,3vw,2.2rem);font-weight:700">Total Estimated Project Cost: £4.5m</div>
+      <p>By comparison, demolishing the existing building and constructing a fully new complex would be approximately £5.8m, making this approach a strong and cost-effective investment.</p>
+    </div>
+  </div>
+
+  <div class="costs-note" style="text-align:center">
+    <span class="eyebrow">Good to Know</span>
+    <p class="body-md" style="margin-top:0.75rem;max-width:640px;margin-left:auto;margin-right:auto">These phases allow us to begin using the site quickly, complete the building systematically, and create a sustainable home for Christ Church Liverpool. Once completed, the building will provide a long-term, high quality, flexible space for church life and midweek ministry.</p>
+    <p class="body-md" style="margin-top:0.75rem;max-width:640px;font-style:italic;margin-left:auto;margin-right:auto">The cover image is an artist's impression — subject to change.</p>
+    <div style="margin-top:1.75rem;display:flex;flex-wrap:wrap;gap:1rem;justify-content:center">
+      <button class="btn-primary" style="background:var(--teal)" onclick="showPage('partner')">Partner With Us</button>
+      <button class="btn-primary" onclick="window.open('https://ccl.churchsuite.com/donate/fund/pti9a1vc','_blank')">Donate Now</button>
+    </div>
+  </div>
+</div><!-- /page-costs -->
+
+
+<!-- ═══════════════════════════════════════
+     PAGE: FAQ
+═══════════════════════════════════════ -->
+<div id="page-faq" class="page">
+  <div class="faq-hero">
+    <span class="eyebrow reveal">Commonly Asked Questions</span>
+    <h1 class="heading-xl reveal reveal-delay-1" style="margin-top:0.5rem">FAQ</h1>
+  </div>
+
+  <div class="faq-list">
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        How will this building become a launching point for church-planting, leadership development and sending workers across Liverpool and beyond?
+        <span class="faq-q-icon">+</span>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">
+          <ul>
+            <li>Bigger capacity. More people means affording more staff, interns, trainees, future missionaries and church plants.</li>
+            <li>Secure (can't be kicked out, a stable base).</li>
+            <li>Designed (better equipment, rooms designed for us, have spaces we don't currently have i.e. library, study space, use of the 3rd floor flat for people to stay).</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        How does a stable hub allow us to train, equip and release more people more effectively than we ever could without it?
+        <span class="faq-q-icon">+</span>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">
+          <ul>
+            <li>Much less time and effort spent on logistics. More time investing in people. The "tools of ministry" are always ready.</li>
+            <li>Helps to cultivate and build a CCL culture. Temporary spaces means we're more fragmented and go off to other places more quickly. More people hanging around creates opportunities for spontaneous discipleship.</li>
+            <li>Visibility and prominence. If we are sending people out, having a stable hub makes it easier and more impactful when people signpost to us. Much harder invite when people don't know who we are or where we are.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        How do we pledge to give money, and when would you want this by?
+        <span class="faq-q-icon">+</span>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">
+          <ol>
+            <li>Log in to My ChurchSuite</li>
+            <li>Click 'My Giving' from the menu at the side of the page</li>
+            <li>Click 'Pledges' at the top of the screen</li>
+            <li>Click 'Add Pledge'</li>
+            <li>From the dropdown menu, choose 'A Home For Our City Project'</li>
+            <li>Follow the instructions at the top of the window, especially around one-off gifts</li>
+            <li>Click 'Save'</li>
+          </ol>
+          <p style="margin-top:1rem">Pledges can be given anytime. They will be invited more formally from Giving Sunday (17th May) and will be explained fully at this point. People are welcome to give and pledge beforehand, if they'd like to.</p>
+        </div>
+      </div>
+    </div>
+    <div class="faq-form-cta">
+      <p>Have a question not answered here? Submit it anonymously and we'll add it to the page.</p>
+      <button class="btn-outline-dark" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSctHg_Mrm3J7yC7SoL58yaMWLKEJIGc4PQMZtJoi_MIolDF8Q/viewform','_blank')">Submit a Question</button>
+    </div>
+  </div>
+</div><!-- /page-faq -->
+
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">Home For <span>Our City</span></div>
+      <p>Christ Church Liverpool is a company limited by guarantee, registered in England &amp; Wales. No. 06683037. Registered charity number No. 1125990.</p>
+      <div class="footer-social" style="margin-top:1rem">
+        <a href="https://www.youtube.com/@ChristChurchLiverpool" target="_blank" title="YouTube">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.6 31.6 0 0 0 0 12a31.6 31.6 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.6 31.6 0 0 0 24 12a31.6 31.6 0 0 0-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg>
+        </a>
+        <a href="https://www.instagram.com/christchurchliverpool/" target="_blank" title="Instagram">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8 0 3.2 0 3.6-.1 4.8-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.9.1-3.2 0-3.6 0-4.8-.1-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12c0-3.2 0-3.6.1-4.8C2.4 3.9 4 2.3 7.2 2.3 8.4 2.2 8.8 2.2 12 2.2zM12 0C8.7 0 8.3 0 7.1.1 2.7.3.3 2.7.1 7.1.0 8.3 0 8.7 0 12s0 3.7.1 4.9C.3 21.3 2.7 23.7 7.1 23.9 8.3 24 8.7 24 12 24s3.7 0 4.9-.1c4.4-.2 6.8-2.6 7-7C24 15.7 24 15.3 24 12s0-3.7-.1-4.9C23.7 2.7 21.3.3 16.9.1 15.7 0 15.3 0 12 0zm0 5.8a6.2 6.2 0 1 0 0 12.4A6.2 6.2 0 0 0 12 5.8zm0 10.2a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.8a1.4 1.4 0 1 0 0 2.8 1.4 1.4 0 0 0 0-2.8z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h5>Navigate</h5>
+      <ul>
+        <li><button onclick="showPage('home')">Home</button></li>
+        <li><button onclick="showPage('story')">Our Story</button></li>
+        <li><button onclick="showPage('challenge')">The Challenge</button></li>
+        <li><button onclick="showPage('achieves')">What This Achieves</button></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>&nbsp;</h5>
+      <ul>
+        <li><button onclick="showPage('partner')">Partner With Us</button></li>
+        <li><button onclick="showPage('edgelane')">Why Edge Lane?</button></li>
+        <li><button onclick="showPage('costs')">Costs &amp; Phasing</button></li>
+        <li><button onclick="showPage('faq')">FAQ</button></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Contact</h5>
+      <p><a href="mailto:office@christchurchliverpool.org">office@christchurchliverpool.org</a></p>
+      <p style="margin-top:0.5rem"><a href="tel:01517031872">0151 703 1872</a></p>
+      <p style="margin-top:0.75rem;font-size:0.8rem">12–14 Gildart Street<br>Liverpool, England L3 8ET</p>
+      <p style="margin-top:0.5rem;font-size:0.8rem">Overbury Street<br>Liverpool, England L7 3HL</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>Copyright Christ Church Liverpool 2026</span>
+    <span>The cover image is an artist's impression — subject to change</span>
+  </div>
+</footer>
+
+
+<script>
+/* ─── PAGE NAVIGATION ─── */
+function showPage(id) {
+  // Hide all
+  document.querySelectorAll('.page').forEach(p => {
+    p.classList.remove('active', 'visible');
+  });
+  // Update nav buttons
+  document.querySelectorAll('[data-page]').forEach(b => b.classList.remove('active'));
+  const active = document.querySelector(`[data-page="${id}"]`);
+  if (active) active.classList.add('active');
+  // Show target
+  const target = document.getElementById('page-' + id);
+  if (target) {
+    target.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Trigger transition
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        target.classList.add('visible');
+        // Re-trigger reveals
+        target.querySelectorAll('.reveal').forEach(el => {
+          el.classList.remove('in');
+        });
+        setTimeout(() => observeReveals(), 100);
+      });
+    });
+  }
+}
+
+/* ─── SCROLL NAV SHADOW ─── */
+window.addEventListener('scroll', () => {
+  document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 20);
+}, { passive: true });
+
+/* ─── HAMBURGER ─── */
+function toggleMenu() {
+  const h = document.getElementById('hamburger');
+  const m = document.getElementById('mobileMenu');
+  h.classList.toggle('open');
+  m.classList.toggle('open');
+  m.style.display = m.classList.contains('open') ? 'flex' : 'none';
+}
+
+/* ─── SCROLL REVEAL ─── */
+function observeReveals() {
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.page.active .reveal:not(.in)').forEach(el => obs.observe(el));
+}
+
+/* ─── FAQ ACCORDION ─── */
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const answer = item.querySelector('.faq-a');
+  const isOpen = item.classList.contains('open');
+  // Close all
+  document.querySelectorAll('.faq-item.open').forEach(i => {
+    i.classList.remove('open');
+    i.querySelector('.faq-a').style.maxHeight = '0';
+  });
+  if (!isOpen) {
+    item.classList.add('open');
+    answer.style.maxHeight = answer.scrollHeight + 'px';
+  }
+}
+
+/* ─── GIVING TABS ─── */
+function setTab(id) {
+  document.querySelectorAll('.giving-tab').forEach((t, i) => {
+    const ids = ['students','young','families','established'];
+    t.classList.toggle('active', ids[i] === id);
+  });
+  document.querySelectorAll('.giving-panel').forEach(p => {
+    p.classList.remove('active');
+  });
+  document.getElementById('tab-' + id).classList.add('active');
+}
+
+/* ─── INIT ─── */
+document.addEventListener('DOMContentLoaded', () => {
+  // Show home page
+  const homePage = document.getElementById('page-home');
+  homePage.classList.add('active');
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      homePage.classList.add('visible');
+      observeReveals();
+    });
+  });
+});
+
+// Observe on scroll too
+window.addEventListener('scroll', () => {
+  document.querySelectorAll('.page.active .reveal:not(.in)').forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight * 0.9) el.classList.add('in');
+  });
+}, { passive: true });
+
+/* ─── TOTALISER ANIMATION ─── */
+function animateTotaliser() {
+  const fill = document.getElementById('totaliserFill');
+  if (!fill) return;
+  // £1.1m of £4.5m = 24.44%
+  const pct = (1.1 / 4.5) * 100;
+  setTimeout(() => { fill.style.width = pct.toFixed(2) + '%'; }, 300);
+}
+// Animate on page load and whenever home page is shown
+document.addEventListener('DOMContentLoaded', () => {
+  animateTotaliser();
+});
+// Also hook into showPage
+const _origShowPage = showPage;
+// Re-trigger if home page is navigated to
+window.addEventListener('DOMContentLoaded', () => {
+  const homeObserver = new MutationObserver(() => {
+    if (document.getElementById('page-home').classList.contains('active')) {
+      animateTotaliser();
+    }
+  });
+  homeObserver.observe(document.getElementById('page-home'), { attributeFilter: ['class'] });
+});
+
+/* ─── PHOTO CAROUSEL ─── */
+(function() {
+  const carouselImgs = [
+  "photos/carousel/slide01.jpg",
+  "photos/carousel/slide02.jpg",
+  "photos/carousel/slide03.jpg",
+  "photos/carousel/slide04.jpg",
+  "photos/carousel/slide05.jpg",
+  "photos/carousel/slide06.jpg",
+  "photos/carousel/slide07.jpg",
+  "photos/carousel/slide08.jpg",
+  "photos/carousel/slide09.jpg",
+  "photos/carousel/slide10.jpg",
+  "photos/carousel/slide11.jpg",
+  "photos/carousel/slide12.jpg",
+  "photos/carousel/slide13.jpg",
+  "photos/carousel/slide14.jpg",
+  "photos/carousel/slide15.jpg",
+  "photos/carousel/slide16.jpg",
+  "photos/carousel/slide17.jpg",
+  "photos/carousel/slide18.jpg",
+  "photos/carousel/slide19.jpg",
+];
+
+  const track = document.getElementById('carouselTrack');
+  const dotsEl = document.getElementById('carouselDots');
+  if (!track || !dotsEl) return;
+
+  let current = 0;
+  let timer = null;
+  const total = carouselImgs.length;
+  const INTERVAL = 3500; // ms between slides
+
+  // Build slides
+  carouselImgs.forEach((src, i) => {
+    const slide = document.createElement('div');
+    slide.className = 'carousel-slide';
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = 'Christ Church Liverpool';
+    img.loading = i === 0 ? 'eager' : 'lazy';
+    slide.appendChild(img);
+    track.appendChild(slide);
+
+    const dot = document.createElement('button');
+    dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+    dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+    dot.addEventListener('click', () => { goTo(i); resetTimer(); });
+    dotsEl.appendChild(dot);
+  });
+
+  function goTo(n) {
+    current = (n + total) % total;
+    track.style.transform = `translateX(-${current * 100}%)`;
+    dotsEl.querySelectorAll('.carousel-dot').forEach((d, i) => {
+      d.classList.toggle('active', i === current);
+    });
+  }
+
+  function next() { goTo(current + 1); }
+
+  function resetTimer() {
+    clearInterval(timer);
+    timer = setInterval(next, INTERVAL);
+  }
+
+  // Pause on hover
+  const wrap = track.closest('.carousel-wrap');
+  wrap.addEventListener('mouseenter', () => clearInterval(timer));
+  wrap.addEventListener('mouseleave', resetTimer);
+
+  // Touch swipe support
+  let touchStartX = 0;
+  wrap.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+  wrap.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 40) { goTo(current + (dx < 0 ? 1 : -1)); resetTimer(); }
+  }, { passive: true });
+
+  // Start
+  resetTimer();
+})();
+
+
+
+/* ─── EDGE LANE GALLERY ─── */
+(function() {
+  const TOTAL = 5;
+  let current = 0;
+  let autoTimer = null;
+  const INTERVAL = 4500;
+
+  const track = document.getElementById('elTrack');
+  const counter = document.getElementById('elCounter');
+  const dots = document.querySelectorAll('#elDots .el-carousel-dot');
+  const thumbs = document.querySelectorAll('#elThumbs .el-thumb');
+  const slides = document.querySelectorAll('#elCarousel .el-carousel-slide');
+
+  function elGotoInternal(n) {
+    slides[current].classList.remove('is-active');
+    thumbs[current].classList.remove('active');
+    dots[current].classList.remove('active');
+    current = (n + TOTAL) % TOTAL;
+    track.style.transform = `translateX(-${current * 100}%)`;
+    slides[current].classList.add('is-active');
+    thumbs[current].classList.add('active');
+    dots[current].classList.add('active');
+    counter.textContent = `${current + 1} / ${TOTAL}`;
+  }
+
+  window.elGoto = function(n) { elGotoInternal(n); resetAuto(); };
+  window.elNext = function() { elGoto(current + 1); };
+  window.elPrev = function() { elGoto(current - 1); };
+
+  function resetAuto() {
+    clearInterval(autoTimer);
+    autoTimer = setInterval(() => elGotoInternal(current + 1), INTERVAL);
+  }
+
+  // Touch swipe
+  const car = document.getElementById('elCarousel');
+  let tx = 0;
+  car.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+  car.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - tx;
+    if (Math.abs(dx) > 40) { elGoto(current + (dx < 0 ? 1 : -1)); }
+  }, { passive: true });
+  car.addEventListener('mouseenter', () => clearInterval(autoTimer));
+  car.addEventListener('mouseleave', resetAuto);
+
+  resetAuto();
+})();
+
+/* ─── CLICK-TO-LOAD MAP ─── */
+function loadMap() {
+  const container = document.getElementById('mapContainer');
+  if (container.classList.contains('loaded')) return;
+  const iframe = document.createElement('iframe');
+  iframe.src = 'https://maps.google.com/maps?q=145+Edge+Lane+Liverpool&output=embed&z=14';
+  iframe.title = '145 Edge Lane, Liverpool';
+  iframe.setAttribute('allowfullscreen', '');
+  iframe.setAttribute('loading', 'lazy');
+  container.appendChild(iframe);
+  container.classList.add('loaded');
+}
+
+</script>
+</body>
+</html>
