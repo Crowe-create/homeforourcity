@@ -130,9 +130,8 @@
     z-index: 99;
     transform: translateX(-100%);
     transition: transform 0.35s var(--ease);
-    /* Use grid so footer is always pinned to bottom */
-    display: grid;
-    grid-template-rows: auto 1fr auto;
+    display: flex;
+    flex-direction: column;
     overflow: hidden;
   }
   .mobile-menu.open { transform: translateX(0); }
@@ -142,6 +141,7 @@
     padding: 1.1rem 1.25rem;
     border-bottom: 1px solid var(--stone);
     min-height: var(--nav-h);
+    flex-shrink: 0;
   }
   .drawer-header .nav-brand { font-size: 1rem; color: var(--ink); }
   .drawer-header .nav-brand span { color: var(--gold); }
@@ -150,12 +150,14 @@
     padding: 6px; border-radius: 4px;
     transition: color 0.2s, background 0.2s;
     display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
   }
   .drawer-close:hover { color: var(--ink); background: var(--stone); }
 
   .drawer-nav {
     display: flex; flex-direction: column;
     padding: 0.5rem 0;
+    flex: 1;
     overflow-y: auto;
   }
   .drawer-nav button {
@@ -176,6 +178,7 @@
   .drawer-footer {
     padding: 1rem 1.25rem 1.5rem;
     border-top: 1px solid var(--stone);
+    flex-shrink: 0;
   }
   .mobile-donate {
     display: block; width: 100%;
