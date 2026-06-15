@@ -59,6 +59,14 @@
     white-space: nowrap;
   }
   .nav-brand span { color: var(--gold); }
+  .nav-logo {
+    height: 38px; width: 38px;
+    object-fit: contain;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 0.6rem;
+    position: relative; top: -1px;
+  }
   .nav-links {
     display: flex; align-items: center; gap: 0.25rem;
     list-style: none;
@@ -90,6 +98,7 @@
     flex-direction: column; gap: 5px; padding: 6px;
     border-radius: 4px;
     transition: background 0.2s;
+    order: -1;
   }
   .hamburger:hover { background: var(--stone); }
   .hamburger span {
@@ -100,31 +109,82 @@
   .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
   .hamburger.open span:nth-child(2) { opacity: 0; }
   .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-  .mobile-menu {
+
+  /* ─── DRAWER OVERLAY ─── */
+  .drawer-overlay {
     display: none;
-    position: fixed; top: var(--nav-h); left: 0; right: 0;
-    background: var(--warm);
-    border-bottom: 1px solid var(--stone);
-    padding: 1rem;
+    position: fixed; inset: 0; z-index: 98;
+    background: rgba(10, 25, 35, 0);
+    transition: background 0.35s var(--ease);
+  }
+  .drawer-overlay.open {
+    display: block;
+    background: rgba(10, 25, 35, 0.55);
+  }
+
+  /* ─── MOBILE DRAWER ─── */
+  .mobile-menu {
+    display: flex;
+    flex-direction: column;
+    position: fixed; top: 0; left: 0; bottom: 0;
+    width: min(80vw, 300px);
+    background: var(--ink);
     z-index: 99;
-    flex-direction: column; gap: 0.25rem;
-    transform: translateY(-20px); opacity: 0;
-    transition: transform 0.3s var(--ease), opacity 0.3s var(--ease);
+    transform: translateX(-100%);
+    transition: transform 0.35s var(--ease);
+    overflow-y: auto;
   }
-  .mobile-menu.open { transform: translateY(0); opacity: 1; }
-  .mobile-menu button {
-    width: 100%; text-align: left;
-    font-size: 0.95rem; font-weight: 500;
-    color: var(--mid); padding: 0.75rem 1rem;
-    border-radius: 6px;
+  .mobile-menu.open { transform: translateX(0); }
+
+  .drawer-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.1rem 1.25rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    min-height: var(--nav-h);
+  }
+  .drawer-header .nav-brand { font-size: 1rem; }
+  .drawer-header .nav-brand span { color: var(--gold); }
+  .drawer-close {
+    color: rgba(255,255,255,0.6);
+    padding: 6px; border-radius: 4px;
     transition: color 0.2s, background 0.2s;
+    display: flex; align-items: center; justify-content: center;
   }
-  .mobile-menu button:hover { color: var(--ink); background: var(--stone); }
+  .drawer-close:hover { color: var(--white); background: rgba(255,255,255,0.1); }
+
+  .drawer-nav {
+    display: flex; flex-direction: column;
+    padding: 0.75rem 0;
+    flex: 1;
+  }
+  .drawer-nav button {
+    width: 100%; text-align: left;
+    font-size: 1rem; font-weight: 500;
+    color: rgba(255,255,255,0.75);
+    padding: 0.85rem 1.5rem;
+    border-radius: 0;
+    transition: color 0.2s, background 0.2s;
+    border-left: 2px solid transparent;
+  }
+  .drawer-nav button:hover {
+    color: var(--white);
+    background: rgba(255,255,255,0.07);
+    border-left-color: var(--gold);
+  }
+
+  .drawer-footer {
+    padding: 1rem 1.25rem 1.5rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
   .mobile-donate {
+    display: block; width: 100%;
     background: var(--gold) !important;
     color: var(--white) !important;
     font-weight: 600 !important;
-    margin-top: 0.5rem;
+    padding: 0.85rem 1rem;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 0.95rem;
   }
 
   /* ─── PAGE SYSTEM ─── */
@@ -738,7 +798,6 @@
   @media (max-width: 640px) {
     .nav-links { display: none; }
     .hamburger { display: flex; }
-    .mobile-menu { display: flex; }
     .totaliser-header { flex-direction: column; align-items: flex-start; gap: 0.25rem; }
     .homes-grid { grid-template-columns: 1fr; }
     .challenge-card { grid-template-columns: 1fr; }
@@ -999,7 +1058,10 @@
 
 <!-- ═══ NAV ═══ -->
 <nav id="mainNav">
-  <div class="nav-brand">Home For <span>Our City</span></div>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-brand"><img src="data:image/png;base64,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" alt="Christ Church Liverpool" class="nav-logo">Home For <span>Our City</span></div>
   <ul class="nav-links">
     <li><button onclick="showPage('home')" class="active" data-page="home">Home</button></li>
     <li><button onclick="showPage('story')" data-page="story">Our Story</button></li>
@@ -1011,22 +1073,32 @@
     <li><button onclick="showPage('faq')" data-page="faq">FAQ</button></li>
     <li><button class="nav-donate" onclick="window.open('https://ccl.churchsuite.com/donate/fund/pti9a1vc','_blank')">Donate</button></li>
   </ul>
-  <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
 </nav>
 
-<!-- Mobile menu -->
+<!-- Mobile drawer overlay -->
+<div class="drawer-overlay" id="drawerOverlay" onclick="closeMenu()"></div>
+
+<!-- Mobile drawer -->
 <div class="mobile-menu" id="mobileMenu">
-  <button onclick="showPage('home');toggleMenu()">Home</button>
-  <button onclick="showPage('story');toggleMenu()">Our Story</button>
-  <button onclick="showPage('challenge');toggleMenu()">The Challenge</button>
-  <button onclick="showPage('achieves');toggleMenu()">What This Achieves</button>
-  <button onclick="showPage('partner');toggleMenu()">Partner With Us</button>
-  <button onclick="showPage('edgelane');toggleMenu()">Why Edge Lane?</button>
-  <button onclick="showPage('costs');toggleMenu()">Costs &amp; Phasing</button>
-  <button onclick="showPage('faq');toggleMenu()">FAQ</button>
-  <button class="mobile-donate" onclick="window.open('https://ccl.churchsuite.com/donate/fund/pti9a1vc','_blank');toggleMenu()">Donate Now</button>
+  <div class="drawer-header">
+    <div class="nav-brand" style="color:var(--white)"><img src="data:image/png;base64,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" alt="Christ Church Liverpool" class="nav-logo">Home For <span>Our City</span></div>
+    <button class="drawer-close" onclick="closeMenu()" aria-label="Close menu">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 4l12 12M16 4L4 16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+  <nav class="drawer-nav">
+    <button onclick="showPage('home');closeMenu()">Home</button>
+    <button onclick="showPage('story');closeMenu()">Our Story</button>
+    <button onclick="showPage('challenge');closeMenu()">The Challenge</button>
+    <button onclick="showPage('achieves');closeMenu()">What This Achieves</button>
+    <button onclick="showPage('partner');closeMenu()">Partner With Us</button>
+    <button onclick="showPage('edgelane');closeMenu()">Why Edge Lane?</button>
+    <button onclick="showPage('costs');closeMenu()">Costs &amp; Phasing</button>
+    <button onclick="showPage('faq');closeMenu()">FAQ</button>
+  </nav>
+  <div class="drawer-footer">
+    <button class="mobile-donate" onclick="window.open('https://ccl.churchsuite.com/donate/fund/pti9a1vc','_blank');closeMenu()">Donate Now</button>
+  </div>
 </div>
 
 <!-- ═══════════════════════════════════════
@@ -1038,7 +1110,7 @@
   <section class="hero">
     <!-- Full-bleed background image -->
     <div class="hero-bg">
-      <img src="photos/dsc00008.jpg" alt="Artist's impression of 145 Edge Lane, Liverpool">
+      <img src="photos/hero.jpg" alt="Artist's impression of 145 Edge Lane, Liverpool">
     </div>
     <!-- Overlaid text content -->
     <div class="hero-content">
@@ -1906,13 +1978,54 @@ window.addEventListener('scroll', () => {
 }, { passive: true });
 
 /* ─── HAMBURGER ─── */
-function toggleMenu() {
-  const h = document.getElementById('hamburger');
-  const m = document.getElementById('mobileMenu');
-  h.classList.toggle('open');
-  m.classList.toggle('open');
-  m.style.display = m.classList.contains('open') ? 'flex' : 'none';
+function openMenu() {
+  document.getElementById('hamburger').classList.add('open');
+  document.getElementById('mobileMenu').classList.add('open');
+  document.getElementById('drawerOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
 }
+function closeMenu() {
+  document.getElementById('hamburger').classList.remove('open');
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.getElementById('drawerOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function toggleMenu() {
+  const isOpen = document.getElementById('mobileMenu').classList.contains('open');
+  isOpen ? closeMenu() : openMenu();
+}
+
+/* ─── SWIPE-TO-OPEN DRAWER ─── */
+(function() {
+  const EDGE_ZONE = 24;
+  const THRESHOLD = 60;
+  let startX = 0, startY = 0, tracking = false;
+
+  document.addEventListener('touchstart', function(e) {
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+    tracking = startX < EDGE_ZONE;
+  }, { passive: true });
+
+  document.addEventListener('touchend', function(e) {
+    if (!tracking) return;
+    const dx = e.changedTouches[0].clientX - startX;
+    const dy = Math.abs(e.changedTouches[0].clientY - startY);
+    if (dx > THRESHOLD && dy < 80) openMenu();
+    tracking = false;
+  }, { passive: true });
+
+  // Swipe left to close when drawer is open
+  const drawer = document.getElementById('mobileMenu');
+  let dStartX = 0;
+  drawer.addEventListener('touchstart', function(e) {
+    dStartX = e.touches[0].clientX;
+  }, { passive: true });
+  drawer.addEventListener('touchend', function(e) {
+    const dx = e.changedTouches[0].clientX - dStartX;
+    if (dx < -60) closeMenu();
+  }, { passive: true });
+})();
 
 /* ─── SCROLL REVEAL ─── */
 function observeReveals() {
