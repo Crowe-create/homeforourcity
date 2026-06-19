@@ -52,11 +52,15 @@
   nav.scrolled { box-shadow: 0 2px 24px rgba(0,0,0,0.08); }
   .nav-brand {
     font-family: 'Poppins', sans-serif;
-    font-size: 1.15rem;
+    font-size: clamp(0.95rem, 0.756rem + 0.0303vw, 1.15rem);
     font-weight: 600;
     letter-spacing: 0.01em;
     color: var(--ink);
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-shrink: 1;
+    min-width: 0;
   }
   .nav-brand span { color: var(--gold); }
   .nav-logo {
@@ -68,14 +72,16 @@
     position: relative; top: -1px;
   }
   .nav-links {
-    display: flex; align-items: center; gap: 0.25rem;
+    display: flex; align-items: center;
+    gap: clamp(0rem, -0.242rem + 0.0379vw, 0.25rem);
     list-style: none;
+    flex-shrink: 0;
   }
   .nav-links button {
-    font-size: 0.8rem;
+    font-size: clamp(0.68rem, 0.564rem + 0.0182vw, 0.8rem);
     font-weight: 500;
     color: var(--mid);
-    padding: 0.4rem 0.65rem;
+    padding: 0.4rem clamp(0.3rem, -0.039rem + 0.0530vw, 0.65rem);
     border-radius: 4px;
     transition: color 0.2s, background 0.2s;
     letter-spacing: 0.02em;
@@ -88,7 +94,7 @@
   .nav-donate {
     background: var(--gold) !important;
     color: var(--white) !important;
-    padding: 0.45rem 1rem !important;
+    padding: 0.45rem clamp(0.6rem, 0.212rem + 0.0606vw, 1rem) !important;
     border-radius: 4px !important;
     font-weight: 600 !important;
   }
@@ -581,9 +587,16 @@
     gap: 0;
     border-bottom: 1px solid var(--stone);
     background: var(--warm);
-    transition: background 0.2s;
+    transition: background 0.25s, transform 0.25s, box-shadow 0.25s;
+    position: relative;
+    z-index: 1;
   }
-  .achieves-row:hover { background: #f3efe5; }
+  .achieves-row:hover {
+    background: var(--white);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(15,45,61,0.08);
+    z-index: 2;
+  }
   .achieves-icon-col {
     display: flex; align-items: center; justify-content: center;
     padding: clamp(1.5rem, 3vw, 2rem);
@@ -676,9 +689,16 @@
   .edge-reasons { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--stone); }
   .edge-reason {
     background: var(--warm); padding: 2rem 2.25rem;
-    transition: background 0.2s;
+    transition: background 0.25s, transform 0.25s, box-shadow 0.25s;
+    position: relative;
+    z-index: 1;
   }
-  .edge-reason:hover { background: var(--white); }
+  .edge-reason:hover {
+    background: var(--white);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(15,45,61,0.08);
+    z-index: 2;
+  }
   .edge-reason h3 {
     font-family: 'Poppins', sans-serif;
     font-size: 1.3rem; font-weight: 600; margin-bottom: 0.5rem;
@@ -855,6 +875,7 @@
     margin: 0 auto;
     padding: 0 clamp(1.25rem, 5vw, 3rem);
     margin-bottom: 2rem;
+    text-align: center;
   }
   .el-gallery-header .eyebrow { display: block; margin-bottom: 0.4rem; }
   .el-gallery-header h2 {
@@ -1083,10 +1104,10 @@
   /* Touch: remove hover effects that feel wrong on mobile */
   @media (hover: none) {
     .home-card:hover { transform: none; background: var(--warm); }
-    .edge-reason:hover { background: var(--warm); }
+    .edge-reason:hover { background: var(--warm); transform: none; box-shadow: none; }
     .challenge-card:hover { background: transparent; }
     .problem-card:hover { background: var(--ink); }
-    .achieves-row:hover { background: var(--warm); }
+    .achieves-row:hover { background: var(--warm); transform: none; box-shadow: none; }
   }
 
 </style>
@@ -1104,9 +1125,9 @@
     <li><button onclick="showPage('story')" data-page="story">Our Story</button></li>
     <li><button onclick="showPage('challenge')" data-page="challenge">The Challenge</button></li>
     <li><button onclick="showPage('achieves')" data-page="achieves">What This Means</button></li>
-    <li><button onclick="showPage('partner')" data-page="partner">Partner With Us</button></li>
     <li><button onclick="showPage('edgelane')" data-page="edgelane">Why Edge Lane?</button></li>
     <li><button onclick="showPage('costs')" data-page="costs">Costs &amp; Phasing</button></li>
+    <li><button onclick="showPage('partner')" data-page="partner">Partner With Us</button></li>
     <li><button onclick="showPage('faq')" data-page="faq">FAQ</button></li>
     <li><button class="nav-donate" onclick="window.open('https://ccl.churchsuite.com/donate/fund/pti9a1vc','_blank')">Donate</button></li>
   </ul>
@@ -1128,9 +1149,9 @@
     <button onclick="showPage('story');closeMenu()">Our Story</button>
     <button onclick="showPage('challenge');closeMenu()">The Challenge</button>
     <button onclick="showPage('achieves');closeMenu()">What This Means</button>
-    <button onclick="showPage('partner');closeMenu()">Partner With Us</button>
     <button onclick="showPage('edgelane');closeMenu()">Why Edge Lane?</button>
     <button onclick="showPage('costs');closeMenu()">Costs &amp; Phasing</button>
+    <button onclick="showPage('partner');closeMenu()">Partner With Us</button>
     <button onclick="showPage('faq');closeMenu()">FAQ</button>
   </nav>
   <div class="drawer-footer">
@@ -1281,11 +1302,10 @@
     <div class="home-card">
       <div class="home-card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
   <circle cx="24" cy="24" r="18"/>
-  <path d="M6 24 Q16 20 24 24 Q32 28 42 24"/>
-  <path d="M6 24 Q16 28 24 24 Q32 20 42 24"/>
-  <line x1="24" y1="6" x2="24" y2="42"/>
-  <path d="M14 9 Q18 18 18 24 Q18 30 14 39"/>
-  <path d="M34 9 Q30 18 30 24 Q30 30 34 39"/>
+  <ellipse cx="24" cy="24" rx="8" ry="18"/>
+  <line x1="6" y1="24" x2="42" y2="24"/>
+  <path d="M9 15 Q24 19 39 15"/>
+  <path d="M9 33 Q24 29 39 33"/>
 </svg></div>
       <h3>Mission</h3>
       <p>A visible, accessible base from which we can serve Liverpool with consistency, compassion, and hospitality.</p>
@@ -1773,7 +1793,8 @@
       <h2>See the site for yourself</h2>
     </div>
 
-    <div class="el-carousel" id="elCarousel">
+    <div style="max-width:1100px;margin:0 auto">
+      <div class="el-carousel" id="elCarousel">
       <div class="el-carousel-track" id="elTrack">
         <div class="el-carousel-slide is-active">
   <img src="photos/dsc00010.jpg" alt="Front elevation — car park and entrance" loading="eager">
@@ -1834,6 +1855,7 @@
 <button class="el-thumb" onclick="elGoto(4)" aria-label="Aerial view — site boundary highlighted">
   <img src="photos/aerial.jpg" alt="Aerial view of 145 Edge Lane site with boundary marked" loading="lazy">
 </button>
+    </div>
     </div>
   </div>
 
@@ -1962,9 +1984,9 @@
     <div class="footer-col">
       <h5>&nbsp;</h5>
       <ul>
-        <li><button onclick="showPage('partner')">Partner With Us</button></li>
         <li><button onclick="showPage('edgelane')">Why Edge Lane?</button></li>
         <li><button onclick="showPage('costs')">Costs &amp; Phasing</button></li>
+        <li><button onclick="showPage('partner')">Partner With Us</button></li>
         <li><button onclick="showPage('faq')">FAQ</button></li>
       </ul>
     </div>
@@ -2284,7 +2306,7 @@ window.addEventListener('DOMContentLoaded', () => {
   resetAuto();
 })();
 
-/* ─── CLICK-TO-LOAD MAP ─── */
+/* ─── CLICK-TO-LOAD MAP (mobile) / AUTO-LOAD (desktop) ─── */
 function loadMap() {
   const container = document.getElementById('mapContainer');
   if (container.classList.contains('loaded')) return;
@@ -2295,6 +2317,9 @@ function loadMap() {
   iframe.setAttribute('loading', 'lazy');
   container.appendChild(iframe);
   container.classList.add('loaded');
+}
+if (window.innerWidth > 640) {
+  loadMap();
 }
 
 </script>
