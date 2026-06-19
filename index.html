@@ -125,24 +125,24 @@
   /* ─── MOBILE DRAWER ─── */
   .mobile-menu {
     position: fixed;
-    top: 0; left: 0; right: auto; bottom: 0;
+    top: 0; left: 0; bottom: 0;
     width: min(80vw, 300px);
     background: var(--warm);
     z-index: 99;
     transform: translateX(-100%);
     transition: transform 0.35s var(--ease);
     overflow: hidden;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: 100%;
   }
   .mobile-menu.open { transform: translateX(0); }
 
   .drawer-header {
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: var(--nav-h);
+    grid-row: 1;
     display: flex; align-items: center; justify-content: space-between;
-    padding: 0 1.25rem;
+    padding: 1.1rem 1.25rem;
     border-bottom: 1px solid var(--stone);
-    background: var(--warm);
     box-sizing: border-box;
   }
   .drawer-header .nav-brand { font-size: 1rem; color: var(--ink); }
@@ -157,11 +157,16 @@
   .drawer-close:hover { color: var(--ink); background: var(--stone); }
 
   .drawer-nav {
-    position: absolute;
-    top: var(--nav-h);
-    left: 0; right: 0;
-    bottom: 92px;
+    position: static;
+    grid-row: 2;
     display: block;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    z-index: auto;
+    background: none;
+    backdrop-filter: none;
+    border-bottom: none;
     padding: 0.5rem 0;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
@@ -184,12 +189,9 @@
   }
 
   .drawer-footer {
-    position: absolute;
-    left: 0; right: 0; bottom: 0;
-    height: 92px;
+    grid-row: 3;
     padding: 1rem 1.25rem 1.5rem;
     border-top: 1px solid var(--stone);
-    background: var(--warm);
     box-sizing: border-box;
   }
   .mobile-donate {
