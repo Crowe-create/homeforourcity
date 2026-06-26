@@ -97,6 +97,7 @@
     padding: 0.45rem clamp(0.6rem, 0.212rem + 0.0606vw, 1rem) !important;
     border-radius: 4px !important;
     font-weight: 600 !important;
+    margin-left: 0.5rem;
   }
   .nav-donate:hover { background: var(--gold-light) !important; }
   .hamburger {
@@ -287,14 +288,15 @@
     padding: calc(var(--nav-h) + 2rem) clamp(1.25rem, 5vw, 4rem) 5.5rem;
     width: 100%; max-width: 860px;
   }
-  /* Scroll-down cue */
+  /* Scroll-down cue — centred below CTA buttons */
   .hero-scroll-cue {
     position: absolute; z-index: 3;
-    bottom: 1.5rem; left: 50%; transform: translateX(-50%);
-    display: flex; flex-direction: column; align-items: center; gap: 0.3rem;
+    left: 50%; transform: translateX(-50%);
+    bottom: 5.5rem; /* aligns with CTA button row */
+    display: flex; flex-direction: column; align-items: center; gap: 0.25rem;
     color: rgba(255,255,255,0.5);
     font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase;
-    animation: cue-fade 2.5s ease-in-out infinite;
+    white-space: nowrap;
   }
   .hero-scroll-cue svg {
     width: 20px; height: 20px;
@@ -304,9 +306,8 @@
     0%, 100% { transform: translateY(0); opacity: 0.5; }
     50%       { transform: translateY(5px); opacity: 0.9; }
   }
-  @keyframes cue-fade {
-    0%, 100% { opacity: 0.6; }
-    50%       { opacity: 1; }
+  @media (max-width: 640px) {
+    .hero-scroll-cue { display: none; }
   }
   .hero-tagline {
     font-family: 'Poppins', sans-serif;
@@ -1246,14 +1247,14 @@
         <button class="btn-outline" onclick="showPage('story')">Our Story</button>
       </div>
     </div>
-    <span class="hero-caption">Artist's impression — subject to change</span>
-    <!-- Scroll cue -->
+    <!-- Scroll cue: centred to the full hero width -->
     <div class="hero-scroll-cue" aria-hidden="true">
-      <span>Scroll</span>
       <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M4 7l6 6 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
+      <span>Scroll</span>
     </div>
+    <span class="hero-caption">Artist's impression — subject to change</span>
   </section>
 
   <!-- Stats bar -->
