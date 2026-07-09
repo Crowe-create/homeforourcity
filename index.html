@@ -1326,7 +1326,7 @@
   <div class="totaliser" id="totaliser">
     <div class="totaliser-header">
       <div class="totaliser-title">Capital Campaign Progress</div>
-      <div class="totaliser-raised">£1.1m <span>raised of £4.5m goal</span></div>
+      <div class="totaliser-raised">£1.64m <span>raised of £4.5m goal</span></div>
     </div>
     <div class="totaliser-track">
       <!-- Phase ticks: £1.4m (31.1%) and £2.5m (55.6%) -->
@@ -2624,8 +2624,8 @@ window.addEventListener('scroll', () => {
 function animateTotaliser() {
   const fill = document.getElementById('totaliserFill');
   if (!fill) return;
-  // £1.1m of £4.5m = 24.44%
-  const pct = (1.1 / 4.5) * 100;
+  // £1.64m of £4.5m = 36.44%
+  const pct = (1.64 / 4.5) * 100;
   setTimeout(() => { fill.style.width = pct.toFixed(2) + '%'; }, 300);
 }
 // Animate on page load and whenever home page is shown
