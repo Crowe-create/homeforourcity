@@ -141,7 +141,7 @@
     list-style: none;
     flex-shrink: 0;
   }
-  .nav-links button {
+  .nav-links a {
     font-size: clamp(0.68rem, 0.564rem + 0.0182vw, 0.8rem);
     font-weight: 500;
     color: var(--mid);
@@ -151,7 +151,7 @@
     letter-spacing: 0.02em;
     white-space: nowrap;
   }
-  .nav-links button:hover, .nav-links button.active {
+  .nav-links a:hover, .nav-links a.active {
     color: var(--ink);
     background: var(--stone);
   }
@@ -242,7 +242,7 @@
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
   }
-  .drawer-nav button {
+  .drawer-nav a {
     display: block;
     width: 100%; text-align: left;
     font-size: 1rem; font-weight: 500;
@@ -253,7 +253,7 @@
     border-left: 2px solid transparent;
     box-sizing: border-box;
   }
-  .drawer-nav button:hover {
+  .drawer-nav a:hover {
     color: var(--ink);
     background: var(--stone);
     border-left-color: var(--gold);
@@ -906,12 +906,6 @@
   }
   .footer-col ul { list-style: none; }
   .footer-col ul li { margin-bottom: 0.35rem; }
-  .footer-col ul li button {
-    font-size: 0.84rem; color: rgba(255,255,255,0.55);
-    transition: color 0.2s; background: none; border: none;
-    cursor: pointer; font-family: inherit; padding: 0;
-  }
-  .footer-col ul li button:hover { color: var(--gold); }
   .footer-col a { font-size: 0.84rem; color: rgba(255,255,255,0.55); transition: color 0.2s; }
   .footer-col a:hover { color: var(--gold); }
   .footer-bottom {
@@ -1216,32 +1210,16 @@
   }
 
 
-  /* ─── MOBILE: tappable brand title ─── */
-  @media (max-width: 640px) {
-    .nav-brand-link {
-      background: none;
-      border: none;
-      padding: 0;
-      margin: 0;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      text-align: left;
-      flex-shrink: 1;
-      min-width: 0;
-      overflow: hidden;
-    }
-    .nav-brand-link:active .nav-brand {
-      opacity: 0.7;
-    }
+  /* ─── Brand title links home ─── */
+  .nav-brand-link {
+    display: flex;
+    align-items: center;
+    text-align: left;
+    flex-shrink: 1;
+    min-width: 0;
+    overflow: hidden;
   }
-  @media (min-width: 641px) {
-    .nav-brand-link {
-      display: contents;
-      pointer-events: none;
-      cursor: default;
-    }
-  }
+  .nav-brand-link:active .nav-brand { opacity: 0.7; }
 </style>
 </head>
 <body>
@@ -1251,17 +1229,17 @@
   <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
     <span></span><span></span><span></span>
   </button>
-  <button class="nav-brand-link" onclick="showPage('home')" aria-label="Go to home page"><div class="nav-brand"><img src="data:image/png;base64,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" alt="Christ Church Liverpool" class="nav-logo">Home For <span>Our City</span></div></button>
+  <a class="nav-brand-link" href="#home" aria-label="Go to home page"><div class="nav-brand"><img src="data:image/png;base64,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" alt="Christ Church Liverpool" class="nav-logo">Home For <span>Our City</span></div></a>
   <ul class="nav-links">
-    <li><button onclick="showPage('home')" class="active" data-page="home">Home</button></li>
-    <li><button onclick="showPage('story')" data-page="story">Our Story</button></li>
-    <li><button onclick="showPage('challenge')" data-page="challenge">The Challenge</button></li>
-    <li><button onclick="showPage('achieves')" data-page="achieves">What This Means</button></li>
-    <li><button onclick="showPage('edgelane')" data-page="edgelane">Why Edge Lane?</button></li>
-    <li><button onclick="showPage('costs')" data-page="costs">Costs &amp; Phasing</button></li>
-    <li><button onclick="showPage('partner')" data-page="partner">Partner With Us</button></li>
-    <li><button onclick="showPage('faq')" data-page="faq">FAQ</button></li>
-    <li><button class="nav-donate" onclick="window.open('https://ccl.churchsuite.com/donate/fund/pti9a1vc','_blank')">Donate</button></li>
+    <li><a href="#home" class="active" data-page="home">Home</a></li>
+    <li><a href="#story" data-page="story">Our Story</a></li>
+    <li><a href="#challenge" data-page="challenge">The Challenge</a></li>
+    <li><a href="#achieves" data-page="achieves">What This Means</a></li>
+    <li><a href="#edgelane" data-page="edgelane">Why Edge Lane?</a></li>
+    <li><a href="#costs" data-page="costs">Costs &amp; Phasing</a></li>
+    <li><a href="#partner" data-page="partner">Partner With Us</a></li>
+    <li><a href="#faq" data-page="faq">FAQ</a></li>
+    <li><a class="nav-donate" href="https://ccl.churchsuite.com/donate/fund/pti9a1vc" target="_blank" rel="noopener">Donate</a></li>
   </ul>
 </nav>
 
@@ -1277,17 +1255,17 @@
     </button>
   </div>
   <nav class="drawer-nav">
-    <button onclick="showPage('home');closeMenu()">Home</button>
-    <button onclick="showPage('story');closeMenu()">Our Story</button>
-    <button onclick="showPage('challenge');closeMenu()">The Challenge</button>
-    <button onclick="showPage('achieves');closeMenu()">What This Means</button>
-    <button onclick="showPage('edgelane');closeMenu()">Why Edge Lane?</button>
-    <button onclick="showPage('costs');closeMenu()">Costs &amp; Phasing</button>
-    <button onclick="showPage('partner');closeMenu()">Partner With Us</button>
-    <button onclick="showPage('faq');closeMenu()">FAQ</button>
+    <a href="#home">Home</a>
+    <a href="#story">Our Story</a>
+    <a href="#challenge">The Challenge</a>
+    <a href="#achieves">What This Means</a>
+    <a href="#edgelane">Why Edge Lane?</a>
+    <a href="#costs">Costs &amp; Phasing</a>
+    <a href="#partner">Partner With Us</a>
+    <a href="#faq">FAQ</a>
   </nav>
   <div class="drawer-footer">
-    <button class="mobile-donate" onclick="window.open('https://ccl.churchsuite.com/donate/fund/pti9a1vc','_blank');closeMenu()">Donate Now</button>
+    <a class="mobile-donate" href="https://ccl.churchsuite.com/donate/fund/pti9a1vc" target="_blank" rel="noopener">Donate Now</a>
   </div>
 </div>
 
@@ -1308,8 +1286,8 @@
       <h1 class="hero-tagline">A Home For Our<br>City, <em>and Beyond</em></h1>
       <p class="hero-sub">A place to belong, be equipped, and be sent<br>for the good of Liverpool and the wider world.</p>
       <div class="hero-ctas">
-        <button class="btn-primary" onclick="showPage('partner')">Partner With Us</button>
-        <button class="btn-outline" onclick="showPage('story')">Our Story</button>
+        <a class="btn-primary" href="#partner">Partner With Us</a>
+        <a class="btn-outline" href="#story">Our Story</a>
       </div>
     </div>
     <!-- Scroll cue: centred to the full hero width -->
@@ -1352,7 +1330,7 @@
         <h2 class="heading-lg reveal reveal-delay-1" style="margin-bottom:1rem">Since 2003, a vibrant city centre church family</h2>
         <p class="body-lg reveal reveal-delay-2">Since 2003, <a href="https://www.christchurchliverpool.org/" target="_blank" rel="noopener" style="color:var(--gold);text-decoration:underline;text-underline-offset:3px;">Christ Church Liverpool</a> has grown into a vibrant city centre church family, training and sending people across Liverpool and beyond. Church planting and training is at the very core of who we are. By God's grace, we've planted or helped revitalise six churches, and we partner with other organisations who seek to equip the church.</p>
         <div style="margin-top:1.75rem" class="reveal reveal-delay-3">
-          <button class="btn-outline-dark" onclick="showPage('story')">Read our full story →</button>
+          <a class="btn-outline-dark" href="#story">Read our full story →</a>
         </div>
       </div>
       <!-- Auto-scrolling photo carousel -->
@@ -1388,7 +1366,7 @@
         </div>
       </div>
       <div style="margin-top:2rem;text-align:center">
-        <button class="btn-outline" style="border-color:rgba(255,255,255,0.3);color:var(--white)" onclick="showPage('challenge')">See the full challenge →</button>
+        <a class="btn-outline" style="border-color:rgba(255,255,255,0.3);color:var(--white)" href="#challenge">See the full challenge →</a>
       </div>
     </div>
   </div>
@@ -1479,8 +1457,8 @@
     <span class="eyebrow" style="color:rgba(255,255,255,0.7)">Come and find out more</span>
     <h2 style="font-family:'Poppins',sans-serif;font-size:clamp(1.5rem,3vw,2.2rem);color:var(--white);margin:0.5rem 0 1.5rem;font-weight:600">Invest in God's kingdom work in Liverpool, and beyond</h2>
     <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
-      <button class="btn-primary" style="background:var(--white);color:var(--gold)" onclick="window.open('https://ccl.churchsuite.com/donate/fund/pti9a1vc','_blank')">Give Securely</button>
-      <button class="btn-outline" style="border-color:rgba(255,255,255,0.5);color:var(--white)" onclick="showPage('partner')">More Ways to Partner</button>
+      <a class="btn-primary" style="background:var(--white);color:var(--gold)" href="https://ccl.churchsuite.com/donate/fund/pti9a1vc" target="_blank" rel="noopener">Give Securely</a>
+      <a class="btn-outline" style="border-color:rgba(255,255,255,0.5);color:var(--white)" href="#partner">More Ways to Partner</a>
     </div>
   </div>
 
@@ -1491,13 +1469,13 @@
         <span class="eyebrow">Location</span>
         <h3 class="heading-md" style="margin:0.5rem 0 0.75rem">Why Edge Lane?</h3>
         <p class="body-md">The site is located on Edge Lane, a major artery into the heart of the city. Alongside the University of Liverpool, Royal Liverpool Hospital, and Cancer Research centre. Accessible, visible, and spacious — with room for a 400-seat auditorium.</p>
-        <button class="btn-outline-dark" style="margin-top:1.25rem;font-size:0.85rem;padding:0.6rem 1.25rem" onclick="showPage('edgelane')">Find out more →</button>
+        <a class="btn-outline-dark" style="margin-top:1.25rem;font-size:0.85rem;padding:0.6rem 1.25rem" href="#edgelane">Find out more →</a>
       </div>
       <div class="reveal reveal-delay-1" style="background:var(--ink);padding:2.5rem;border-radius:2px;color:var(--white)">
         <span class="eyebrow">The Numbers</span>
         <h3 class="heading-md" style="margin:0.5rem 0 0.75rem;color:var(--white)">Costs &amp; Phasing</h3>
         <p style="font-size:0.9rem;color:rgba(255,255,255,0.6);line-height:1.65">This project is for £4.5 million. This includes a £1 million purchase, full refurbishment totalling £1.5 million, and building a 400-seat auditorium for £2 million.</p>
-        <button class="btn-outline" style="margin-top:1.25rem;font-size:0.85rem;padding:0.6rem 1.25rem;border-color:rgba(255,255,255,0.3);color:var(--white)" onclick="showPage('costs')">See the breakdown →</button>
+        <a class="btn-outline" style="margin-top:1.25rem;font-size:0.85rem;padding:0.6rem 1.25rem;border-color:rgba(255,255,255,0.3);color:var(--white)" href="#costs">See the breakdown →</a>
       </div>
     </div>
   </div>
@@ -1551,7 +1529,7 @@
       <h2 class="heading-md reveal reveal-delay-1">Investing in the city. Training to send</h2>
       <p class="body-md reveal reveal-delay-2">Mindful of the Great Commission, Christ Church is determined to invest in the city centre to engage with the culture of Liverpool in all walks of life. It's also committed to training to prepare people to serve and promote church planting and revitalisation.</p>
       <p class="body-md reveal reveal-delay-3" style="margin-top:1rem">Edge Lane is the next step: a permanent home that secures training, sending and city-wide hospitality for the long term.</p>
-      <button class="btn-outline-dark" style="margin-top:2rem" onclick="showPage('challenge')">So... what's the challenge? →</button>
+      <a class="btn-outline-dark" style="margin-top:2rem" href="#challenge">So... what's the challenge? →</a>
     </div>
   </div>
 
@@ -1599,7 +1577,7 @@
 
   <div style="background:var(--gold);padding:3rem clamp(1.25rem,5vw,3rem);text-align:center">
     <h2 style="font-family:'Poppins',sans-serif;font-size:clamp(1.4rem,3vw,2rem);color:var(--white);font-weight:600;margin-bottom:1.25rem">With your help, we have the solution</h2>
-    <button class="btn-primary" style="background:var(--white);color:var(--gold)" onclick="showPage('achieves')">See what this achieves →</button>
+    <a class="btn-primary" style="background:var(--white);color:var(--gold)" href="#achieves">See what this achieves →</a>
   </div>
 </div><!-- /page-challenge -->
 
@@ -1761,7 +1739,7 @@
       </div>
     </div>
     <div style="text-align:center">
-      <button class="btn-primary" style="font-size:1rem;padding:1rem 2.5rem" onclick="window.open('https://ccl.churchsuite.com/donate/fund/pti9a1vc','_blank')">Give Securely</button>
+      <a class="btn-primary" style="font-size:1rem;padding:1rem 2.5rem" href="https://ccl.churchsuite.com/donate/fund/pti9a1vc" target="_blank" rel="noopener">Give Securely</a>
     </div>
   </div>
 
@@ -1862,7 +1840,7 @@
       <div style="text-align:center">
         <div style="font-family:'Poppins',sans-serif;font-size:clamp(2.2rem,4vw,3.2rem);font-weight:700;color:var(--gold);line-height:1.1">£1 &rarr; £1.25</div>
         <p style="font-size:0.8rem;color:rgba(255,255,255,0.5);margin-top:0.5rem;letter-spacing:0.04em;text-transform:uppercase">Every eligible gift, boosted by 25%</p>
-        <button class="btn-primary" style="margin-top:1.5rem" onclick="window.open('https://ccl.churchsuite.com/donate/fund/pti9a1vc','_blank')">Give with Gift Aid</button>
+        <a class="btn-primary" style="margin-top:1.5rem" href="https://ccl.churchsuite.com/donate/fund/pti9a1vc" target="_blank" rel="noopener">Give with Gift Aid</a>
         <p style="font-size:0.75rem;color:rgba(255,255,255,0.4);margin-top:1rem;line-height:1.6">You must be a UK taxpayer and pay enough Income or Capital Gains Tax to cover the Gift Aid reclaimed on your donations in the tax year.</p>
       </div>
     </div>
@@ -2051,7 +2029,7 @@
       <div class="edge-reason reveal reveal-delay-1" style="background:var(--ink);color:var(--white)">
         <h3 style="color:var(--white)">In Summary</h3>
         <p style="color:rgba(255,255,255,0.7)">Edge Lane gives us visibility, accessibility, space to grow, and the opportunity for a full one-site solution in a strategically significant part of the city.</p>
-        <button class="btn-outline" style="margin-top:1.25rem;border-color:rgba(255,255,255,0.3);color:var(--white);font-size:0.85rem;padding:0.6rem 1.25rem" onclick="showPage('costs')">See costs &amp; phasing →</button>
+        <a class="btn-outline" style="margin-top:1.25rem;border-color:rgba(255,255,255,0.3);color:var(--white);font-size:0.85rem;padding:0.6rem 1.25rem" href="#costs">See costs &amp; phasing →</a>
       </div>
     </div>
   </div>
@@ -2172,8 +2150,8 @@
     <span class="eyebrow">Good to Know</span>
     <p class="body-md" style="margin-top:0.75rem;max-width:640px;margin-left:auto;margin-right:auto">These phases allow us to begin using the site quickly, complete the building systematically, and create a sustainable home for Christ Church Liverpool. Once completed, the building will provide a long-term, high quality, flexible space for church life and midweek ministry.</p>
     <div style="margin-top:1.75rem;display:flex;flex-wrap:wrap;gap:1rem;justify-content:center">
-      <button class="btn-primary" style="background:var(--teal)" onclick="showPage('partner')">Partner With Us</button>
-      <button class="btn-primary" onclick="window.open('https://ccl.churchsuite.com/donate/fund/pti9a1vc','_blank')">Donate Now</button>
+      <a class="btn-primary" style="background:var(--teal)" href="#partner">Partner With Us</a>
+      <a class="btn-primary" href="https://ccl.churchsuite.com/donate/fund/pti9a1vc" target="_blank" rel="noopener">Donate Now</a>
     </div>
   </div>
 </div><!-- /page-costs -->
@@ -2279,7 +2257,7 @@
       </button>
       <div class="faq-a">
         <div class="faq-a-inner">
-          <p>Yes. Every gift to this campaign goes into our restricted Building Fund, which may only be spent on the building project itself: the purchase of 145 Edge Lane, professional and legal fees, removal costs, and the refurbishment, renovations, furnishings and equipment needed to bring it into use. It cannot be diverted to general church running costs. You can read more about how gifts are safeguarded on our <button onclick="showPage('partner')" style="background:none;border:none;padding:0;font:inherit;color:var(--gold);cursor:pointer;text-decoration:underline;text-underline-offset:3px">Partner With Us</button> page.</p>
+          <p>Yes. Every gift to this campaign goes into our restricted Building Fund, which may only be spent on the building project itself: the purchase of 145 Edge Lane, professional and legal fees, removal costs, and the refurbishment, renovations, furnishings and equipment needed to bring it into use. It cannot be diverted to general church running costs. You can read more about how gifts are safeguarded on our <a href="#partner" style="background:none;border:none;padding:0;font:inherit;color:var(--gold);cursor:pointer;text-decoration:underline;text-underline-offset:3px">Partner With Us</a> page.</p>
         </div>
       </div>
     </div>
@@ -2318,7 +2296,7 @@
     </div>
     <div class="faq-form-cta">
       <p>Have a question not answered here? Submit it anonymously and we'll add it to the page.</p>
-      <button class="btn-outline-dark" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSctHg_Mrm3J7yC7SoL58yaMWLKEJIGc4PQMZtJoi_MIolDF8Q/viewform','_blank')">Submit a Question</button>
+      <a class="btn-outline-dark" href="https://docs.google.com/forms/d/e/1FAIpQLSctHg_Mrm3J7yC7SoL58yaMWLKEJIGc4PQMZtJoi_MIolDF8Q/viewform" target="_blank" rel="noopener">Submit a Question</a>
     </div>
   </div>
 </div><!-- /page-faq -->
@@ -2422,19 +2400,19 @@
     <div class="footer-col">
       <h5>Navigate</h5>
       <ul>
-        <li><button onclick="showPage('home')">Home</button></li>
-        <li><button onclick="showPage('story')">Our Story</button></li>
-        <li><button onclick="showPage('challenge')">The Challenge</button></li>
-        <li><button onclick="showPage('achieves')">What This Means</button></li>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#story">Our Story</a></li>
+        <li><a href="#challenge">The Challenge</a></li>
+        <li><a href="#achieves">What This Means</a></li>
       </ul>
     </div>
     <div class="footer-col">
       <h5>&nbsp;</h5>
       <ul>
-        <li><button onclick="showPage('edgelane')">Why Edge Lane?</button></li>
-        <li><button onclick="showPage('costs')">Costs &amp; Phasing</button></li>
-        <li><button onclick="showPage('partner')">Partner With Us</button></li>
-        <li><button onclick="showPage('faq')">FAQ</button></li>
+        <li><a href="#edgelane">Why Edge Lane?</a></li>
+        <li><a href="#costs">Costs &amp; Phasing</a></li>
+        <li><a href="#partner">Partner With Us</a></li>
+        <li><a href="#faq">FAQ</a></li>
       </ul>
     </div>
     <div class="footer-col">
@@ -2446,7 +2424,7 @@
     </div>
   </div>
   <div class="footer-bottom">
-    <span>Copyright Christ Church Liverpool 2026 &nbsp;·&nbsp; <button onclick="showPage('privacy')" style="background:none;border:none;padding:0;font:inherit;cursor:pointer;color:rgba(255,255,255,0.35);text-decoration:underline;text-underline-offset:2px">Data Protection Policy</button></span>
+    <span>Copyright Christ Church Liverpool 2026 &nbsp;·&nbsp; <a href="#privacy" style="background:none;border:none;padding:0;font:inherit;cursor:pointer;color:rgba(255,255,255,0.35);text-decoration:underline;text-underline-offset:2px">Data Protection Policy</a></span>
     <span>The cover image is an artist's impression — subject to change</span>
   </div>
 </footer>
@@ -2454,55 +2432,44 @@
 
 <script>
 /* ─── PAGE NAVIGATION ─── */
-const VALID_PAGES = ['home','story','challenge','achieves','partner','edgelane','costs','faq','privacy'];
-
-function showPage(id, updateHash = true) {
+function showPage(id) {
   // Hide all
   document.querySelectorAll('.page').forEach(p => {
     p.classList.remove('active', 'visible');
   });
-  // Update nav buttons
-  document.querySelectorAll('[data-page]').forEach(b => b.classList.remove('active'));
-  const active = document.querySelector(`[data-page="${id}"]`);
-  if (active) active.classList.add('active');
+  // Update nav links
+  document.querySelectorAll('[data-page]').forEach(a => {
+    const current = a.dataset.page === id;
+    a.classList.toggle('active', current);
+    if (current) a.setAttribute('aria-current', 'page');
+    else a.removeAttribute('aria-current');
+  });
   // Show target
   const target = document.getElementById('page-' + id);
-  if (target) {
-    target.classList.add('active');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    // Shareable URL: reflect the current page in the address bar
-    if (updateHash && location.hash !== '#' + id) {
-      try {
-        history.pushState(null, '', '#' + id);
-      } catch (e) {
-        // Some sandboxed/embedded preview contexts (e.g. srcdoc iframes)
-        // block pushState entirely. Fail silently — page navigation still
-        // works, it just won't update the address bar in that context.
-      }
-    }
-    // Trigger transition
+  target.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  // Trigger transition
+  requestAnimationFrame(() => {
     requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        target.classList.add('visible');
-        // Re-trigger reveals
-        target.querySelectorAll('.reveal').forEach(el => {
-          el.classList.remove('in');
-        });
-        setTimeout(() => observeReveals(), 100);
+      target.classList.add('visible');
+      // Re-trigger reveals
+      target.querySelectorAll('.reveal').forEach(el => {
+        el.classList.remove('in');
       });
+      setTimeout(() => observeReveals(), 100);
     });
-  }
+  });
+  if (id === 'home') animateTotaliser();
 }
 
-/* ─── HASH ROUTING (shareable URLs, back/forward support) ─── */
-window.addEventListener('hashchange', () => {
+/* ─── HASH ROUTING (shareable URLs, back/forward support) ───
+   Every nav item is a real <a href="#page"> link, so the browser owns
+   history and this is the only code path that switches pages. */
+function route() {
   const id = location.hash.replace('#', '') || 'home';
-  if (VALID_PAGES.includes(id)) showPage(id, false);
-});
-document.addEventListener('DOMContentLoaded', () => {
-  const id = location.hash.replace('#', '');
-  if (id && id !== 'home' && VALID_PAGES.includes(id)) showPage(id, false);
-});
+  showPage(document.getElementById('page-' + id) ? id : 'home');
+}
+window.addEventListener('hashchange', route);
 
 /* ─── SCROLL NAV SHADOW ─── */
 window.addEventListener('scroll', () => {
@@ -2601,14 +2568,10 @@ function setTab(id) {
 
 /* ─── INIT ─── */
 document.addEventListener('DOMContentLoaded', () => {
-  // Show home page
-  const homePage = document.getElementById('page-home');
-  homePage.classList.add('active');
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      homePage.classList.add('visible');
-      observeReveals();
-    });
+  route();
+  // Close the drawer once a destination is chosen
+  document.getElementById('mobileMenu').addEventListener('click', (e) => {
+    if (e.target.closest('a')) closeMenu();
   });
 });
 
@@ -2628,19 +2591,7 @@ function animateTotaliser() {
   const pct = (1.64 / 4.5) * 100;
   setTimeout(() => { fill.style.width = pct.toFixed(2) + '%'; }, 300);
 }
-// Animate on page load and whenever home page is shown
-document.addEventListener('DOMContentLoaded', () => {
-  animateTotaliser();
-});
-// Re-trigger if home page is navigated to
-window.addEventListener('DOMContentLoaded', () => {
-  const homeObserver = new MutationObserver(() => {
-    if (document.getElementById('page-home').classList.contains('active')) {
-      animateTotaliser();
-    }
-  });
-  homeObserver.observe(document.getElementById('page-home'), { attributeFilter: ['class'] });
-});
+// Triggered by showPage() whenever the home page is shown.
 
 /* ─── PHOTO CAROUSEL ─── */
 (function() {
