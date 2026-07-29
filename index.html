@@ -64,6 +64,30 @@
 }
 </script>
 
+<!-- The campaign film. Lets Google surface it as a video rich result —
+     free reach for the appeal. Keep duration/contentUrl in step with the
+     encoded files on R2 if they are ever re-cut. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  "name": "A Home For Our City — the campaign film",
+  "description": "Why Christ Church Liverpool is raising £4.5m to turn 145 Edge Lane into a permanent home for the church and a resource for the city.",
+  "thumbnailUrl": "https://homeforourcity.org/photos/film-poster.jpg",
+  "contentUrl": "https://media.homeforourcity.org/hfoc-film-1080p.mp4",
+  "uploadDate": "2026-07-28",
+  "duration": "PT5M40S",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Christ Church Liverpool",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://homeforourcity.org/apple-touch-icon.png"
+    }
+  }
+}
+</script>
+
 <!-- Analytics placeholder: uncomment once a provider is chosen.
      Plausible's hash-routing script tracks #partner, #faq etc. as separate
      pages; outbound-links counts clicks through to ChurchSuite. -->
@@ -501,6 +525,59 @@
     position: absolute; top: -3px; bottom: -3px;
     width: 2px; background: rgba(255,255,255,0.15);
     border-radius: 1px;
+  }
+
+  /* ─── CAMPAIGN FILM ─── */
+  /* Shares the totaliser's ink background so the two read as one dark band. */
+  .film-section {
+    background: var(--ink);
+    /* Horizontal padding deliberately matches .section so the video's edges
+       line up with the body text of the sections above and below. */
+    padding: clamp(2.25rem, 4vw, 3.25rem) clamp(1.25rem, 5vw, 3rem) clamp(3rem, 6vw, 4.5rem);
+  }
+  /* .section is 1100px wide including 3rem of padding either side, so its
+     content measures 1004px. Match that rather than the 1100px outer edge. */
+  .film-inner { max-width: 1004px; margin: 0 auto; text-align: center; }
+  .film-heading {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(1.35rem, 3vw, 1.9rem);
+    font-weight: 700; color: var(--white);
+    line-height: 1.25;
+    margin: 0.5rem 0 0.4rem;
+    /* Without this the heading strands "world" alone on line 2 at around
+       960px. Ignored by older browsers, which just get the default wrap. */
+    text-wrap: balance;
+  }
+  .film-heading em { font-style: normal; color: var(--gold-light); }
+  .film-sub {
+    /* 0.62 rather than 0.5: this line now carries a statistic rather than a
+       throwaway, so it needs to survive being read. ~6.4:1 on --ink. */
+    color: rgba(255,255,255,0.62);
+    font-size: 0.95rem;
+    max-width: 64ch;          /* keep the measure readable across 1004px */
+    margin: 0 auto 1.75rem;
+    text-wrap: pretty;        /* no single-word last line */
+  }
+  .film-wrap {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #000;
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 18px 50px rgba(0,0,0,0.45);
+  }
+  .film-video { display: block; width: 100%; height: 100%; }
+  .film-video::cue {
+    background: rgba(0,0,0,0.72);
+    color: var(--white);
+    font-size: 0.92em;
+    line-height: 1.4;
+  }
+  .film-fallback { color: rgba(255,255,255,0.7); padding: 2rem; }
+  .film-fallback a { color: var(--gold-light); }
+  @media (max-width: 640px) {
+    .film-wrap { border-radius: 6px; box-shadow: 0 10px 26px rgba(0,0,0,0.4); }
   }
 
   /* ─── WHO WE ARE ─── */
@@ -1322,6 +1399,51 @@
     </div>
   </div>
 
+  <!-- Campaign film. Hosted on R2, not in this repo: the master is ~700MB and
+       even the web encode is far past GitHub's 100MB per-file limit.
+       preload="none" is load-bearing — without it every visit pulls the video. -->
+  <div class="film-section">
+    <div class="film-inner">
+      <span class="eyebrow reveal" style="color:var(--gold)">Watch The Film</span>
+      <h2 class="film-heading reveal reveal-delay-1">Rooted in Liverpool. <em>Planting far and wide.</em></h2>
+      <p class="film-sub reveal reveal-delay-1">Fewer than 3% of people in the UK have any meaningful connection with a church. Five minutes on why we're building a home&nbsp;for&nbsp;our&nbsp;city.</p>
+      <div class="film-wrap reveal reveal-delay-2">
+        <video id="campaignFilm" class="film-video"
+               controls preload="none" playsinline
+               poster="photos/film-poster.jpg"
+               data-src-1080="https://media.homeforourcity.org/hfoc-film-1080p.mp4">
+          <source src="https://media.homeforourcity.org/hfoc-film-720p.mp4" type="video/mp4">
+          <track kind="captions" src="captions/hfoc-film.en.vtt" srclang="en" label="English">
+          <p class="film-fallback">Your browser can't play this video.
+            <a href="https://media.homeforourcity.org/hfoc-film-720p.mp4">Download it instead</a>.</p>
+        </video>
+        <script>
+        /* Rendition choice. R2 has no adaptive bitrate, so we pick once: the
+           markup ships 720p and this upgrades to 1080p on a roomy screen with a
+           decent connection. If it never runs, everyone still gets 720p.
+
+           This lives inline rather than in the script block at the bottom on
+           purpose. It must mutate the <source> BEFORE the browser runs its
+           resource selection algorithm; doing it later would need video.load(),
+           and load() makes Chrome fetch even under preload="none" — which is
+           the whole thing we are trying to avoid. */
+        (function() {
+          var video = document.getElementById('campaignFilm');
+          var source = video && video.querySelector('source');
+          var hd = video && video.getAttribute('data-src-1080');
+          if (!source || !hd) return;
+          var conn = navigator.connection || {};
+          var stingy = conn.saveData === true ||
+                       /^(slow-2g|2g|3g)$/.test(conn.effectiveType || '');
+          var roomy = window.matchMedia('(min-width: 700px)').matches &&
+                      window.innerWidth * (window.devicePixelRatio || 1) >= 1000;
+          if (roomy && !stingy) source.src = hd;
+        })();
+        </script>
+      </div>
+    </div>
+  </div>
+
   <!-- Who We Are -->
   <div class="section">
     <div class="who-grid">
@@ -1981,7 +2103,7 @@
 <div id="page-edgelane" class="page">
   <div class="edge-hero">
     <video class="edge-hero-video" autoplay muted loop playsinline>
-      <source src="https://pub-3d29db5f821e454a86781361c26c12b9.r2.dev/Drone%20Footage%20720%20Compressed.mp4" type="video/mp4">
+      <source src="https://media.homeforourcity.org/Drone%20Footage%20720%20Compressed.mp4" type="video/mp4">
     </video>
     <div class="edge-hero-overlay"></div>
     <div class="edge-hero-content">
