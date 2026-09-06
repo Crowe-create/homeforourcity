@@ -717,35 +717,16 @@
   .church-item::before { content: '→'; color: var(--gold); flex-shrink: 0; }
   .church-item:hover { background: var(--white); }
 
-  /* ─── THE CHALLENGE ─── */
-  .challenge-hero {
-    background: var(--rust);
+  /* ─── WHAT THIS ACHIEVES ─── */
+  .achieves-hero {
+    background: var(--ink);
     padding: clamp(4rem, 8vw, 7rem) clamp(1.25rem, 5vw, 3rem);
     text-align: center;
   }
-  .challenge-hero .heading-xl { color: var(--white); }
-  .challenge-cards { display: grid; grid-template-columns: 1fr; gap: 0; }
-  .challenge-card {
-    display: grid; grid-template-columns: 80px 1fr;
-    gap: 2rem; align-items: start;
-    padding: 2.5rem;
-    border-bottom: 1px solid var(--stone);
-    transition: background 0.2s;
-  }
-  .challenge-card:hover { background: var(--white); }
-  .challenge-num {
-    font-family: 'Poppins', sans-serif;
-    font-size: 3.5rem; font-weight: 700;
-    color: var(--stone); line-height: 1;
-    text-align: center;
-  }
-  .challenge-card h3 {
-    font-family: 'Poppins', sans-serif;
-    font-size: 1.6rem; font-weight: 600;
-    margin-bottom: 0.6rem;
-  }
-
-  /* ─── WHAT THIS ACHIEVES ─── */
+  .achieves-hero .eyebrow { color: var(--gold-light); }
+  .achieves-hero .heading-xl { color: var(--white); }
+  .achieves-hero .heading-xl em { color: var(--gold-light); }
+  .achieves-hero .body-lg { color: rgba(255,255,255,0.75); }
   .achieves-row {
     display: grid;
     grid-template-columns: 220px 1fr;
@@ -866,6 +847,7 @@
     position: relative; z-index: 2;
   }
   .edge-hero .heading-xl { color: var(--white); }
+  .edge-hero .heading-xl em { color: var(--gold); }
   .edge-reasons { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--stone); }
   .edge-reason {
     background: var(--warm); padding: 2rem 2.25rem;
@@ -890,43 +872,32 @@
     display: block;
   }
 
-  /* ─── COSTS ─── */
-  .costs-hero {
-    background: var(--ink);
-    padding: clamp(3rem, 6vw, 5rem) clamp(1.25rem, 5vw, 3rem);
-  }
-  .cost-phases { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5px; background: rgba(255,255,255,0.1); margin-top: 2.5rem; }
-  .phase-card {
-    background: var(--teal);
-    padding: 2rem 1.75rem; position: relative;
-    transition: background 0.2s;
+  /* ─── HOMEPAGE COSTS & PHASING ─── */
+  #challenge, #costs { scroll-margin-top: calc(var(--nav-h) + 1rem); }
+  .costs-band { background: var(--ink); color: var(--white); }
+  .costs-section .heading-lg, .costs-section .heading-md { color: var(--white); }
+  .costs-section .eyebrow { color: var(--gold-light); }
+  .costs-section .body-md { color: rgba(255,255,255,0.75); }
+  .home-building { text-align: center; }
+  .home-building .body-md { margin-left: auto; margin-right: auto; }
+  .costs-section {
     text-align: center;
   }
-  .phase-card:hover { background: #22506a; }
-  .phase-label {
-    font-size: 0.7rem; font-weight: 600; letter-spacing: 0.12em;
-    text-transform: uppercase; color: var(--gold);
-    margin-bottom: 0.5rem;
+  .costs-section > div { max-width: 760px; margin: 0 auto; }
+  .cost-tabs { display: flex; border-bottom: 1px solid rgba(255,255,255,0.2); margin-bottom: 1.5rem; }
+  .cost-tab {
+    flex: 1; padding: 0.85rem 0.25rem;
+    font-family: 'Poppins', sans-serif; font-size: 0.75rem; font-weight: 500;
+    color: rgba(255,255,255,0.75); border-bottom: 3px solid transparent;
   }
-  .phase-card h3 {
-    font-family: 'Poppins', sans-serif;
-    font-size: 1.4rem; color: var(--white);
-    margin-bottom: 0.5rem;
-  }
+  .cost-tab[aria-selected="true"] { color: var(--white); border-bottom-color: var(--gold-light); font-weight: 600; }
+  .cost-tab:hover { color: var(--gold-light); }
   .phase-cost {
-    font-family: 'Poppins', sans-serif;
-    font-size: 2rem; font-weight: 700;
-    color: var(--gold-light); margin-bottom: 0.75rem;
+    font-family: 'Poppins', sans-serif; font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700; color: var(--gold-light); margin-bottom: 0.75rem;
   }
-  .phase-card p { font-size: 0.82rem; color: rgba(255,255,255,0.55); line-height: 1.65; }
-  .total-banner {
-    background: var(--gold); color: var(--white);
-    text-align: center; padding: 2rem;
-    margin-top: 1.5px;
-  }
-  .total-banner p { font-size: 0.85rem; opacity: 0.85; margin-top: 0.5rem; }
-  .costs-note { background: var(--warm); padding: clamp(1.5rem, 3vw, 2rem) clamp(1.25rem, 5vw, 3rem); max-width: 1100px; margin: 0 auto; }
-
+  .cost-panel .body-md { margin-top: 0.75rem; }
+  .cost-detail { font-size: 0.8rem; color: rgba(255,255,255,0.75); margin-top: 1rem; }
   /* ─── FAQ ─── */
   .faq-hero { background: var(--warm); padding: clamp(3rem, 6vw, 5rem) clamp(1.25rem, 5vw, 3rem); border-bottom: 1px solid var(--stone); text-align: center; }
   .faq-list { max-width: 780px; margin: 0 auto; padding: clamp(2rem, 4vw, 4rem) clamp(1.25rem, 5vw, 3rem); }
@@ -1020,7 +991,6 @@
     .homes-grid { grid-template-columns: 1fr 1fr; }
     .problem-grid { grid-template-columns: 1fr; }
     .three-ways { grid-template-columns: 1fr; }
-    .cost-phases { grid-template-columns: 1fr; }
     .edge-reasons { grid-template-columns: 1fr; }
     .footer-inner { grid-template-columns: 1fr 1fr; }
     .giving-tabs { flex-wrap: wrap; }
@@ -1030,8 +1000,6 @@
     .hamburger { display: flex; }
     .totaliser-header { flex-direction: column; align-items: flex-start; gap: 0.25rem; }
     .homes-grid { grid-template-columns: 1fr; }
-    .challenge-card { grid-template-columns: 1fr; }
-    .challenge-num { font-size: 2rem; text-align: left; }
     .footer-inner { grid-template-columns: 1fr; }
     .footer-bottom { flex-direction: column; text-align: center; }
   }
@@ -1259,10 +1227,6 @@
     .el-thumbstrip { display: none; }
     /* Map height */
     .map-container { height: 260px; }
-    /* Challenge card layout */
-    .challenge-card { padding: 1.5rem; gap: 1rem; }
-    /* Phase cards padding */
-    .phase-card { padding: 1.5rem 1.25rem; }
     /* CTA band */
     .hero-ctas { flex-direction: column; gap: 0.6rem; }
     .hero-ctas .btn-primary,
@@ -1281,7 +1245,6 @@
   @media (hover: none) {
     .home-card:hover { transform: none; background: var(--warm); }
     .edge-reason:hover { background: var(--warm); transform: none; box-shadow: none; }
-    .challenge-card:hover { background: transparent; }
     .problem-card:hover { background: var(--ink); }
     .achieves-row:hover { background: var(--warm); transform: none; box-shadow: none; }
   }
@@ -1310,10 +1273,8 @@
   <ul class="nav-links">
     <li><a href="#home" class="active" data-page="home">Home</a></li>
     <li><a href="#story" data-page="story">Our Story</a></li>
-    <li><a href="#challenge" data-page="challenge">The Challenge</a></li>
     <li><a href="#achieves" data-page="achieves">What This Means</a></li>
-    <li><a href="#edgelane" data-page="edgelane">Why Edge Lane?</a></li>
-    <li><a href="#costs" data-page="costs">Costs &amp; Phasing</a></li>
+    <li><a href="#thebuilding" data-page="thebuilding">The Building</a></li>
     <li><a href="#partner" data-page="partner">Partner With Us</a></li>
     <li><a href="#faq" data-page="faq">FAQ</a></li>
     <li><a class="nav-donate" href="https://ccl.churchsuite.com/donate/fund/pti9a1vc" target="_blank" rel="noopener">Donate</a></li>
@@ -1334,10 +1295,8 @@
   <nav class="drawer-nav">
     <a href="#home">Home</a>
     <a href="#story">Our Story</a>
-    <a href="#challenge">The Challenge</a>
     <a href="#achieves">What This Means</a>
-    <a href="#edgelane">Why Edge Lane?</a>
-    <a href="#costs">Costs &amp; Phasing</a>
+    <a href="#thebuilding">The Building</a>
     <a href="#partner">Partner With Us</a>
     <a href="#faq">FAQ</a>
   </nav>
@@ -1465,7 +1424,7 @@
   <hr class="divider" style="max-width:1100px;margin:0 auto">
 
   <!-- The Problem -->
-  <div class="problem-section">
+  <div class="problem-section" id="challenge">
     <div class="problem-inner">
       <span class="eyebrow" style="color:var(--gold-light)">The Problem</span>
       <h2 class="heading-lg" style="color:var(--white);margin-bottom:2rem">Not having our own building<br>is stunting our impact</h2>
@@ -1485,9 +1444,6 @@
           <h3>Renters, Not Owners</h3>
           <p>No security and stops long‑term investment. We could lose our venue on very short notice.</p>
         </div>
-      </div>
-      <div style="margin-top:2rem;text-align:center">
-        <a class="btn-outline" style="border-color:rgba(255,255,255,0.3);color:var(--white)" href="#challenge">See the full challenge →</a>
       </div>
     </div>
   </div>
@@ -1573,6 +1529,51 @@
     </div>
   </div>
 
+  <!-- The Building -->
+  <section class="section home-building reveal" aria-labelledby="building-heading">
+    <span class="eyebrow">Location</span>
+    <h2 class="heading-lg" id="building-heading">The Building</h2>
+    <p class="body-md" style="margin-top:1rem;max-width:760px">The site is located on Edge Lane, a major artery into the heart of the city. Alongside the University of Liverpool, Royal Liverpool Hospital, and Cancer Research centre. Accessible, visible, and spacious — with room for a 400-seat auditorium.</p>
+    <a class="btn-outline-dark" style="margin-top:1.25rem;font-size:0.85rem;padding:0.6rem 1.25rem" href="#thebuilding">Find out more →</a>
+  </section>
+
+  <!-- Costs & Phasing -->
+  <section class="costs-band" id="costs" aria-labelledby="costs-heading">
+    <div class="section costs-section">
+      <div>
+        <span class="eyebrow">Costs &amp; Phasing</span>
+        <h2 class="heading-lg" id="costs-heading">One vision.<br>Three clear steps.</h2>
+        <p class="body-md" style="margin-top:1.25rem">A £4.5m project to bring 145 Edge Lane into full long-term use. Each phase creates more space for church life and midweek ministry.</p>
+        <p class="body-md" style="margin-top:1rem">The timing of works depends on fundraising. Our dream would be to do all the works at the same time, to maximise efficiencies and cost savings.</p>
+      </div>
+      <div>
+        <div class="cost-tabs" role="tablist" aria-label="Building phases">
+          <button type="button" class="cost-tab" id="cost-tab-1" role="tab" aria-selected="true" aria-controls="cost-panel-1" tabindex="0">01 · Establish</button>
+          <button type="button" class="cost-tab" id="cost-tab-2" role="tab" aria-selected="false" aria-controls="cost-panel-2" tabindex="-1">02 · Transform</button>
+          <button type="button" class="cost-tab" id="cost-tab-3" role="tab" aria-selected="false" aria-controls="cost-panel-3" tabindex="-1">03 · Expand</button>
+        </div>
+        <div class="cost-panel" id="cost-panel-1" role="tabpanel" aria-labelledby="cost-tab-1" tabindex="0">
+          <div class="phase-cost">£1.4m</div>
+          <h3 class="heading-md">Purchase &amp; Essential Works</h3>
+          <p class="body-md">This phase brings the building into immediate operational use, including key repairs, essential ground-floor refurbishment, and initial compliance work.</p>
+          <p class="cost-detail">£1.0m purchase + £0.4m initial works</p>
+        </div>
+        <div class="cost-panel" id="cost-panel-2" role="tabpanel" aria-labelledby="cost-tab-2" tabindex="0" hidden>
+          <div class="phase-cost">£1.1m</div>
+          <h3 class="heading-md">Full Refurbishment</h3>
+          <p class="body-md">Roof replacement, lift installation, improved energy efficiency, electrical upgrades, air-conditioning replacement, staircase safety works and full internal finishes.</p>
+          <p class="cost-detail">Additional phase cost · £2.5m cumulative project cost<br>Total building refurbishment: £1.5m</p>
+        </div>
+        <div class="cost-panel" id="cost-panel-3" role="tabpanel" aria-labelledby="cost-tab-3" tabindex="0" hidden>
+          <div class="phase-cost">£2.0m</div>
+          <h3 class="heading-md">New Worship Hall Build</h3>
+          <p class="body-md">A purpose built hall seating around 400, enabling the whole church to meet on one site with room to grow.</p>
+          <p class="cost-detail">Additional phase cost · £4.5m total estimated project cost</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- CTA band -->
   <div style="background:var(--gold);padding:3rem clamp(1.25rem,5vw,3rem);text-align:center;margin-top:0">
     <span class="eyebrow" style="color:rgba(255,255,255,0.7)">Come and find out more</span>
@@ -1580,24 +1581,6 @@
     <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
       <a class="btn-primary" style="background:var(--white);color:var(--gold)" href="https://ccl.churchsuite.com/donate/fund/pti9a1vc" target="_blank" rel="noopener">Give Securely</a>
       <a class="btn-outline" style="border-color:rgba(255,255,255,0.5);color:var(--white)" href="#partner">More Ways to Partner</a>
-    </div>
-  </div>
-
-  <!-- Why Edge Lane + Costs teaser -->
-  <div class="section">
-    <div class="grid-2col">
-      <div class="reveal" style="background:var(--stone);padding:2.5rem;border-radius:2px">
-        <span class="eyebrow">Location</span>
-        <h3 class="heading-md" style="margin:0.5rem 0 0.75rem">Why Edge Lane?</h3>
-        <p class="body-md">The site is located on Edge Lane, a major artery into the heart of the city. Alongside the University of Liverpool, Royal Liverpool Hospital, and Cancer Research centre. Accessible, visible, and spacious — with room for a 400-seat auditorium.</p>
-        <a class="btn-outline-dark" style="margin-top:1.25rem;font-size:0.85rem;padding:0.6rem 1.25rem" href="#edgelane">Find out more →</a>
-      </div>
-      <div class="reveal reveal-delay-1" style="background:var(--ink);padding:2.5rem;border-radius:2px;color:var(--white)">
-        <span class="eyebrow">The Numbers</span>
-        <h3 class="heading-md" style="margin:0.5rem 0 0.75rem;color:var(--white)">Costs &amp; Phasing</h3>
-        <p style="font-size:0.9rem;color:rgba(255,255,255,0.6);line-height:1.65">This project is for £4.5 million. This includes a £1 million purchase, full refurbishment totalling £1.5 million, and building a 400-seat auditorium for £2 million.</p>
-        <a class="btn-outline" style="margin-top:1.25rem;font-size:0.85rem;padding:0.6rem 1.25rem;border-color:rgba(255,255,255,0.3);color:var(--white)" href="#costs">See the breakdown →</a>
-      </div>
     </div>
   </div>
 
@@ -1650,7 +1633,7 @@
       <h2 class="heading-md reveal reveal-delay-1">Investing in the city. Training to send</h2>
       <p class="body-md reveal reveal-delay-2">Mindful of the Great Commission, Christ Church is determined to invest in the city centre to engage with the culture of Liverpool in all walks of life. It's also committed to training to prepare people to serve and promote church planting and revitalisation.</p>
       <p class="body-md reveal reveal-delay-3" style="margin-top:1rem">Edge Lane is the next step: a permanent home that secures training, sending and city-wide hospitality for the long term.</p>
-      <a class="btn-outline-dark" style="margin-top:2rem" href="#challenge">So... what's the challenge? →</a>
+      <a class="btn-outline-dark" style="margin-top:2rem" href="#achieves">So... What does this mean? →</a>
     </div>
   </div>
 
@@ -1658,56 +1641,10 @@
 
 
 <!-- ═══════════════════════════════════════
-     PAGE: THE CHALLENGE
-═══════════════════════════════════════ -->
-<div id="page-challenge" class="page">
-  <div class="challenge-hero">
-    <span class="eyebrow" style="color:rgba(255,255,255,0.7)">The Challenge</span>
-    <h1 class="heading-xl" style="margin-top:0.5rem">Here's our challenge...</h1>
-  </div>
-
-  <div class="section" style="padding-bottom:0;text-align:center">
-    <p class="body-lg" style="max-width:640px;margin:0 auto">We want to reach more people with the Gospel. And that means we need more churches, more people trained and sent, more outreach and ministries. But not having our own building is stunting this impact.</p>
-  </div>
-
-  <div class="section" style="padding-top:2rem">
-    <div class="challenge-cards">
-      <div class="challenge-card reveal">
-        <div class="challenge-num">01</div>
-        <div>
-          <h3 class="heading-md">Capacity</h3>
-          <p class="body-md" style="margin-top:0.5rem">We literally can't fit more people in on a Sunday! We have no room to welcome more people to hear the Gospel. Without a growing membership we are also unable to grow to a size of church which can sustain further staff, expanding ministries or start new ministries. We want to train more, plant more, send more but currently struggle to have the capacity to do so.</p>
-        </div>
-      </div>
-      <div class="challenge-card reveal">
-        <div class="challenge-num">02</div>
-        <div>
-          <h3 class="heading-md">Ownership</h3>
-          <p class="body-md" style="margin-top:0.5rem">We need a home to help us have a bigger impact for the city. Our lack of ownership limits our investment in our spaces, equipment, furniture, signage, and it weakens our sense of identity. The temporary and split site setup means our spaces aren't as visible, inviting or functional as we'd like. It creates a fragmented church experience and weakens our identity.</p>
-        </div>
-      </div>
-      <div class="challenge-card reveal">
-        <div class="challenge-num">03</div>
-        <div>
-          <h3 class="heading-md">Tenancy Means Insecurity</h3>
-          <p class="body-md" style="margin-top:0.5rem">As renters, not residents, we're at risk of needing to find a new venue. We could be left without somewhere to meet at very short notice, with no other viable alternatives in the city. Being renters not home owners is frustratingly limiting and inefficient.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div style="background:var(--gold);padding:3rem clamp(1.25rem,5vw,3rem);text-align:center">
-    <h2 style="font-family:'Poppins',sans-serif;font-size:clamp(1.4rem,3vw,2rem);color:var(--white);font-weight:600;margin-bottom:1.25rem">With your help, we have the solution</h2>
-    <a class="btn-primary" style="background:var(--white);color:var(--gold)" href="#achieves">See what this achieves →</a>
-  </div>
-</div><!-- /page-challenge -->
-
-
-<!-- ═══════════════════════════════════════
      PAGE: WHAT THIS ACHIEVES
 ═══════════════════════════════════════ -->
 <div id="page-achieves" class="page">
-  <div class="section" style="padding-bottom:2rem;text-align:center">
+  <div class="achieves-hero">
     <span class="eyebrow reveal">What This Achieves</span>
     <h1 class="heading-xl reveal reveal-delay-1" style="max-width:18ch;margin-top:0.5rem;margin-left:auto;margin-right:auto">What this building <em>means</em></h1>
     <p class="body-lg reveal reveal-delay-2" style="max-width:60ch;margin-top:1rem;margin-left:auto;margin-right:auto">A permanent home at Edge Lane will turn weekly logistics into daily ministry. It will give us space to encounter Jesus, grow disciples, deepen community, serve Liverpool, multiply churches, and build for future generations until Jesus returns. Not just on Sundays, but all week long.</p>
@@ -1816,7 +1753,7 @@
 ═══════════════════════════════════════ -->
 <div id="page-partner" class="page">
   <div class="partner-hero">
-    <span class="eyebrow" style="color:rgba(255,255,255,0.7)">Shared Calling</span>
+    <span class="eyebrow" style="color:var(--gold-light)">Shared Calling</span>
     <h1 class="heading-xl" style="color:var(--white);margin-top:0.5rem">Partner <em>with us</em></h1>
     <p>This is a shared calling and a long-term investment in God's mission. A gift to this project is not a gift to a building. It is an investment in a gospel engine for a city, a region, and the nations, until Jesus returns.</p>
   </div>
@@ -2099,15 +2036,15 @@
 <!-- ═══════════════════════════════════════
      PAGE: WHY EDGE LANE
 ═══════════════════════════════════════ -->
-<div id="page-edgelane" class="page">
+<div id="page-thebuilding" class="page">
   <div class="edge-hero">
     <video class="edge-hero-video" autoplay muted loop playsinline>
       <source src="https://media.homeforourcity.org/Drone%20Footage%20720%20Compressed.mp4" type="video/mp4">
     </video>
     <div class="edge-hero-overlay"></div>
     <div class="edge-hero-content">
-      <span class="eyebrow" style="color:rgba(255,255,255,0.6)">The Location</span>
-      <h1 class="heading-xl" style="color:var(--white);margin-top:0.5rem">Why <em>Edge Lane?</em></h1>
+      <span class="eyebrow" style="color:rgba(255,255,255,0.6)">145 Edge Lane</span>
+      <h1 class="heading-xl" style="color:var(--white);margin-top:0.5rem">The <em>Building</em></h1>
     </div>
   </div>
 
@@ -2153,11 +2090,6 @@
       <div class="edge-reason reveal">
         <h3>A Long-Term Asset</h3>
         <p>Although the building requires full refurbishment to meet 2026 standards, once renovated it will have the same lifespan and reliability as a new build does.</p>
-      </div>
-      <div class="edge-reason reveal reveal-delay-1" style="background:var(--ink);color:var(--white)">
-        <h3 style="color:var(--white)">In Summary</h3>
-        <p style="color:rgba(255,255,255,0.7)">Edge Lane gives us visibility, accessibility, space to grow, and the opportunity for a full one-site solution in a strategically significant part of the city.</p>
-        <a class="btn-outline" style="margin-top:1.25rem;border-color:rgba(255,255,255,0.3);color:var(--white);font-size:0.85rem;padding:0.6rem 1.25rem" href="#costs">See costs &amp; phasing →</a>
       </div>
     </div>
   </div>
@@ -2235,54 +2167,7 @@
     </div>
   </div>
 
-</div><!-- /page-edgelane -->
-
-
-<!-- ═══════════════════════════════════════
-     PAGE: COSTS & PHASING
-═══════════════════════════════════════ -->
-<div id="page-costs" class="page">
-  <div class="costs-hero">
-    <div style="max-width:1100px;margin:0 auto;text-align:center">
-      <span class="eyebrow" style="color:var(--gold-light)">Expenses and Costs</span>
-      <h1 class="heading-xl" style="color:var(--white);margin-top:0.5rem;max-width:18ch;margin-left:auto;margin-right:auto">To bring 145 Edge Lane into full long-term use</h1>
-      <p style="color:rgba(255,255,255,0.65);font-size:1rem;margin-top:1rem;max-width:55ch;line-height:1.65;margin-left:auto;margin-right:auto">The project is divided into clear phases. The actual timing of these works will depend upon fundraising. Our dream would be to do all the works at the same time, so as to maximise efficiencies and cost savings.</p>
-    </div>
-    <div class="cost-phases">
-      <div class="phase-card reveal">
-        <div class="phase-label">Phase 1</div>
-        <h3>Purchase &amp; Essential Works</h3>
-        <div class="phase-cost">£1.4m</div>
-        <p>£1.0m purchase + £0.4m initial works. This phase brings the building into immediate operational use, including key repairs, essential ground-floor refurbishment, and initial compliance work.</p>
-      </div>
-      <div class="phase-card reveal reveal-delay-1">
-        <div class="phase-label">Phase 2</div>
-        <h3>Full Refurbishment</h3>
-        <div class="phase-cost">£1.1m</div>
-        <p>Additional cost (total building refurbishment: £1.5m). This includes roof replacement, lift installation, improved energy efficiency, electrical upgrades, air-conditioning replacement, staircase safety works and full internal finishes.</p>
-      </div>
-      <div class="phase-card reveal reveal-delay-2">
-        <div class="phase-label">Phase 3</div>
-        <h3>New Worship Hall Build</h3>
-        <div class="phase-cost">£2.0m</div>
-        <p>A purpose built hall seating around 400, enabling the whole church to meet on one site with room to grow.</p>
-      </div>
-    </div>
-    <div class="total-banner reveal">
-      <div style="font-family:'Poppins',sans-serif;font-size:clamp(1.5rem,3vw,2.2rem);font-weight:700">Total Estimated Project Cost: £4.5m</div>
-      <p>By comparison, demolishing the existing building and constructing a fully new complex would be approximately £5.8m, making this approach a strong and cost-effective investment.</p>
-    </div>
-  </div>
-
-  <div class="costs-note" style="text-align:center">
-    <span class="eyebrow">Good to Know</span>
-    <p class="body-md" style="margin-top:0.75rem;max-width:640px;margin-left:auto;margin-right:auto">These phases allow us to begin using the site quickly, complete the building systematically, and create a sustainable home for Christ Church Liverpool. Once completed, the building will provide a long-term, high quality, flexible space for church life and midweek ministry.</p>
-    <div style="margin-top:1.75rem;display:flex;flex-wrap:wrap;gap:1rem;justify-content:center">
-      <a class="btn-primary" style="background:var(--teal)" href="#partner">Partner With Us</a>
-      <a class="btn-primary" href="https://ccl.churchsuite.com/donate/fund/pti9a1vc" target="_blank" rel="noopener">Donate Now</a>
-    </div>
-  </div>
-</div><!-- /page-costs -->
+</div><!-- /page-thebuilding -->
 
 
 <!-- ═══════════════════════════════════════
@@ -2530,15 +2415,13 @@
       <ul>
         <li><a href="#home">Home</a></li>
         <li><a href="#story">Our Story</a></li>
-        <li><a href="#challenge">The Challenge</a></li>
         <li><a href="#achieves">What This Means</a></li>
       </ul>
     </div>
     <div class="footer-col">
       <h5>&nbsp;</h5>
       <ul>
-        <li><a href="#edgelane">Why Edge Lane?</a></li>
-        <li><a href="#costs">Costs &amp; Phasing</a></li>
+        <li><a href="#thebuilding">The Building</a></li>
         <li><a href="#partner">Partner With Us</a></li>
         <li><a href="#faq">FAQ</a></li>
       </ul>
@@ -2560,7 +2443,7 @@
 
 <script>
 /* ─── PAGE NAVIGATION ─── */
-function showPage(id) {
+function showPage(id, sectionId) {
   // Hide all
   document.querySelectorAll('.page').forEach(p => {
     p.classList.remove('active', 'visible');
@@ -2575,11 +2458,12 @@ function showPage(id) {
   // Show target
   const target = document.getElementById('page-' + id);
   target.classList.add('active');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (!sectionId) window.scrollTo({ top: 0, behavior: 'smooth' });
   // Trigger transition
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
       target.classList.add('visible');
+      if (sectionId) document.getElementById(sectionId).scrollIntoView({ behavior: 'instant', block: 'start' });
       // Re-trigger reveals
       target.querySelectorAll('.reveal').forEach(el => {
         el.classList.remove('in');
@@ -2595,7 +2479,12 @@ function showPage(id) {
    history and this is the only code path that switches pages. */
 function route() {
   const id = location.hash.replace('#', '') || 'home';
-  showPage(document.getElementById('page-' + id) ? id : 'home');
+  if (id === 'challenge' || id === 'costs') showPage('home', id);
+  else if (id === 'edgelane') {
+    history.replaceState(null, '', '#thebuilding');
+    showPage('thebuilding');
+  }
+  else showPage(document.getElementById('page-' + id) ? id : 'home');
 }
 window.addEventListener('hashchange', route);
 
@@ -2693,6 +2582,31 @@ function setTab(id) {
   });
   document.getElementById('tab-' + id).classList.add('active');
 }
+
+/* ─── COST & PHASING TABS ─── */
+const costTabs = Array.from(document.querySelectorAll('.cost-tab'));
+function selectCostTab(selected) {
+  costTabs.forEach(tab => {
+    const active = tab === selected;
+    tab.setAttribute('aria-selected', String(active));
+    tab.tabIndex = active ? 0 : -1;
+    document.getElementById(tab.getAttribute('aria-controls')).hidden = !active;
+  });
+}
+costTabs.forEach((tab, index) => {
+  tab.addEventListener('click', () => selectCostTab(tab));
+  tab.addEventListener('keydown', event => {
+    let next;
+    if (event.key === 'ArrowRight') next = (index + 1) % costTabs.length;
+    else if (event.key === 'ArrowLeft') next = (index + costTabs.length - 1) % costTabs.length;
+    else if (event.key === 'Home') next = 0;
+    else if (event.key === 'End') next = costTabs.length - 1;
+    else return;
+    event.preventDefault();
+    selectCostTab(costTabs[next]);
+    costTabs[next].focus();
+  });
+});
 
 /* ─── INIT ─── */
 document.addEventListener('DOMContentLoaded', () => {
