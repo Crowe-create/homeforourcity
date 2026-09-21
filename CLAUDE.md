@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-The fundraising campaign website for "Home For Our City" — Christ Church Liverpool's £4.5m capital campaign to develop 145 Edge Lane. Live at https://homeforourcity.org.
+The fundraising campaign website for "Home For Our City" — Christ Church Liverpool's £5.5m capital campaign to develop 145 Edge Lane. Live at https://homeforourcity.org.
 
 ## Tech stack & commands
 
@@ -17,15 +17,15 @@ There is no tech stack: the entire site is a single hand-written file, `index.ht
 
 The file reads top to bottom as: meta/SEO → JSON-LD structured data → `<style>` block → markup → `<script>` block.
 
-- **Hash-routed "pages"**: the site behaves like a multi-page site but is one document. Each page is a `<div id="page-XXX" class="page">` (home, story, challenge, achieves, partner, edgelane, costs, faq, privacy). All navigation is plain `<a href="#XXX">` links; a single `hashchange` handler (`route()` in the script block) validates the hash against the DOM and calls `showPage()`. To add a page, add the `page-XXX` div and link to it from the nav bar, mobile drawer, and footer — no JS registration needed.
-- **Fundraising totaliser**: the raised amount is hard-coded in more than one place and they must be kept in sync — the display text in the `.totaliser-raised` div (e.g. "£1.64m"), the percentage calculation in `animateTotaliser()`, but keep the narrative amounts in the partner page the same ("already raised £1.1m … a further £3.4m"). Search the file for the current figure before updating.
-- **Interactive widgets** are all vanilla JS at the bottom of the file: photo carousels (tracks/dots built from JS arrays), FAQ accordion, giving tabs, mobile drawer with swipe gestures, scroll-reveal animations, and a click-to-load embedded map (`loadMap()`).
+- **Hash-routed "pages"**: the site behaves like a multi-page site but is one document. Each page is a `<div id="page-XXX" class="page">` (home, story, achieves, partner, thebuilding, faq, privacy). The challenge and costs are sections of the home page, with `#challenge` and `#costs` deep links; `#edgelane` redirects to `#thebuilding`. Navigation uses plain hash links and `route()` calls `showPage()`. To add a page, add its div and links in the desktop nav, mobile drawer, and footer.
+- **Fundraising totaliser**: the raised and pledged amount is hard-coded in more than one place and must be kept in sync — the display text in the `.totaliser-raised` div, the percentage calculation in `animateTotaliser()`, and the narrative amounts on the partner page. The £1.1m used to buy the building and around £0.54m pledged count towards the £5.5m goal; most of the pledged amount has already been given. Search the file for the current figures before updating.
+- **Interactive widgets** are all vanilla JS at the bottom of the file: photo carousels (tracks/dots built from JS arrays), FAQ accordion, giving tabs, homepage cost tabs, mobile drawer with swipe gestures, scroll-reveal animations, and a click-to-load embedded map (`loadMap()`).
 - **Design tokens** live in `:root` CSS variables at the top of the `<style>` block (palette taken from the CCL print leaflet). Use these rather than raw hex values.
 
 ## Supporting files
 
 - `photos/` — `hero.jpg` doubles as the Open Graph/social preview image (referenced by absolute URL in the meta tags); `photos/carousel/slideNN.jpg` feed the home-page carousel.
-- `downloads/` — public PDFs (campaign summary, Gift Aid declaration) linked from the site.
+- `downloads/` — public PDFs (campaign summary, Gift Aid declaration) linked from the site. Regenerate the one-page campaign summary with `downloads/generate-campaign-summary.py` when its figures change.
 - `sitemap.xml` — single-URL sitemap; bump `<lastmod>` on meaningful content changes.
 - Analytics is a commented-out Plausible snippet in `<head>`, deliberately not enabled yet.
 
