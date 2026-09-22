@@ -15,12 +15,12 @@
 <meta property="og:title" content="Home For Our City — Christ Church Liverpool">
 <meta property="og:description" content="Christ Church Liverpool is raising £5.5m to make 145 Edge Lane a long-term home for worship, training and serving our city. Find out how to partner with us.">
 <meta property="og:url" content="https://homeforourcity.org/">
-<meta property="og:image" content="https://homeforourcity.org/photos/hero.jpg">
-<meta property="og:image:alt" content="Artist's impression of 145 Edge Lane, Liverpool">
+<meta property="og:image" content="https://homeforourcity.org/photos/hero.jpg?v=20260922">
+<meta property="og:image:alt" content="Rendering of the proposed design for 145 Edge Lane, subject to change">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Home For Our City — Christ Church Liverpool">
 <meta name="twitter:description" content="Christ Church Liverpool is raising £5.5m to make 145 Edge Lane a long-term home for worship, training and serving our city.">
-<meta name="twitter:image" content="https://homeforourcity.org/photos/hero.jpg">
+<meta name="twitter:image" content="https://homeforourcity.org/photos/hero.jpg?v=20260922">
 
 <!-- Favicons -->
 <link rel="icon" href="/favicon.ico?v=2" sizes="48x48">
@@ -38,7 +38,7 @@
   "alternateName": "A Home for Our City",
   "url": "https://homeforourcity.org/",
   "logo": "https://homeforourcity.org/apple-touch-icon.png",
-  "image": "https://homeforourcity.org/photos/hero.jpg",
+  "image": "https://homeforourcity.org/photos/hero.jpg?v=20260922",
   "email": "office@christchurchliverpool.org",
   "telephone": "+44 151 703 1872",
   "address": {
@@ -898,6 +898,110 @@
   }
   .cost-panel .body-md { margin-top: 0.75rem; }
   .cost-detail { font-size: 0.8rem; color: rgba(255,255,255,0.75); margin-top: 1rem; }
+
+  /* ─── THE PLAN ─── */
+  .plan-hero {
+    position: relative; min-height: clamp(420px, 48vw, 600px);
+    display: flex; align-items: flex-end; overflow: hidden; color: var(--white);
+  }
+  .plan-hero img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .plan-hero::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to right, rgba(10,25,35,0.88), rgba(10,25,35,0.35) 62%, transparent),
+                linear-gradient(to top, rgba(10,25,35,0.45), transparent 50%);
+  }
+  .plan-hero-content { position: relative; z-index: 1; width: min(100%, 1100px); margin: 0 auto; padding: 5rem clamp(1.25rem, 5vw, 3rem) 4rem; }
+  .plan-hero .heading-xl { color: var(--white); margin-bottom: 1rem; }
+  .plan-hero-content p { max-width: 34rem; font-size: clamp(1rem, 1.7vw, 1.2rem); line-height: 1.6; color: rgba(255,255,255,0.88); }
+  .plan-hero-note { position: absolute; z-index: 1; right: clamp(1.25rem, 5vw, 3rem); bottom: 1rem; font-size: 0.72rem; color: rgba(255,255,255,0.84); }
+  .plan-intro { display: grid; grid-template-columns: 1.15fr 0.85fr; align-items: start; gap: 2rem 6%; }
+  .plan-intro .body-lg { max-width: 28rem; color: var(--mid); }
+  .plan-jump-links { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 1rem 1.5rem; border-top: 1px solid var(--stone); padding-top: 1rem; }
+  .plan-jump-links a { color: var(--teal); font-size: 0.85rem; font-weight: 600; text-decoration: underline; text-decoration-color: var(--gold); text-underline-offset: 4px; }
+  .plan-jump-links a:hover { color: var(--gold); }
+  .plan-section-head { display: flex; align-items: end; justify-content: space-between; gap: 2rem; margin-bottom: 2rem; }
+  .plan-section-head p { max-width: 24rem; color: var(--mid); font-size: 0.95rem; }
+  .plan-film-section { background: var(--ink); color: var(--white); }
+  .plan-film-section, .plan-renders-section, .plan-drawings-section { scroll-margin-top: var(--nav-h); }
+  .plan-film-section .heading-lg { color: var(--white); }
+  .plan-film-section .plan-section-head p, .plan-film-meta { color: rgba(255,255,255,0.75); }
+  .plan-film { display: block; width: 100%; aspect-ratio: 16 / 9; background: var(--teal); }
+  .plan-film-meta { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem 1rem; margin-top: 0.8rem; font-size: 0.78rem; }
+  .plan-feature { display: grid; grid-template-columns: 1.3fr 0.7fr; gap: 2rem; align-items: end; margin-bottom: 1.25rem; }
+  .plan-feature img { width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; }
+  .plan-feature h3 { font-family: 'Poppins', sans-serif; font-size: clamp(1.3rem, 2.4vw, 1.7rem); font-weight: 600; line-height: 1.3; margin-bottom: 0.7rem; }
+  .plan-feature p { color: var(--mid); margin-bottom: 1.2rem; }
+  .plan-feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
+  .plan-feature-grid img { width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; }
+  .plan-feature-grid figcaption { margin-top: 0.5rem; font-size: 0.82rem; color: var(--mid); }
+  .plan-preview { display: block; cursor: zoom-in; }
+  .plan-preview:hover img { filter: brightness(0.88); }
+  .plan-preview:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+  .plan-render-link { display: inline-block; color: var(--ink); font-weight: 600; font-size: 0.88rem; border-bottom: 2px solid var(--gold); padding-bottom: 0.2rem; }
+  .plan-render-link:hover { color: var(--gold); }
+  .plan-gallery-trigger { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--ink); font-weight: 600; font-size: 0.9rem; border-bottom: 2px solid var(--gold); padding-bottom: 0.2rem; }
+  .plan-gallery-trigger:hover { color: var(--gold); }
+  .plan-gallery-trigger:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+  .plan-lightbox { width: min(1100px, calc(100vw - 2rem)); max-width: none; max-height: calc(100dvh - 2rem); margin: auto; padding: 0; border: 1px solid var(--teal); background: var(--ink); color: var(--white); overflow: hidden; box-shadow: 0 24px 80px rgba(0,0,0,0.4); }
+  .plan-lightbox:not([open]) { display: none; }
+  .plan-lightbox[open] { display: flex; flex-direction: column; }
+  .plan-lightbox::backdrop { background: rgba(8,20,28,0.82); backdrop-filter: blur(4px); }
+  .plan-lightbox-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.85rem 1.25rem; border-bottom: 1px solid rgba(255,255,255,0.18); }
+  .plan-lightbox-head .eyebrow { margin: 0 0 0.15rem; }
+  .plan-lightbox-head h2 { font-family: 'Poppins', sans-serif; font-size: 1.2rem; font-weight: 600; line-height: 1.2; }
+  .plan-lightbox-close { flex: none; width: 2.5rem; height: 2.5rem; color: var(--white); font-size: 1.9rem; line-height: 1; }
+  .plan-lightbox-close:hover, .plan-lightbox-arrow:hover { color: var(--gold); }
+  .plan-lightbox-close:focus-visible, .plan-lightbox-arrow:focus-visible, .plan-lightbox-thumbs a:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+  .plan-lightbox-viewer { position: relative; display: flex; align-items: center; justify-content: center; height: min(62dvh, 620px); min-height: 0; padding: 0.75rem 3.25rem; }
+  .plan-lightbox-viewer img { display: block; width: auto; max-width: 100%; height: auto; max-height: 100%; object-fit: contain; }
+  .plan-lightbox-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 2.5rem; height: 3.5rem; color: var(--white); font-size: 2.5rem; line-height: 1; background: rgba(0,0,0,0.35); }
+  .plan-lightbox-prev { left: 0.25rem; }
+  .plan-lightbox-next { right: 0.25rem; }
+  .plan-lightbox-footer { border-top: 1px solid rgba(255,255,255,0.18); padding: 0.65rem 1.25rem 0.8rem; }
+  .plan-lightbox-meta { display: flex; justify-content: space-between; gap: 0.5rem 1rem; margin-bottom: 0.65rem; font-size: 0.82rem; color: rgba(255,255,255,0.8); }
+  .plan-lightbox-count { flex: none; color: var(--gold); font-weight: 600; }
+  .plan-lightbox-thumbs { display: flex; gap: 0.45rem; overflow-x: auto; scrollbar-width: thin; scrollbar-color: var(--gold) var(--teal); padding: 0.15rem 0.1rem 0.35rem; }
+  .plan-lightbox-thumbs::-webkit-scrollbar { height: 5px; }
+  .plan-lightbox-thumbs::-webkit-scrollbar-track { background: rgba(255,255,255,0.12); }
+  .plan-lightbox-thumbs::-webkit-scrollbar-thumb { background: var(--gold); }
+  .plan-lightbox-thumbs a { flex: 0 0 88px; display: block; border: 2px solid transparent; opacity: 0.65; }
+  .plan-lightbox-thumbs a:hover, .plan-lightbox-thumbs a.active { border-color: var(--gold); opacity: 1; }
+  .plan-lightbox-thumbs img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
+  .plan-drawings-section { background: var(--white); }
+  .plan-drawing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+  .plan-drawing { border-top: 3px solid var(--gold); padding-top: 0.75rem; }
+  .plan-drawing img { display: block; width: 100%; height: 300px; object-fit: contain; background: var(--warm); border: 1px solid var(--stone); }
+  .plan-drawing h3 { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 1.05rem; margin-top: 0.8rem; }
+  .plan-drawing p { font-size: 0.8rem; color: var(--mid); margin: 0.25rem 0 0.5rem; }
+  .plan-disclaimer { margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--stone); color: var(--mid); font-size: 0.85rem; }
+  .plan-cta { background: var(--teal); color: var(--white); text-align: center; }
+  .plan-cta .heading-lg { color: var(--white); max-width: 42rem; margin: 0 auto 0.8rem; }
+  .plan-cta p { max-width: 36rem; margin: 0 auto 1.5rem; color: rgba(255,255,255,0.8); }
+  @media (max-width: 900px) {
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+  }
+  @media (max-width: 800px) {
+    .plan-intro, .plan-feature { grid-template-columns: 1fr; }
+    .plan-section-head { display: block; }
+    .plan-section-head p { margin-top: 0.8rem; }
+  }
+  @media (max-width: 640px) {
+    .plan-hero img { object-position: 62% center; }
+    .plan-hero-note { left: 1.25rem; right: auto; }
+    .plan-feature-grid { grid-template-columns: 1fr; gap: 1.25rem; }
+    .plan-lightbox { width: calc(100vw - 1rem); max-height: calc(100dvh - 1rem); }
+    .plan-lightbox-head { padding: 0.7rem 0.9rem; }
+    .plan-lightbox-head .eyebrow { font-size: 0.62rem; letter-spacing: 0.1em; }
+    .plan-lightbox-head h2 { font-size: 1rem; }
+    .plan-lightbox-viewer { height: auto; aspect-ratio: 16 / 10; padding: 0.5rem 1rem; }
+    .plan-lightbox-arrow { width: 2rem; height: 2.5rem; font-size: 2rem; }
+    .plan-lightbox-footer { padding: 0.6rem 0.9rem 0.7rem; }
+    .plan-lightbox-meta { font-size: 0.75rem; }
+    .plan-lightbox-thumbs a { flex-basis: 68px; }
+    .plan-drawing-grid { grid-template-columns: 1fr; }
+    .plan-drawing img { height: 340px; }
+  }
   /* ─── FAQ ─── */
   .faq-hero { background: var(--warm); padding: clamp(3rem, 6vw, 5rem) clamp(1.25rem, 5vw, 3rem); border-bottom: 1px solid var(--stone); text-align: center; }
   .faq-list { max-width: 780px; margin: 0 auto; padding: clamp(2rem, 4vw, 4rem) clamp(1.25rem, 5vw, 3rem); }
@@ -1275,6 +1379,7 @@
     <li><a href="#story" data-page="story">Our Story</a></li>
     <li><a href="#achieves" data-page="achieves">What This Means</a></li>
     <li><a href="#thebuilding" data-page="thebuilding">The Building</a></li>
+    <li><a href="#plan" data-page="plan">The Plan</a></li>
     <li><a href="#partner" data-page="partner">Partner With Us</a></li>
     <li><a href="#faq" data-page="faq">FAQ</a></li>
     <li><a class="nav-donate" href="https://ccl.churchsuite.com/donate/fund/pti9a1vc" target="_blank" rel="noopener">Donate</a></li>
@@ -1297,6 +1402,7 @@
     <a href="#story">Our Story</a>
     <a href="#achieves">What This Means</a>
     <a href="#thebuilding">The Building</a>
+    <a href="#plan">The Plan</a>
     <a href="#partner">Partner With Us</a>
     <a href="#faq">FAQ</a>
   </nav>
@@ -1314,7 +1420,7 @@
   <section class="hero">
     <!-- Full-bleed background image -->
     <div class="hero-bg">
-      <img src="photos/hero.jpg" alt="Artist's impression of 145 Edge Lane, Liverpool">
+      <img src="photos/hero.jpg?v=20260922" alt="Rendering of the proposed design for 145 Edge Lane, subject to change">
     </div>
     <!-- Overlaid text content -->
     <div class="hero-content">
@@ -1333,7 +1439,7 @@
       </svg>
       <span>Scroll</span>
     </div>
-    <span class="hero-caption">Artist's impression — subject to change</span>
+    <span class="hero-caption">Proposed design — subject to change</span>
   </section>
 
   <!-- Stats bar -->
@@ -2057,6 +2163,7 @@
 
   <div class="section">
     <p class="body-lg reveal" style="max-width:680px;margin:0 auto;text-align:center">145 Edge Lane is right along one of the main arteries of the city at the edge of the city centre. It offers a unique opportunity to secure a long-term, practical home for Christ Church Liverpool in a location that works for people from all over the city. A perfect place to gather people across Liverpool to then be sent out for God's glory.</p>
+    <p class="reveal" style="text-align:center;margin-top:1.5rem"><a class="btn-outline-dark" href="#plan">Explore the proposed plan</a></p>
   </div>
 
   <!-- Map: click-to-load -->
@@ -2175,6 +2282,132 @@
   </div>
 
 </div><!-- /page-thebuilding -->
+
+<!-- ═══════════════════════════════════════
+     PAGE: THE PLAN
+═══════════════════════════════════════ -->
+<div id="page-plan" class="page">
+  <section class="plan-hero">
+    <img src="photos/plan/render-03.jpg" alt="Rendering of the proposed building at 145 Edge Lane" width="1600" height="900">
+    <div class="plan-hero-content">
+      <span class="eyebrow" style="color:var(--gold-light)">145 Edge Lane</span>
+      <h1 class="heading-xl">The Plan</h1>
+      <p>Take a closer look at the spaces and the vision for a home that serves our church and our city.</p>
+    </div>
+    <span class="plan-hero-note">Proposed design — subject to change</span>
+  </section>
+
+  <div class="section plan-intro">
+    <div>
+      <span class="eyebrow">Explore the vision</span>
+      <h2 class="heading-lg">A place to gather, welcome and send.</h2>
+    </div>
+    <p class="body-lg">Walk through the building, explore the views, and see how the spaces fit together in the proposed drawings.</p>
+    <div class="plan-jump-links" role="navigation" aria-label="On this page">
+      <a href="#plan-walkthrough">Watch the walkthrough</a>
+      <a href="#plan-renders">Explore renders</a>
+      <a href="#plan-drawings">View the plans</a>
+    </div>
+  </div>
+
+  <section class="plan-film-section" id="plan-walkthrough">
+    <div class="section">
+      <div class="plan-section-head">
+        <div><span class="eyebrow">Step inside</span><h2 class="heading-lg">Walk through the vision</h2></div>
+        <p>A guided look around the proposed building, from the outside in.</p>
+      </div>
+      <video id="planWalkthrough" class="plan-film" controls preload="none" playsinline
+             poster="photos/plan/walkthrough-poster.jpg"
+             aria-label="Video walkthrough of the proposed design, subject to change">
+        <source src="https://media.homeforourcity.org/hfoc-plan-walkthrough-720p.mp4" type="video/mp4">
+        <p>Your browser cannot play this walkthrough video.</p>
+      </video>
+      <div class="plan-film-meta"><span>Video walkthrough • 3 minutes 11 seconds</span><span>Proposed design — subject to change</span></div>
+    </div>
+  </section>
+
+  <section class="section plan-renders-section" id="plan-renders">
+    <div class="plan-section-head">
+      <div><span class="eyebrow">Proposed design</span><h2 class="heading-lg">See the spaces</h2></div>
+      <p>Views of the building and its rooms. This design is subject to change as the project develops.</p>
+    </div>
+    <div class="plan-feature">
+      <a class="plan-preview" href="photos/plan/render-05.jpg" data-plan-render><img src="photos/plan/render-05.jpg" alt="Rendering of the proposed entrance and landscaped approach" width="1600" height="900" loading="lazy"></a>
+      <div>
+        <h3>Arriving at Edge Lane</h3>
+        <p>An entrance that opens into shared spaces for meeting and spending time together.</p>
+      </div>
+    </div>
+    <div class="plan-feature-grid">
+      <figure><a class="plan-preview" href="photos/plan/render-07.jpg" data-plan-render><img src="photos/plan/render-07.jpg" alt="Rendering of a proposed shared space" width="1600" height="900" loading="lazy"></a><figcaption>Shared spaces</figcaption></figure>
+      <figure><a class="plan-preview" href="photos/plan/render-10.jpg" data-plan-render><img src="photos/plan/render-10.jpg" alt="Rendering of the proposed gathering space" width="1600" height="900" loading="lazy"></a><figcaption>Gathering space</figcaption></figure>
+      <figure><a class="plan-preview" href="photos/plan/render-17.jpg" data-plan-render><img src="photos/plan/render-17.jpg" alt="Rendering of a proposed upper floor room" width="1600" height="900" loading="lazy"></a><figcaption>Flexible rooms</figcaption></figure>
+    </div>
+    <button class="plan-gallery-trigger" id="planGalleryTrigger" type="button">View all 22 renders <span aria-hidden="true">↗</span></button>
+  </section>
+
+  <dialog class="plan-lightbox" id="planGallery" aria-labelledby="planGalleryTitle">
+    <div class="plan-lightbox-head">
+      <div><span class="eyebrow">Proposed design — subject to change</span><h2 id="planGalleryTitle">Render gallery</h2></div>
+      <button class="plan-lightbox-close" id="planGalleryClose" type="button" aria-label="Close gallery">&times;</button>
+    </div>
+    <div class="plan-lightbox-viewer" id="planGalleryViewer">
+      <button class="plan-lightbox-arrow plan-lightbox-prev" id="planGalleryPrev" type="button" aria-label="Previous render">&#8249;</button>
+      <img id="planGalleryImage" alt="">
+      <button class="plan-lightbox-arrow plan-lightbox-next" id="planGalleryNext" type="button" aria-label="Next render">&#8250;</button>
+    </div>
+    <div class="plan-lightbox-footer">
+      <div class="plan-lightbox-meta"><span class="plan-lightbox-count" id="planGalleryCount" aria-live="polite"></span><span id="planGalleryCaption"></span></div>
+      <div class="plan-lightbox-thumbs" id="planGalleryThumbs" role="group" aria-label="Choose a render">
+        <a href="photos/plan/render-01.jpg" target="_blank" rel="noopener"><img src="photos/plan/render-01.jpg" alt="Proposed exterior from the car park" loading="lazy"></a>
+        <a href="photos/plan/render-02.jpg" target="_blank" rel="noopener"><img src="photos/plan/render-02.jpg" alt="Proposed exterior from Edge Lane" loading="lazy"></a>
+        <a href="photos/plan/render-03.jpg" target="_blank" rel="noopener"><img src="photos/plan/render-03.jpg" alt="Proposed front entrance and parking" loading="lazy"></a>
+        <a href="photos/plan/render-04.jpg" target="_blank" rel="noopener"><img src="photos/plan/render-04.jpg" alt="Proposed glazed entrance" loading="lazy"></a>
+        <a href="photos/plan/render-05.jpg" target="_blank" rel="noopener"><img src="photos/plan/render-05.jpg" alt="Proposed landscaped approach" loading="lazy"></a>
+        <a href="photos/plan/render-06.jpg" target="_blank" rel="noopener"><img src="photos/plan/render-06.jpg" alt="Proposed cafe and welcome area" loading="lazy"></a>
+        <a href="photos/plan/render-07.jpg" target="_blank" rel="noopener"><img src="photos/plan/render-07.jpg" alt="Proposed shared interior" loading="lazy"></a>
+        <a href="photos/plan/render-08.jpg" target="_blank" rel="noopener"><img src="photos/plan/render-08.jpg" alt="Proposed gathering space from the rear" loading="lazy"></a>
+        <a href="photos/plan/render-09.jpg" target="_blank" rel="noopener"><img src="photos/plan/render-09.jpg" alt="Proposed gathering space from the balcony" loading="lazy"></a>
+        <a href="photos/plan/render-10.jpg" target="_blank" rel="noopener"><img src="photos/plan/render-10.jpg" alt="Proposed gathering space from the front" loading="lazy"></a>
+        <a href="photos/plan/render-11.jpg" target="_blank" rel="noopener"><img src="photos/plan/render-11.jpg" alt="Proposed gathering space side view" loading="lazy"></a>
+        <a href="photos/plan/render-12.jpg" target="_blank" rel="noopener"><img src="photos/plan/render-12.jpg" alt="Proposed lounge and cafe area" loading="lazy"></a>
+        <a href="photos/plan/render-13.jpg" target="_blank" rel="noopener"><img src="photos/plan/render-13.jpg" alt="Proposed lounge beside the windows" loading="lazy"></a>
+        <a href="photos/plan/render-14.jpg" target="_blank" rel="noopener"><img src="photos/plan/render-14.jpg" alt="Proposed lounge with refreshment counter" loading="lazy"></a>
+        <a href="photos/plan/render-15.jpg" target="_blank" rel="noopener"><img src="photos/plan/render-15.jpg" alt="Proposed lounge with seating" loading="lazy"></a>
+        <a href="photos/plan/render-17.jpg" target="_blank" rel="noopener"><img src="photos/plan/render-17.jpg" alt="Proposed upper floor shared room" loading="lazy"></a>
+        <a href="photos/plan/render-18.jpg" target="_blank" rel="noopener"><img src="photos/plan/render-18.jpg" alt="Proposed upper floor activity room" loading="lazy"></a>
+        <a href="photos/plan/render-19.jpg" target="_blank" rel="noopener"><img src="photos/plan/render-19.jpg" alt="Proposed gathering space overview" loading="lazy"></a>
+        <a href="photos/plan/render-20.jpg" target="_blank" rel="noopener"><img src="photos/plan/render-20.jpg" alt="Aerial rendering of the proposed site" loading="lazy"></a>
+        <a href="photos/plan/render-21.jpg" target="_blank" rel="noopener"><img src="photos/plan/render-21.jpg" alt="Aerial rendering from Edge Lane" loading="lazy"></a>
+        <a href="photos/plan/render-22.jpg" target="_blank" rel="noopener"><img src="photos/plan/render-22.jpg" alt="Aerial rendering of the proposed entrance" loading="lazy"></a>
+        <a href="photos/plan/render-23.jpg" target="_blank" rel="noopener"><img src="photos/plan/render-23.jpg" alt="Proposed entrance from the car park" loading="lazy"></a>
+      </div>
+    </div>
+  </dialog>
+
+  <section class="plan-drawings-section" id="plan-drawings">
+    <div class="section">
+      <div class="plan-section-head">
+        <div><span class="eyebrow">Proposed drawings</span><h2 class="heading-lg">See how it fits together</h2></div>
+        <p>Preview the site and floor plans, then open the full drawings as PDFs.</p>
+      </div>
+      <div class="plan-drawing-grid">
+        <div class="plan-drawing"><img src="photos/plan/site-plan.jpg" alt="Preview of proposed site plan" loading="lazy"><h3>Site plan</h3><p>AL005 • Proposed design — subject to change</p><a class="plan-render-link" href="downloads/plan/site-plan.pdf" target="_blank" rel="noopener">Open drawing PDF</a></div>
+        <div class="plan-drawing"><img src="photos/plan/ground-floor.jpg" alt="Preview of proposed ground floor plan" loading="lazy"><h3>Ground floor</h3><p>AL006 • Proposed design — subject to change</p><a class="plan-render-link" href="downloads/plan/ground-floor.pdf" target="_blank" rel="noopener">Open drawing PDF</a></div>
+        <div class="plan-drawing"><img src="photos/plan/first-floor.jpg" alt="Preview of proposed first and second floor plan" loading="lazy"><h3>First &amp; Second floor</h3><p>AL007 • Proposed design — subject to change</p><a class="plan-render-link" href="downloads/plan/first-floor.pdf" target="_blank" rel="noopener">Open drawing PDF</a></div>
+      </div>
+      <p class="plan-disclaimer">The renders and drawings show the proposed design, subject to change. <a class="plan-render-link" href="downloads/plan/elevations.pdf" target="_blank" rel="noopener">View proposed elevations (PDF)</a></p>
+    </div>
+  </section>
+
+  <section class="plan-cta">
+    <div class="section">
+      <h2 class="heading-lg">Help make a home for our city possible.</h2>
+      <p>Find out how you can pray, give and partner with Christ Church Liverpool.</p>
+      <a class="btn-primary" href="#partner">Partner With Us</a>
+    </div>
+  </section>
+</div><!-- /page-plan -->
 
 
 <!-- ═══════════════════════════════════════
@@ -2429,6 +2662,7 @@
       <h5>&nbsp;</h5>
       <ul>
         <li><a href="#thebuilding">The Building</a></li>
+        <li><a href="#plan">The Plan</a></li>
         <li><a href="#partner">Partner With Us</a></li>
         <li><a href="#faq">FAQ</a></li>
       </ul>
@@ -2443,7 +2677,7 @@
   </div>
   <div class="footer-bottom">
     <span>Copyright Christ Church Liverpool 2026 &nbsp;·&nbsp; <a href="#privacy" style="background:none;border:none;padding:0;font:inherit;cursor:pointer;color:rgba(255,255,255,0.35);text-decoration:underline;text-underline-offset:2px">Data Protection Policy</a></span>
-    <span>The cover image is an artist's impression — subject to change</span>
+    <span>Building visuals show the proposed design — subject to change</span>
   </div>
 </footer>
 
@@ -2486,7 +2720,10 @@ function showPage(id, sectionId) {
    history and this is the only code path that switches pages. */
 function route() {
   const id = location.hash.replace('#', '') || 'home';
+  const planGallery = document.getElementById('planGallery');
+  if (planGallery.open) planGallery.close();
   if (id === 'challenge' || id === 'costs') showPage('home', id);
+  else if (id === 'plan-walkthrough' || id === 'plan-renders' || id === 'plan-drawings') showPage('plan', id);
   else if (id === 'edgelane') {
     history.replaceState(null, '', '#thebuilding');
     showPage('thebuilding');
@@ -2614,6 +2851,93 @@ costTabs.forEach((tab, index) => {
     costTabs[next].focus();
   });
 });
+
+/* ─── PLAN RENDER GALLERY ─── */
+(function() {
+  const dialog = document.getElementById('planGallery');
+  const image = document.getElementById('planGalleryImage');
+  const count = document.getElementById('planGalleryCount');
+  const caption = document.getElementById('planGalleryCaption');
+  const strip = document.getElementById('planGalleryThumbs');
+  const thumbs = [...strip.querySelectorAll('a')];
+  const viewer = document.getElementById('planGalleryViewer');
+  const closeButton = document.getElementById('planGalleryClose');
+  let current = 0;
+  let previousFocus;
+  let previousOverflow;
+  let wheelLocked = false;
+
+  function showRender(n) {
+    current = (n + thumbs.length) % thumbs.length;
+    const selected = thumbs[current];
+    image.src = selected.getAttribute('href');
+    image.alt = selected.querySelector('img').alt;
+    caption.textContent = image.alt;
+    count.textContent = `${current + 1} / ${thumbs.length}`;
+    thumbs.forEach((thumb, index) => {
+      thumb.classList.toggle('active', index === current);
+      if (index === current) thumb.setAttribute('aria-current', 'true');
+      else thumb.removeAttribute('aria-current');
+    });
+    const thumbCenter = selected.getBoundingClientRect().left + selected.offsetWidth / 2;
+    const stripCenter = strip.getBoundingClientRect().left + strip.clientWidth / 2;
+    strip.scrollBy({ left: thumbCenter - stripCenter, behavior: 'smooth' });
+  }
+
+  function openGallery(n) {
+    previousFocus = document.activeElement;
+    previousOverflow = document.body.style.overflow;
+    dialog.showModal();
+    document.body.style.overflow = 'hidden';
+    showRender(n);
+    closeButton.focus();
+  }
+
+  document.getElementById('planGalleryTrigger').addEventListener('click', () => openGallery(0));
+  document.querySelectorAll('[data-plan-render]').forEach(preview => {
+    preview.addEventListener('click', event => {
+      event.preventDefault();
+      openGallery(thumbs.findIndex(thumb => thumb.getAttribute('href') === preview.getAttribute('href')));
+    });
+  });
+  document.getElementById('planGalleryPrev').addEventListener('click', () => showRender(current - 1));
+  document.getElementById('planGalleryNext').addEventListener('click', () => showRender(current + 1));
+  closeButton.addEventListener('click', () => dialog.close());
+  thumbs.forEach((thumb, index) => thumb.addEventListener('click', event => {
+    event.preventDefault();
+    showRender(index);
+  }));
+
+  dialog.addEventListener('keydown', event => {
+    if (event.key === 'ArrowRight') { event.preventDefault(); showRender(current + 1); }
+    if (event.key === 'ArrowLeft') { event.preventDefault(); showRender(current - 1); }
+  });
+  dialog.addEventListener('click', event => {
+    const bounds = dialog.getBoundingClientRect();
+    if (event.target === dialog && (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom)) dialog.close();
+  });
+  dialog.addEventListener('close', () => {
+    document.body.style.overflow = previousOverflow;
+    previousFocus?.focus();
+  });
+
+  viewer.addEventListener('wheel', event => {
+    const delta = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
+    if (Math.abs(delta) < 10) return;
+    event.preventDefault();
+    if (wheelLocked) return;
+    wheelLocked = true;
+    showRender(current + (delta > 0 ? 1 : -1));
+    setTimeout(() => { wheelLocked = false; }, 450);
+  }, { passive: false });
+
+  let touchStartX = 0;
+  viewer.addEventListener('touchstart', event => { touchStartX = event.touches[0].clientX; }, { passive: true });
+  viewer.addEventListener('touchend', event => {
+    const distance = event.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(distance) > 40) showRender(current + (distance < 0 ? 1 : -1));
+  }, { passive: true });
+})();
 
 /* ─── INIT ─── */
 document.addEventListener('DOMContentLoaded', () => {
