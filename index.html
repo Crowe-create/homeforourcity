@@ -568,6 +568,11 @@
     box-shadow: 0 18px 50px rgba(0,0,0,0.45);
   }
   .film-video { display: block; width: 100%; height: 100%; }
+  .film-play-button { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: grid; place-items: center; width: clamp(3.25rem, 5vw, 4rem); aspect-ratio: 1; border-radius: 50%; background: var(--gold); color: var(--white); box-shadow: 0 4px 18px rgba(0,0,0,0.35); }
+  .film-play-button[hidden] { display: none; }
+  .film-play-button:hover { transform: translate(-50%, -50%) scale(1.08); }
+  .film-play-button:focus-visible { outline: 3px solid var(--white); outline-offset: 4px; }
+  .film-play-button svg { width: 1.25rem; height: 1.25rem; margin-left: 0.2rem; fill: currentColor; }
   .film-video::cue {
     background: rgba(0,0,0,0.72);
     color: var(--white);
@@ -874,49 +879,78 @@
 
   /* ─── HOMEPAGE COSTS & PHASING ─── */
   #challenge, #costs { scroll-margin-top: calc(var(--nav-h) + 1rem); }
-  .costs-band { background: var(--ink); color: var(--white); }
-  .costs-section .heading-lg, .costs-section .heading-md { color: var(--white); }
-  .costs-section .eyebrow { color: var(--gold-light); }
-  .costs-section .body-md { color: rgba(255,255,255,0.75); }
-  .home-building { text-align: center; }
-  .home-building .body-md { margin-left: auto; margin-right: auto; }
+  .costs-band { background: var(--warm); color: var(--ink); }
+  .costs-section .heading-lg, .costs-section .heading-md { color: var(--ink); }
+  .costs-section .eyebrow { color: var(--gold); }
+  .costs-section .body-md { color: var(--mid); }
+  .home-plan-preview-band { background: var(--ink); color: var(--white); scroll-margin-top: var(--nav-h); }
+  .home-plan-preview-copy { text-align: center; padding-bottom: 2rem; }
+  .home-plan-preview-copy .eyebrow { color: var(--gold-light); }
+  .home-plan-preview-copy .heading-lg { margin: 0.25rem 0 1rem; color: var(--white); }
+  .home-plan-preview-copy .heading-lg em { font-style: normal; color: inherit; }
+  .home-plan-preview-copy .body-md { max-width: 760px; margin: 0 auto; color: rgba(255,255,255,0.75); }
+  .home-plan-carousel { max-width: 1440px; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 3rem) clamp(2.5rem, 5vw, 4rem); }
+  .home-plan-stage { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: var(--ink); touch-action: pan-y; }
+  .home-plan-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 650ms ease; }
+  .home-plan-slide.is-active { opacity: 1; }
+  .home-plan-slide img { width: 100%; height: 100%; object-fit: cover; }
+  .home-plan-arrow { position: absolute; z-index: 1; top: 50%; transform: translateY(-50%); display: grid; place-items: center; width: 48px; height: 48px; background: var(--ink); color: var(--white); border: 1px solid rgba(255,255,255,0.4); border-radius: 50%; font-size: 2rem; line-height: 1; }
+  .home-plan-arrow:hover { background: var(--teal); color: var(--gold-light); }
+  .home-plan-prev { left: 1rem; }
+  .home-plan-next { right: 1rem; }
+  .home-plan-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1rem 0; }
+  .home-plan-caption { font-size: 0.9rem; font-weight: 500; }
+  .home-plan-controls { display: flex; align-items: center; gap: 1rem; flex: none; }
+  .home-plan-dots { display: flex; gap: 0.15rem; }
+  .home-plan-dot { display: grid; place-items: center; width: 28px; height: 44px; }
+  .home-plan-dot::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.55); }
+  .home-plan-dot[aria-current="true"]::before { background: var(--gold); width: 20px; border-radius: 5px; }
+  .home-plan-rotation { min-height: 44px; padding: 0 0.75rem; border: 1px solid rgba(255,255,255,0.5); border-radius: 4px; font-size: 0.8rem; color: var(--white); }
+  .home-plan-carousel button:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+  .home-plan-preview-footer { display: flex; align-items: center; justify-content: space-between; gap: 1.25rem; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 1.5rem; }
+  .home-plan-preview-footer p { font-size: 0.9rem; color: rgba(255,255,255,0.75); }
+  .home-plan-preview-footer .btn-outline { flex: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .home-plan-slide { transition: none; }
+  }
   .costs-section {
     text-align: center;
   }
   .costs-section > div { max-width: 760px; margin: 0 auto; }
-  .cost-tabs { display: flex; border-bottom: 1px solid rgba(255,255,255,0.2); margin-bottom: 1.5rem; }
+  .cost-tabs { display: flex; border-bottom: 1px solid var(--stone); margin-bottom: 1.5rem; }
   .cost-tab {
     flex: 1; padding: 0.85rem 0.25rem;
     font-family: 'Poppins', sans-serif; font-size: 0.75rem; font-weight: 500;
-    color: rgba(255,255,255,0.75); border-bottom: 3px solid transparent;
+    color: var(--mid); border-bottom: 3px solid transparent;
   }
-  .cost-tab[aria-selected="true"] { color: var(--white); border-bottom-color: var(--gold-light); font-weight: 600; }
-  .cost-tab:hover { color: var(--gold-light); }
+  .cost-tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--gold); font-weight: 600; }
+  .cost-tab:hover { color: var(--ink); }
   .phase-cost {
     font-family: 'Poppins', sans-serif; font-size: clamp(2rem, 4vw, 3rem);
-    font-weight: 700; color: var(--gold-light); margin-bottom: 0.75rem;
+    font-weight: 700; color: var(--ink); margin-bottom: 0.75rem;
   }
   .cost-panel .body-md { margin-top: 0.75rem; }
-  .cost-detail { font-size: 0.8rem; color: rgba(255,255,255,0.75); margin-top: 1rem; }
+  .cost-detail { font-size: 0.8rem; color: var(--mid); margin-top: 1rem; }
 
   /* ─── THE PLAN ─── */
   .plan-hero {
     position: relative; min-height: clamp(420px, 48vw, 600px);
-    display: flex; align-items: flex-end; overflow: hidden; color: var(--white);
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden; color: var(--white); text-align: center;
   }
   .plan-hero img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   .plan-hero::after {
     content: ''; position: absolute; inset: 0;
-    background: linear-gradient(to right, rgba(10,25,35,0.88), rgba(10,25,35,0.35) 62%, transparent),
-                linear-gradient(to top, rgba(10,25,35,0.45), transparent 50%);
+    background: linear-gradient(to top, rgba(10,25,35,0.75), rgba(10,25,35,0.45));
   }
-  .plan-hero-content { position: relative; z-index: 1; width: min(100%, 1100px); margin: 0 auto; padding: 5rem clamp(1.25rem, 5vw, 3rem) 4rem; }
-  .plan-hero .heading-xl { color: var(--white); margin-bottom: 1rem; }
-  .plan-hero-content p { max-width: 34rem; font-size: clamp(1rem, 1.7vw, 1.2rem); line-height: 1.6; color: rgba(255,255,255,0.88); }
+  .plan-hero-content { position: relative; z-index: 1; width: 100%; padding: 5rem clamp(1.25rem, 5vw, 3rem); }
+  .plan-hero .heading-xl { color: var(--white); margin-top: 0.5rem; }
+  .plan-hero .heading-xl em { color: var(--gold); }
   .plan-hero-note { position: absolute; z-index: 1; right: clamp(1.25rem, 5vw, 3rem); bottom: 1rem; font-size: 0.72rem; color: rgba(255,255,255,0.84); }
-  .plan-intro { display: grid; grid-template-columns: 1.15fr 0.85fr; align-items: start; gap: 2rem 6%; }
-  .plan-intro .body-lg { max-width: 28rem; color: var(--mid); }
-  .plan-jump-links { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 1rem 1.5rem; border-top: 1px solid var(--stone); padding-top: 1rem; }
+  .plan-intro { text-align: center; }
+  .plan-intro .heading-lg { margin: 0.5rem auto 0; }
+  .plan-intro .body-lg { max-width: 42rem; margin: 1rem auto 0; color: var(--mid); }
+  .plan-jump-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 1rem 1.5rem; border-top: 1px solid var(--stone); margin-top: 2rem; padding-top: 1rem; }
   .plan-jump-links a { color: var(--teal); font-size: 0.85rem; font-weight: 600; text-decoration: underline; text-decoration-color: var(--gold); text-underline-offset: 4px; }
   .plan-jump-links a:hover { color: var(--gold); }
   .plan-section-head { display: flex; align-items: end; justify-content: space-between; gap: 2rem; margin-bottom: 2rem; }
@@ -925,13 +959,14 @@
   .plan-film-section, .plan-renders-section, .plan-drawings-section { scroll-margin-top: var(--nav-h); }
   .plan-film-section .heading-lg { color: var(--white); }
   .plan-film-section .plan-section-head p, .plan-film-meta { color: rgba(255,255,255,0.75); }
+  .plan-film-wrap { position: relative; }
   .plan-film { display: block; width: 100%; aspect-ratio: 16 / 9; background: var(--teal); }
   .plan-film-meta { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem 1rem; margin-top: 0.8rem; font-size: 0.78rem; }
   .plan-feature { display: grid; grid-template-columns: 1.3fr 0.7fr; gap: 2rem; align-items: end; margin-bottom: 1.25rem; }
   .plan-feature img { width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; }
   .plan-feature h3 { font-family: 'Poppins', sans-serif; font-size: clamp(1.3rem, 2.4vw, 1.7rem); font-weight: 600; line-height: 1.3; margin-bottom: 0.7rem; }
   .plan-feature p { color: var(--mid); margin-bottom: 1.2rem; }
-  .plan-feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
+  .plan-feature-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; margin-bottom: 1.5rem; }
   .plan-feature-grid img { width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; }
   .plan-feature-grid figcaption { margin-top: 0.5rem; font-size: 0.82rem; color: var(--mid); }
   .plan-preview { display: block; cursor: zoom-in; }
@@ -982,11 +1017,18 @@
     .hamburger { display: flex; }
   }
   @media (max-width: 800px) {
-    .plan-intro, .plan-feature { grid-template-columns: 1fr; }
+    .plan-feature { grid-template-columns: 1fr; }
     .plan-section-head { display: block; }
     .plan-section-head p { margin-top: 0.8rem; }
   }
   @media (max-width: 640px) {
+    .home-plan-carousel { padding-left: 0; padding-right: 0; }
+    .home-plan-stage { aspect-ratio: 16 / 10; }
+    .home-plan-arrow { width: 44px; height: 44px; }
+    .home-plan-prev { left: 0.5rem; }
+    .home-plan-next { right: 0.5rem; }
+    .home-plan-toolbar { flex-direction: column; gap: 0.25rem; padding: 1rem 1.25rem; }
+    .home-plan-preview-footer { flex-direction: column; text-align: center; margin: 0 1.25rem; }
     .plan-hero img { object-position: 62% center; }
     .plan-hero-note { left: 1.25rem; right: auto; }
     .plan-feature-grid { grid-template-columns: 1fr; gap: 1.25rem; }
@@ -1481,6 +1523,9 @@
           <track kind="captions" src="captions/hfoc-film.en.vtt" srclang="en" label="English">
           <p class="film-fallback">Your browser can't play this video.</p>
         </video>
+        <button class="film-play-button" id="campaignFilmPlay" type="button" aria-label="Play campaign film">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3.5v17l15-8.5z"/></svg>
+        </button>
         <script>
         /* Rendition choice. R2 has no adaptive bitrate, so we pick once: the
            markup ships 720p and this upgrades to 1080p on a roomy screen with a
@@ -1635,12 +1680,36 @@
     </div>
   </div>
 
-  <!-- The Building -->
-  <section class="section home-building" aria-labelledby="building-heading">
-    <span class="eyebrow reveal">Location</span>
-    <h2 class="heading-lg reveal reveal-delay-1" id="building-heading">The Building</h2>
-    <p class="body-md reveal reveal-delay-2" style="margin-top:1rem;max-width:760px">The site is located on Edge Lane, a major artery into the heart of the city. Alongside the University of Liverpool, Royal Liverpool Hospital, and Cancer Research centre. Accessible, visible, and spacious — with room for a 400-seat auditorium.</p>
-    <a class="btn-outline-dark reveal reveal-delay-3" style="margin-top:1.25rem;font-size:0.85rem;padding:0.6rem 1.25rem" href="#thebuilding">Find out more →</a>
+  <!-- The Plan preview -->
+  <section class="home-plan-preview-band" id="home-plan-preview" aria-labelledby="home-plan-preview-heading">
+    <div class="section home-plan-preview-copy">
+      <span class="eyebrow">145 Edge Lane · Proposed design — subject to change</span>
+      <h2 class="heading-lg" id="home-plan-preview-heading">The <em>Plan</em></h2>
+      <p class="body-md">On a main route into Liverpool, 145 Edge Lane sits close to the University of Liverpool, Royal Liverpool Hospital and Cancer Research centre. The proposed design brings shared spaces, teaching rooms and a 400-seat auditorium together in one accessible home.</p>
+    </div>
+    <div class="home-plan-carousel" id="homePlanCarousel" role="region" aria-roledescription="carousel" aria-label="Proposed building views">
+      <div class="home-plan-stage" id="homePlanStage">
+        <div class="home-plan-slide is-active" role="group" aria-roledescription="slide" aria-label="1 of 6: View from Edge Lane" data-caption="View from Edge Lane"><img src="photos/plan/render-02.jpg" alt="Proposed building exterior and sign viewed from Edge Lane" width="1600" height="900" loading="lazy"></div>
+        <div class="home-plan-slide" role="group" aria-roledescription="slide" aria-label="2 of 6: A welcoming entrance" aria-hidden="true" data-caption="A welcoming entrance"><img src="photos/plan/render-03.jpg" alt="Proposed entrance and parking area" width="1600" height="900" loading="lazy"></div>
+        <div class="home-plan-slide" role="group" aria-roledescription="slide" aria-label="3 of 6: The whole site" aria-hidden="true" data-caption="The whole site"><img src="photos/plan/render-21.jpg" alt="Aerial view of the proposed building and site" width="1600" height="900" loading="lazy"></div>
+        <div class="home-plan-slide" role="group" aria-roledescription="slide" aria-label="4 of 6: Shared spaces" aria-hidden="true" data-caption="Shared spaces"><img src="photos/plan/render-07.jpg" alt="Proposed shared space with seating" width="1600" height="900" loading="lazy"></div>
+        <div class="home-plan-slide" role="group" aria-roledescription="slide" aria-label="5 of 6: Room to gather" aria-hidden="true" data-caption="Room to gather"><img src="photos/plan/render-10.jpg" alt="Proposed auditorium and balcony seating" width="1600" height="900" loading="lazy"></div>
+        <div class="home-plan-slide" role="group" aria-roledescription="slide" aria-label="6 of 6: Teaching and training" aria-hidden="true" data-caption="Teaching and training"><img src="photos/plan/teaching-space.jpg" alt="Proposed teaching and training room" width="1280" height="720" loading="lazy"></div>
+        <button class="home-plan-arrow home-plan-prev" id="homePlanPrev" type="button" aria-label="Previous building view">&#8249;</button>
+        <button class="home-plan-arrow home-plan-next" id="homePlanNext" type="button" aria-label="Next building view">&#8250;</button>
+      </div>
+      <div class="home-plan-toolbar">
+        <p class="home-plan-caption" id="homePlanCaption" aria-live="off">1 / 6 — View from Edge Lane</p>
+        <div class="home-plan-controls">
+          <div class="home-plan-dots" id="homePlanDots" role="group" aria-label="Choose a building view"></div>
+          <button class="home-plan-rotation" id="homePlanRotation" type="button">Pause slideshow</button>
+        </div>
+      </div>
+      <div class="home-plan-preview-footer">
+        <p>Take the walkthrough and explore all the renders and floor plans.</p>
+        <a class="btn-outline" href="#plan">Explore The Plan</a>
+      </div>
+    </div>
   </section>
 
   <!-- Costs & Phasing -->
@@ -2291,8 +2360,7 @@
     <img src="photos/plan/render-03.jpg" alt="Rendering of the proposed building at 145 Edge Lane" width="1600" height="900">
     <div class="plan-hero-content">
       <span class="eyebrow" style="color:var(--gold-light)">145 Edge Lane</span>
-      <h1 class="heading-xl">The Plan</h1>
-      <p>Take a closer look at the spaces and the vision for a home that serves our church and our city.</p>
+      <h1 class="heading-xl">The <em>Plan</em></h1>
     </div>
     <span class="plan-hero-note">Proposed design — subject to change</span>
   </section>
@@ -2300,9 +2368,9 @@
   <div class="section plan-intro">
     <div>
       <span class="eyebrow">Explore the vision</span>
-      <h2 class="heading-lg">A place to gather, welcome and send.</h2>
+      <h2 class="heading-lg">A place to gather, teach, and send.</h2>
     </div>
-    <p class="body-lg">Walk through the building, explore the views, and see how the spaces fit together in the proposed drawings.</p>
+    <p class="body-lg">Explore the walkthrough, renders and floor plans to see how the proposed building could serve our church and city.</p>
     <div class="plan-jump-links" role="navigation" aria-label="On this page">
       <a href="#plan-walkthrough">Watch the walkthrough</a>
       <a href="#plan-renders">Explore renders</a>
@@ -2316,20 +2384,24 @@
         <div><span class="eyebrow">Step inside</span><h2 class="heading-lg">Walk through the vision</h2></div>
         <p>A guided look around the proposed building, from the outside in.</p>
       </div>
-      <video id="planWalkthrough" class="plan-film" controls preload="none" playsinline
-             poster="photos/plan/walkthrough-poster.jpg"
-             aria-label="Video walkthrough of the proposed design, subject to change">
-        <source src="https://media.homeforourcity.org/hfoc-plan-walkthrough-720p.mp4" type="video/mp4">
-        <p>Your browser cannot play this walkthrough video.</p>
-      </video>
+      <div class="plan-film-wrap">
+        <video id="planWalkthrough" class="plan-film" controls preload="none" playsinline
+               poster="photos/plan/walkthrough-poster.jpg"
+               aria-label="Video walkthrough of the proposed design, subject to change">
+          <source src="https://media.homeforourcity.org/hfoc-plan-walkthrough-720p.mp4" type="video/mp4">
+          <p>Your browser cannot play this walkthrough video.</p>
+        </video>
+        <button class="film-play-button" id="planFilmPlay" type="button" aria-label="Play walkthrough video">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3.5v17l15-8.5z"/></svg>
+        </button>
+      </div>
       <div class="plan-film-meta"><span>Video walkthrough • 3 minutes 11 seconds</span><span>Proposed design — subject to change</span></div>
     </div>
   </section>
 
   <section class="section plan-renders-section" id="plan-renders">
     <div class="plan-section-head">
-      <div><span class="eyebrow">Proposed design</span><h2 class="heading-lg">See the spaces</h2></div>
-      <p>Views of the building and its rooms. This design is subject to change as the project develops.</p>
+      <div><span class="eyebrow">Proposed design — subject to change</span><h2 class="heading-lg">See the spaces</h2></div>
     </div>
     <div class="plan-feature">
       <a class="plan-preview" href="photos/plan/render-05.jpg" data-plan-render><img src="photos/plan/render-05.jpg" alt="Rendering of the proposed entrance and landscaped approach" width="1600" height="900" loading="lazy"></a>
@@ -2341,9 +2413,10 @@
     <div class="plan-feature-grid">
       <figure><a class="plan-preview" href="photos/plan/render-07.jpg" data-plan-render><img src="photos/plan/render-07.jpg" alt="Rendering of a proposed shared space" width="1600" height="900" loading="lazy"></a><figcaption>Shared spaces</figcaption></figure>
       <figure><a class="plan-preview" href="photos/plan/render-10.jpg" data-plan-render><img src="photos/plan/render-10.jpg" alt="Rendering of the proposed gathering space" width="1600" height="900" loading="lazy"></a><figcaption>Gathering space</figcaption></figure>
+      <figure><a class="plan-preview" href="photos/plan/teaching-space.jpg" data-plan-render><img src="photos/plan/teaching-space.jpg" alt="Walkthrough still of a proposed teaching and training space" width="1280" height="720" loading="lazy"></a><figcaption>Teaching and training space</figcaption></figure>
       <figure><a class="plan-preview" href="photos/plan/render-17.jpg" data-plan-render><img src="photos/plan/render-17.jpg" alt="Rendering of a proposed upper floor room" width="1600" height="900" loading="lazy"></a><figcaption>Flexible rooms</figcaption></figure>
     </div>
-    <button class="plan-gallery-trigger" id="planGalleryTrigger" type="button">View all 22 renders <span aria-hidden="true">↗</span></button>
+    <button class="plan-gallery-trigger" id="planGalleryTrigger" type="button">View all 23 renders <span aria-hidden="true">↗</span></button>
   </section>
 
   <dialog class="plan-lightbox" id="planGallery" aria-labelledby="planGalleryTitle">
@@ -2374,6 +2447,7 @@
         <a href="photos/plan/render-13.jpg" target="_blank" rel="noopener"><img src="photos/plan/render-13.jpg" alt="Proposed lounge beside the windows" loading="lazy"></a>
         <a href="photos/plan/render-14.jpg" target="_blank" rel="noopener"><img src="photos/plan/render-14.jpg" alt="Proposed lounge with refreshment counter" loading="lazy"></a>
         <a href="photos/plan/render-15.jpg" target="_blank" rel="noopener"><img src="photos/plan/render-15.jpg" alt="Proposed lounge with seating" loading="lazy"></a>
+        <a href="photos/plan/teaching-space.jpg" target="_blank" rel="noopener"><img src="photos/plan/teaching-space.jpg" alt="Proposed teaching and training space (walkthrough still)" loading="lazy"></a>
         <a href="photos/plan/render-17.jpg" target="_blank" rel="noopener"><img src="photos/plan/render-17.jpg" alt="Proposed upper floor shared room" loading="lazy"></a>
         <a href="photos/plan/render-18.jpg" target="_blank" rel="noopener"><img src="photos/plan/render-18.jpg" alt="Proposed upper floor activity room" loading="lazy"></a>
         <a href="photos/plan/render-19.jpg" target="_blank" rel="noopener"><img src="photos/plan/render-19.jpg" alt="Proposed gathering space overview" loading="lazy"></a>
@@ -2722,7 +2796,7 @@ function route() {
   const id = location.hash.replace('#', '') || 'home';
   const planGallery = document.getElementById('planGallery');
   if (planGallery.open) planGallery.close();
-  if (id === 'challenge' || id === 'costs') showPage('home', id);
+  if (id === 'challenge' || id === 'costs' || id === 'home-plan-preview') showPage('home', id);
   else if (id === 'plan-walkthrough' || id === 'plan-renders' || id === 'plan-drawings') showPage('plan', id);
   else if (id === 'edgelane') {
     history.replaceState(null, '', '#thebuilding');
@@ -2851,6 +2925,107 @@ costTabs.forEach((tab, index) => {
     costTabs[next].focus();
   });
 });
+
+/* ─── HOMEPAGE PLAN CAROUSEL ─── */
+(function() {
+  const carousel = document.getElementById('homePlanCarousel');
+  const stage = document.getElementById('homePlanStage');
+  const slides = [...stage.querySelectorAll('.home-plan-slide')];
+  const caption = document.getElementById('homePlanCaption');
+  const rotation = document.getElementById('homePlanRotation');
+  const dotsContainer = document.getElementById('homePlanDots');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let current = 0;
+  let paused = reducedMotion.matches;
+  let visible = false;
+  let hovered = false;
+  let timer;
+
+  const dots = slides.map((slide, index) => {
+    const dot = document.createElement('button');
+    dot.type = 'button';
+    dot.className = 'home-plan-dot';
+    dot.setAttribute('aria-label', `Show ${slide.dataset.caption.toLowerCase()}`);
+    dot.addEventListener('click', () => manualSlide(index));
+    dotsContainer.appendChild(dot);
+    return dot;
+  });
+
+  function showSlide(index) {
+    current = (index + slides.length) % slides.length;
+    slides.forEach((slide, i) => {
+      slide.classList.toggle('is-active', i === current);
+      slide.setAttribute('aria-hidden', String(i !== current));
+      if (i === current) dots[i].setAttribute('aria-current', 'true');
+      else dots[i].removeAttribute('aria-current');
+    });
+    caption.textContent = `${current + 1} / ${slides.length} — ${slides[current].dataset.caption}`;
+  }
+
+  function schedule() {
+    clearTimeout(timer);
+    rotation.textContent = paused ? 'Play slideshow' : 'Pause slideshow';
+    caption.setAttribute('aria-live', paused ? 'polite' : 'off');
+    if (!paused && visible && !hovered && !document.hidden) {
+      timer = setTimeout(() => { showSlide(current + 1); schedule(); }, 6000);
+    }
+  }
+
+  function manualSlide(index) {
+    paused = true;
+    schedule();
+    showSlide(index);
+  }
+
+  document.getElementById('homePlanPrev').addEventListener('click', () => manualSlide(current - 1));
+  document.getElementById('homePlanNext').addEventListener('click', () => manualSlide(current + 1));
+  rotation.addEventListener('click', () => { paused = !paused; schedule(); });
+  carousel.addEventListener('focusin', event => {
+    if (event.target !== rotation) { paused = true; schedule(); }
+  });
+  carousel.addEventListener('pointerenter', event => {
+    if (event.pointerType === 'mouse') { hovered = true; schedule(); }
+  });
+  carousel.addEventListener('pointerleave', () => { hovered = false; schedule(); });
+  carousel.addEventListener('keydown', event => {
+    if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+      event.preventDefault();
+      manualSlide(current + (event.key === 'ArrowRight' ? 1 : -1));
+    }
+  });
+  let touchStart;
+  stage.addEventListener('touchstart', event => {
+    touchStart = event.touches.length === 1 ? { x: event.touches[0].clientX, y: event.touches[0].clientY } : null;
+  }, { passive: true });
+  stage.addEventListener('touchend', event => {
+    if (!touchStart) return;
+    const dx = event.changedTouches[0].clientX - touchStart.x;
+    const dy = event.changedTouches[0].clientY - touchStart.y;
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) manualSlide(current + (dx < 0 ? 1 : -1));
+    touchStart = null;
+  }, { passive: true });
+  stage.addEventListener('touchcancel', () => { touchStart = null; }, { passive: true });
+  new IntersectionObserver(([entry]) => {
+    visible = entry.isIntersecting && entry.intersectionRatio >= 0.2;
+    schedule();
+  }, { threshold: [0, 0.2] }).observe(stage);
+  document.addEventListener('visibilitychange', schedule);
+  reducedMotion.addEventListener('change', event => {
+    if (event.matches) paused = true;
+    schedule();
+  });
+  showSlide(0);
+  schedule();
+})();
+
+/* ─── FILM PLAY BUTTONS ─── */
+for (const [videoId, buttonId] of [['campaignFilm', 'campaignFilmPlay'], ['planWalkthrough', 'planFilmPlay']]) {
+  const video = document.getElementById(videoId);
+  const playButton = document.getElementById(buttonId);
+  const syncPlayButton = () => { playButton.hidden = !video.paused && !video.ended; };
+  playButton.addEventListener('click', () => { video.play().catch(syncPlayButton); });
+  ['play', 'pause', 'ended'].forEach(event => video.addEventListener(event, syncPlayButton));
+}
 
 /* ─── PLAN RENDER GALLERY ─── */
 (function() {
