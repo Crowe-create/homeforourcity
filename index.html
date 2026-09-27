@@ -354,13 +354,21 @@
   .hero-bg {
     position: absolute; inset: 0; z-index: 0;
   }
-  .hero-bg img {
+  .hero-bg img,
+  .hero-video {
     width: 100%; height: 100%;
     object-fit: cover; object-position: center 30%;
     transition: transform 10s ease;
     display: block;
   }
-  .hero:hover .hero-bg img { transform: scale(1.04); }
+  .hero-video {
+    position: absolute; inset: 0;
+    opacity: 0;
+    transition: transform 10s ease, opacity 0.8s ease;
+  }
+  .hero-video.playing { opacity: 1; }
+  .hero:hover .hero-bg img,
+  .hero:hover .hero-video { transform: scale(1.04); }
   /* dark gradient: strong at bottom-left where text sits, fades top-right */
   .hero-bg::after {
     content: '';
@@ -1462,7 +1470,9 @@
   <section class="hero">
     <!-- Full-bleed background image -->
     <div class="hero-bg">
-      <img src="photos/hero.jpg?v=20260922" alt="Rendering of the proposed design for 145 Edge Lane, subject to change">
+      <img src="photos/hero-loop-poster.jpg?v=20260927" alt="Rendering of the proposed design for 145 Edge Lane, subject to change">
+      <!-- Exterior loop: source chosen and started by JS (skipped for reduced motion / save-data) -->
+      <video class="hero-video" id="heroVideo" muted loop playsinline preload="none" aria-hidden="true"></video>
     </div>
     <!-- Overlaid text content -->
     <div class="hero-content">
@@ -3272,6 +3282,32 @@ function animateTotaliser() {
   car.addEventListener('mouseleave', resetAuto);
 
   resetAuto();
+})();
+
+/* ─── HERO VIDEO LOOP ─── */
+(function() {
+  const video = document.getElementById('heroVideo');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const saveData = navigator.connection && navigator.connection.saveData;
+  if (!video || reducedMotion.matches || saveData) return;
+
+  // Hosted on Cloudflare R2; filenames are dated, so upload a re-cut under a new name
+  const base = 'https://media.homeforourcity.org/hero-loop-20260927';
+  if (window.matchMedia('(max-width: 768px)').matches) video.src = base + '-720.mp4';
+  else if (video.canPlayType('video/webm; codecs="av01.0.08M.08"')) video.src = base + '.webm';
+  else video.src = base + '.mp4';
+
+  video.addEventListener('playing', () => video.classList.add('playing'), { once: true });
+  // Only play while the hero is on screen. Browsers refuse to start video in a
+  // background tab, so retry when the tab becomes visible.
+  let inView = false;
+  const update = () => {
+    if (inView && !document.hidden) video.play().catch(() => {});
+    else video.pause();
+  };
+  new IntersectionObserver(([entry]) => { inView = entry.isIntersecting; update(); }).observe(video);
+  document.addEventListener('visibilitychange', update);
+  reducedMotion.addEventListener('change', e => { if (e.matches) video.pause(); });
 })();
 
 /* ─── CLICK-TO-LOAD MAP (mobile) / AUTO-LOAD (desktop) ─── */
